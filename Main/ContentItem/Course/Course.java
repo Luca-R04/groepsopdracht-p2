@@ -1,4 +1,6 @@
-package Main;
+package Main.ContentItem.Course;
+
+import Main.ContentItem.ContentItem;
 
 public class Course extends ContentItem {
     private String name; 

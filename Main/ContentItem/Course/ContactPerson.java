@@ -1,4 +1,4 @@
-package Main;
+package Main.ContentItem.Course;
 
 import java.util.ArrayList;
 

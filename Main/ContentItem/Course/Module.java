@@ -1,4 +1,4 @@
-package Main;
+package Main.ContentItem.Course;
 
 public class Module {
     private String title; 

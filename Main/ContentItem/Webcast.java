@@ -1,6 +1,8 @@
-package Main;
+package Main.ContentItem;
 
 import java.util.ArrayList;
+
+import Main.ContentItem.Course.Module;
 
 public class Webcast extends ContentItem {
     private String title; 

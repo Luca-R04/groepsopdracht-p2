@@ -1,4 +1,4 @@
-package Main;
+package Main.ContentItem;
 
 import java.util.Date;
 
