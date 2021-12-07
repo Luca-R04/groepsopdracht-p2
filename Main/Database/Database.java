@@ -10,7 +10,7 @@ public class Database {
     public static void main(String[] args) {
 
         // Dit zijn de instellingen voor de verbinding. Vervang de databaseName indien deze voor jou anders is.
-        String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten,1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
+        String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
 
         // Connection beheert informatie over de connectie met de database.
         Connection con = null;
