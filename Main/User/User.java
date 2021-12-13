@@ -16,7 +16,7 @@ public class User {
     private String isStaff;
     private Database db;
 
-    public User(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isStaff, String isCourseTaker) {
+    public User(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
         // db.CreateUser(email, name, birthDate, gender, address, residence, country, isStaff, isCourseTaker);
         this.email = email;
         this.name = name;
@@ -42,7 +42,7 @@ public class User {
 
             // SQL query die een waarde in de User tabel insert.
             String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','"
-                    + address + "','" + residence + "','" + country + "','" + isCourseTaker + "','" + isStaff + "') ";
+                    + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ") ";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
