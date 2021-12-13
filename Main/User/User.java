@@ -28,6 +28,7 @@ public class User {
         this.country = country;
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
+
     }
 
     public void CreateUser() {
