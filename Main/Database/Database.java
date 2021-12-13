@@ -2,6 +2,7 @@ package Main.Database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Database {
 
@@ -48,8 +49,8 @@ public class Database {
         }
     }
 
-    public ArrayList<ResultSet> SelectUser() {
-        ArrayList<ResultSet> users = new ArrayList<>();
+    public HashMap<String, ArrayList<String>> SelectUser() {
+        HashMap<String, ArrayList<String>> users = new HashMap<>();
 
         try {
             // 'Importeer' de driver die je gedownload hebt.
@@ -64,7 +65,12 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                users.add(rs);
+                ArrayList<String> userData = new ArrayList<>();
+                for (int i = 2; i < 9; i++) {
+                    userData.add(rs.getString(i));
+                }
+
+                users.put(rs.getString(1), userData);
             }
         }
 
