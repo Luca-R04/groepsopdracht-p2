@@ -108,7 +108,7 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "DELETE FROM User WHERE (" + email + ")";
+            String SQL = "DELETE FROM [User] WHERE (Email = '"+ email +"')";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
