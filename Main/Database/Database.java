@@ -19,8 +19,8 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             // SQL query die een waarde in de User tabel insert.
-            String SQL = "INSERT INTO [User] VALUES (" + email + "," + name + "," + birthDate + "," + gender + ","
-                    + address + "," + residence + "," + country + "," + isCourseTaker + "," + isStaff + ")";
+            String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','"
+                    + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ") ";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
