@@ -1,26 +1,55 @@
 package Main.Database;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
-    
-/**
- * Dit is een voorbeeld Java toepassing waarin je verbinding maakt met een SQLServer database.
- */
-    public static void main(String[] args) {
 
-        // Dit zijn de instellingen voor de verbinding. Vervang de databaseName indien deze voor jou anders is.
-        String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
+    private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
+    private Connection con = null;
+    private Statement stmt = null;
+    private ResultSet rs = null;
 
-        // Connection beheert informatie over de connectie met de database.
-        Connection con = null;
+    public void CreateUser(String email, String name, Date birthDate, String gender, String address, String residence,
+            String country, String isCourseTaker, String isStaff) {
+        try {
+            // 'Importeer' de driver die je gedownload hebt.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Maak de verbinding met de database.
+            con = DriverManager.getConnection(connectionUrl);
 
-        // Statement zorgt dat we een SQL query kunnen uitvoeren.
-        Statement stmt = null;
+            // SQL query die een waarde in de User tabel insert.
+            String SQL = "INSERT INTO [User] VALUES (" + email + "," + name + "," + birthDate + "," + gender + ","
+                    + address + "," + residence + "," + country + "," + isCourseTaker + "," + isStaff + ")";
+            stmt = con.createStatement();
+            // Voer de query uit op de database.
+            rs = stmt.executeQuery(SQL);
+        }
 
-        // ResultSet is de tabel die we van de database terugkrijgen.
-        // We kunnen door de rows heen stappen en iedere kolom lezen.
-        ResultSet rs = null;
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (con != null)
+                try {
+                    con.close();
+                } catch (Exception e) {
+                }
+        }
+    }
+
+    public ArrayList<ResultSet> SelectUser() {
+        ArrayList<ResultSet> users = new ArrayList<>();
 
         try {
             // 'Importeer' de driver die je gedownload hebt.
@@ -29,39 +58,77 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "SELECT TOP 10 * FROM test";
+            String SQL = "SELECT * FROM [User]";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
 
-            System.out.print(String.format("| %7s | %-32s | %-24s |\n", " ", " ", " ").replace(" ", "-"));
-
-            // Als de resultset waarden bevat dan lopen we hier door deze waarden en printen ze.
             while (rs.next()) {
-                // Vraag per row de kolommen in die row op.
-                int ISBN = rs.getInt("Leeftijd");
-                String title = rs.getString("Naam");
-                // String author = rs.getString("Auteur");
-
-                // Print de kolomwaarden.
-                // System.out.println(ISBN + " " + title + " " + author);
-
-                // Met 'format' kun je de string die je print het juiste formaat geven, als je dat wilt.
-                // %d = decimal, %s = string, %-32s = string, links uitgelijnd, 32 characters breed.
-                // System.out.format("| %7d | %-32s | %-24s | \n", ISBN, title);
-                System.out.println(ISBN + title);
+                users.add(rs);
             }
-            // System.out.println(String.format("| %7s | %-32s | %-24s |\n", " ", " ", " ").replace(" ", "-"));
         }
 
         // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();
         }
+
         finally {
-            if (rs != null) try { rs.close(); } catch(Exception e) {}
-            if (stmt != null) try { stmt.close(); } catch(Exception e) {}
-            if (con != null) try { con.close(); } catch(Exception e) {}
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (con != null)
+                try {
+                    con.close();
+                } catch (Exception e) {
+                }
+        }
+
+        return users;
+    }
+
+    public void DeleteUser(String email) {
+        try {
+            // 'Importeer' de driver die je gedownload hebt.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Maak de verbinding met de database.
+            con = DriverManager.getConnection(connectionUrl);
+
+            // Stel een SQL query samen.
+            String SQL = "DELETE FROM User WHERE (" + email + ")";
+            stmt = con.createStatement();
+            // Voer de query uit op de database.
+            rs = stmt.executeQuery(SQL);
+        }
+
+        // Handle any errors that may have occurred.
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally {
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (con != null)
+                try {
+                    con.close();
+                } catch (Exception e) {
+                }
         }
     }
 }
