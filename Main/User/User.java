@@ -27,7 +27,6 @@ public class User {
         this.country = country;
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
-        CreateUser();
     }
 
     public void CreateUser() {
@@ -42,8 +41,8 @@ public class User {
             con = DriverManager.getConnection(connectionUrl);
 
             // SQL query die een waarde in de User tabel insert.
-            String SQL = "INSERT INTO [User] VALUES (" + email + "," + name + "," + birthDate + "," + gender + ","
-                    + address + "," + residence + "," + country + "," + isCourseTaker + "," + isStaff + ")";
+            String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','"
+                    + address + "','" + residence + "','" + country + "','" + isCourseTaker + "','" + isStaff + "') ";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
