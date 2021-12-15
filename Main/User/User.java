@@ -1,28 +1,22 @@
 package Main.User;
-import java.sql.Date;
 
+import java.sql.Date;
 import Main.Database.Database;
 
-import java.sql.*;
-
 public class User {
-    private String email; 
+    private String email;
     private String name;
     private Date birthDate;
-    private String gender; 
-    private String address; 
-    private String residence; 
-    private String country; 
+    private String gender;
+    private String address;
+    private String residence;
+    private String country;
     private String isCourseTaker;
     private String isStaff;
-    private Database db = new Database(); 
-    
-    private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
-    private Connection con = null;
-    private Statement stmt = null;
-    private ResultSet rs = null;
+    private Database db = new Database();
 
-    public User(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
+    public User(String email, String name, Date birthDate, String gender, String address, String residence,
+            String country, String isCourseTaker, String isStaff) {
         this.email = email;
         this.name = name;
         this.birthDate = birthDate;
@@ -32,11 +26,7 @@ public class User {
         this.country = country;
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
-        db.CreateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
+        db.CreateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country,
+                this.isCourseTaker, this.isStaff);
     }
-
-    public void UpdateUser() {
-        db.UpdateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
-    }
-
 }

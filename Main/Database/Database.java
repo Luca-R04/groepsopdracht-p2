@@ -29,9 +29,8 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             // SQL query die een waarde in de User tabel insert.
-            String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender
-                    + "','"
-                    + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ") ";
+            String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','"
+                    + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ")";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
@@ -148,8 +147,7 @@ public class Database {
         }
     }
 
-    public void UpdateUser(String email, String name, Date birthDate, String gender, String address, String residence,
-            String country, String isCourseTaker, String isStaff) {
+    public void UpdateUser(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
         try {
             // 'Importeer' de driver die je gedownload hebt.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -157,7 +155,8 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "UPDATE [User] SET WHERE (Email = '" + email + "')";
+            String SQL = "UPDATE [User] SET Email = '" + email + "', Name = '" + name + "', DateOfBirth = '" + birthDate + "', Gender = '" + gender + "', Address = '"
+            + address + "', Residence = '" + residence + "', Country = '" + country + "', CourseTakerID = " + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + email + "'";
             stmt = con.createStatement();
             // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
@@ -173,17 +172,17 @@ public class Database {
                 try {
                     rs.close();
                 } catch (Exception e) {
-                }
+            }
             if (stmt != null)
                 try {
                     stmt.close();
                 } catch (Exception e) {
-                }
+            }
             if (con != null)
                 try {
                     con.close();
                 } catch (Exception e) {
-                }
+            }
         }
     }
 }
