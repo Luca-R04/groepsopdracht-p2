@@ -1,5 +1,8 @@
 package Main.User;
 import java.sql.Date;
+
+import Main.Database.Database;
+
 import java.sql.*;
 
 public class User {
@@ -12,6 +15,7 @@ public class User {
     private String country; 
     private String isCourseTaker;
     private String isStaff;
+    private Database db = new Database(); 
     
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
     private Connection con = null;
@@ -28,44 +32,14 @@ public class User {
         this.country = country;
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
+    }
 
+    public void UpdateUser() {
+        db.UpdateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
     }
 
     public void CreateUser() {
-        try {
-            // 'Importeer' de driver die je gedownload hebt.
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Maak de verbinding met de database.
-            con = DriverManager.getConnection(connectionUrl);
-
-            // SQL query die een waarde in de User tabel insert.
-            String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','"
-                    + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ") ";
-            stmt = con.createStatement();
-            // Voer de query uit op de database.
-            rs = stmt.executeQuery(SQL);
-        }
-
-        // Handle any errors that may have occurred.
-        catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null)
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                }
-            if (stmt != null)
-                try {
-                    stmt.close();
-                } catch (Exception e) {
-                }
-            if (con != null)
-                try {
-                    con.close();
-                } catch (Exception e) {
-                }
-        }
+        db.CreateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
     }
 
 }
