@@ -32,14 +32,11 @@ public class User {
         this.country = country;
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
+        db.CreateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
     }
 
     public void UpdateUser() {
         db.UpdateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
-    }
-
-    public void CreateUser() {
-        db.CreateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
     }
 
 }
