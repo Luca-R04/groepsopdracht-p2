@@ -11,50 +11,39 @@ public class Database {
     private Statement stmt = null;
     private ResultSet rs = null;
 
+    public void excecuteFinally() {
+        if (rs != null) try { rs.close(); } catch (Exception e) {}
+        if (stmt != null) try { stmt.close(); } catch (Exception e) {}
+        if (con != null) try { con.close(); } catch (Exception e) {}
+    }
+
     public Database() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            excecuteFinally();
         }
     }
 
     public void CreateUser(String email, String name, Date birthDate, String gender, String address, String residence,
             String country, String isCourseTaker, String isStaff) {
         try {
-            // 'Importeer' de driver die je gedownload hebt.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Maak de verbinding met de database.
             con = DriverManager.getConnection(connectionUrl);
 
-            // SQL query die een waarde in de User tabel insert.
-            String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','"
-                    + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ")";
+            String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','" 
+            + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ")";
             stmt = con.createStatement();
-            // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
         }
 
-        // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (rs != null)
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                }
-            if (stmt != null)
-                try {
-                    stmt.close();
-                } catch (Exception e) {
-                }
-            if (con != null)
-                try {
-                    con.close();
-                } catch (Exception e) {
-                }
+            excecuteFinally();
         }
     }
 
@@ -62,15 +51,11 @@ public class Database {
         HashMap<String, ArrayList<String>> users = new HashMap<>();
 
         try {
-            // 'Importeer' de driver die je gedownload hebt.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Maak de verbinding met de database.
             con = DriverManager.getConnection(connectionUrl);
 
-            // Stel een SQL query samen.
             String SQL = "SELECT * FROM [User]";
             stmt = con.createStatement();
-            // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
@@ -83,27 +68,12 @@ public class Database {
             }
         }
 
-        // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();
         }
 
         finally {
-            if (rs != null)
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                }
-            if (stmt != null)
-                try {
-                    stmt.close();
-                } catch (Exception e) {
-                }
-            if (con != null)
-                try {
-                    con.close();
-                } catch (Exception e) {
-                }
+            excecuteFinally();
         }
 
         return users;
@@ -111,78 +81,45 @@ public class Database {
 
     public void DeleteUser(String email) {
         try {
-            // 'Importeer' de driver die je gedownload hebt.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             // Maak de verbinding met de database.
             con = DriverManager.getConnection(connectionUrl);
 
-            // Stel een SQL query samen.
             String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
             stmt = con.createStatement();
-            // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
         }
 
-        // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();
         }
 
         finally {
-            if (rs != null)
-                try {
-                    rs.close();
-                } catch (Exception e) {
-                }
-            if (stmt != null)
-                try {
-                    stmt.close();
-                } catch (Exception e) {
-                }
-            if (con != null)
-                try {
-                    con.close();
-                } catch (Exception e) {
-                }
+            excecuteFinally();
         }
     }
 
-    public void UpdateUser(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
+    public void UpdateUser(String email, String name, Date birthDate, String gender, String address, String residence,
+            String country, String isCourseTaker, String isStaff) {
         try {
-            // 'Importeer' de driver die je gedownload hebt.
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Maak de verbinding met de database.
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "UPDATE [User] SET Email = '" + email + "', Name = '" + name + "', DateOfBirth = '" + birthDate + "', Gender = '" + gender + "', Address = '"
-            + address + "', Residence = '" + residence + "', Country = '" + country + "', CourseTakerID = " + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + email + "'";
+            String SQL = "UPDATE [User] SET Email = '" + email + "', Name = '" + name + "', DateOfBirth = '" + birthDate
+                    + "', Gender = '" + gender + "', Address = '"
+                    + address + "', Residence = '" + residence + "', Country = '" + country + "', CourseTakerID = "
+                    + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + email + "'";
             stmt = con.createStatement();
-            // Voer de query uit op de database.
             rs = stmt.executeQuery(SQL);
         }
 
-        // Handle any errors that may have occurred.
         catch (Exception e) {
             e.printStackTrace();
         }
 
         finally {
-            if (rs != null)
-                try {
-                    rs.close();
-                } catch (Exception e) {
-            }
-            if (stmt != null)
-                try {
-                    stmt.close();
-                } catch (Exception e) {
-            }
-            if (con != null)
-                try {
-                    con.close();
-                } catch (Exception e) {
-            }
+            excecuteFinally();
         }
     }
 }
