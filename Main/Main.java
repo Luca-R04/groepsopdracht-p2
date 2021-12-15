@@ -19,12 +19,11 @@ public class Main {
         User user3 = new User("johndoe3@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands",
                 null, "1");
 
-        db.UpdateUser("johndoe3@gmail.com", "John", date, "female", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
-        // HashMap<String, ArrayList<String>> users = db.SelectUser();
+        db.updateUser("johndoe3@gmail.com", "John", date, "female", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
 
+        // HashMap<String, ArrayList<String>> users = db.getAllUsers();
         // System.out.println(users.get("johndoe@gmail.com"));
 
-        // db.DeleteUser("johndoe2@gmail.com");
-
+        // db.deleteUser("johndoe2@gmail.com");
     }
 }

@@ -5,17 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Database {
-
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
     private Connection con = null;
     private Statement stmt = null;
     private ResultSet rs = null;
-
-    public void excecuteFinally() {
-        if (rs != null) try { rs.close(); } catch (Exception e) {}
-        if (stmt != null) try { stmt.close(); } catch (Exception e) {}
-        if (con != null) try { con.close(); } catch (Exception e) {}
-    }
 
     public Database() {
         try {
@@ -28,7 +21,13 @@ public class Database {
         }
     }
 
-    public void CreateUser(String email, String name, Date birthDate, String gender, String address, String residence,
+    public void excecuteFinally() {
+        if (rs != null) try { rs.close(); } catch (Exception e) {}
+        if (stmt != null) try { stmt.close(); } catch (Exception e) {}
+        if (con != null) try { con.close(); } catch (Exception e) {}
+    }
+
+    public void createUser(String email, String name, Date birthDate, String gender, String address, String residence,
             String country, String isCourseTaker, String isStaff) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -38,16 +37,14 @@ public class Database {
             + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ")";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             excecuteFinally();
         }
     }
 
-    public HashMap<String, ArrayList<String>> SelectUser() {
+    public HashMap<String, ArrayList<String>> getAllUsers() {
         HashMap<String, ArrayList<String>> users = new HashMap<>();
 
         try {
@@ -66,20 +63,16 @@ public class Database {
 
                 users.put(rs.getString(1), userData);
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        finally {
+        } finally {
             excecuteFinally();
         }
 
         return users;
     }
 
-    public void DeleteUser(String email) {
+    public void deleteUser(String email) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             // Maak de verbinding met de database.
@@ -88,37 +81,28 @@ public class Database {
             String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        finally {
+        } finally {
             excecuteFinally();
         }
     }
 
-    public void UpdateUser(String email, String name, Date birthDate, String gender, String address, String residence,
+    public void updateUser(String email, String name, Date birthDate, String gender, String address, String residence,
             String country, String isCourseTaker, String isStaff) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "UPDATE [User] SET Email = '" + email + "', Name = '" + name + "', DateOfBirth = '" + birthDate
-                    + "', Gender = '" + gender + "', Address = '"
+            String SQL = "UPDATE [User] SET Email = '" + email + "', Name = '" + name + "', DateOfBirth = '" + birthDate + "', Gender = '" + gender + "', Address = '"
                     + address + "', Residence = '" + residence + "', Country = '" + country + "', CourseTakerID = "
                     + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + email + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        finally {
+        } finally {
             excecuteFinally();
         }
     }

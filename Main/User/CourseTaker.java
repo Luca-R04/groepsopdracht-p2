@@ -2,12 +2,13 @@ package Main.User;
 
 import java.sql.Date;
 
-public class CourseTaker extends User{
+import Main.Database.Database;
 
-    public CourseTaker(String email, String name, Date birthDate, String gender, String address, String residence,
-            String country, String isStaff, String isCourseTaker) {
+public class CourseTaker extends User { 
+    private Database db = new Database();
+
+    public CourseTaker(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isStaff, String isCourseTaker) {
         super(email, name, birthDate, gender, address, residence, country, isStaff, isCourseTaker);
-        //TODO Auto-generated constructor stub
+
     }
-    
 }
