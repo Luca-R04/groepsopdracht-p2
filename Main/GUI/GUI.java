@@ -13,12 +13,15 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		// Changes the title of the window.
+		
 		this.stage = stage;
+		
+		// Changes the title of the window.
 		this.stage.setTitle("Codecademy: Luca Rinck - 218...., Martijn Schemers - 218...., Max Stokla - 2186459, Laurens Weterings - 218....");
 
 		// Changes the scene using the startScene method
 		startScene();
+
 
 		// Displays the stage element
 		this.stage.show();
@@ -56,6 +59,19 @@ public class GUI extends Application {
         gridPane.add(bEnroledWebcast, 1, 2, 1, 1);
         gridPane.add(bTop3webcast, 1, 3, 1, 1);
         gridPane.add(bCertificates, 0, 4, 1, 1);
+		
+		// Styling
+		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+		gridPane.setVgap(10); 
+		gridPane.setHgap(10);
+		
+		bCourse.setMaxWidth(300);
+        bEnroledCourse.setMaxWidth(300);
+        bTop3course.setMaxWidth(300);
+        bWebcast.setMaxWidth(300);
+        bEnroledWebcast.setMaxWidth(300);
+        bTop3webcast.setMaxWidth(300);
+        bCertificates.setMaxWidth(600);
 
 		this.scene = new Scene(gridPane);
 		this.stage.setScene(this.scene);
