@@ -47,6 +47,7 @@ public class GUI extends Application {
         Button bEnroledWebcast = new Button("Your enroled Webcasts");
         Button bTop3webcast = new Button("Top 3 Webcasts");
         Button bCertificates = new Button("Your certificates");
+		Button bUser = new Button("User overview");
 
 		// New gridpane
 		GridPane gridPane = new GridPane();
@@ -59,6 +60,7 @@ public class GUI extends Application {
         gridPane.add(bEnroledWebcast, 1, 2, 1, 1);
         gridPane.add(bTop3webcast, 1, 3, 1, 1);
         gridPane.add(bCertificates, 0, 4, 1, 1);
+		gridPane.add(bUser, 1, 4, 1, 1);
 		
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -71,10 +73,17 @@ public class GUI extends Application {
         bWebcast.setMaxWidth(300);
         bEnroledWebcast.setMaxWidth(300);
         bTop3webcast.setMaxWidth(300);
-        bCertificates.setMaxWidth(600);
-
+        bCertificates.setMaxWidth(300);
+		bUser.setMaxWidth(300);
 		this.scene = new Scene(gridPane);
 		this.stage.setScene(this.scene);
+
+		// Button functions
+
+		// bUser
+		bUser.setOnAction((event) -> {
+			sceneUserForm();
+		});
 	}
 
 
