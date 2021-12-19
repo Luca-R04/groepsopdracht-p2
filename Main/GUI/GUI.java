@@ -233,14 +233,126 @@ public void sceneUserRead() {
 
 		// Method for altering a user
 public void sceneUserUpdate() {
-
 	GridPane gridPane = new GridPane();
 	gridPane.getChildren().add(new Label("Update"));
 
+	Button bSubmit = new Button("Submit");
 
-	this.scene = new Scene(gridPane, 500, 500);
+	// Labels;
+	Label lEmail = new Label("Email: ");
+	Label lName = new Label("Name: ");
+	Label lBirthdate = new Label("Birthdate: ");
+	Label lGender = new Label("Gender: ");
+	Label lAddress = new Label("Address:");
+	Label lCountry = new Label("Country:");
+	Label lResidence = new Label("Residence: ");
+	Label lCourse = new Label("Course taker: ");
+	Label lStaff = new Label("Staff: ");
+
+	// Text fields
+	TextField email = new TextField();
+	TextField name = new TextField();
+	DatePicker birthdate = new DatePicker();
+	TextField gender = new TextField();
+	TextField address = new TextField();
+	TextField country = new TextField();
+	TextField residence = new TextField();
+	
+	// comboBox
+	ObservableList<String> options = 
+    FXCollections.observableArrayList(
+        "Yes",
+        "No"
+    );
+
+	ComboBox<String> course = new ComboBox<>(options);
+	ComboBox<String> staff = new ComboBox<>(options);
+
+	
+	// Coordinates for the elements
+	gridPane.add(lEmail, 0, 1);
+	gridPane.add(email, 1, 1);
+
+	gridPane.add(lName, 0, 2);
+	gridPane.add(name, 1, 2);
+	
+	gridPane.add(lBirthdate, 0, 3);
+	gridPane.add(birthdate, 1, 3);
+
+	gridPane.add(lGender, 0, 4);
+	gridPane.add(gender, 1, 4);
+
+	gridPane.add(lAddress, 0, 5);
+	gridPane.add(address, 1, 5);
+
+	gridPane.add(lCountry, 0, 6);
+	gridPane.add(country, 1, 6);
+
+	gridPane.add(lResidence, 0, 7);
+	gridPane.add(residence, 1, 7);
+
+	gridPane.add(lCourse, 0, 8);
+	gridPane.add(course, 1, 8);
+
+	gridPane.add(lStaff, 0, 9);
+	gridPane.add(staff, 1, 9);
+
+	gridPane.add(bSubmit, 1, 10);
+
+	// Styling
+	gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+	gridPane.setVgap(10); 
+	gridPane.setHgap(10);
+
+	// Functions
+	bSubmit.setOnAction((action) -> {
+		boolean error = false;
+
+		// Checks if all the fields are filled in
+		if (email.getText().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
+			Alert errorAlert = new Alert(AlertType.ERROR);
+			errorAlert.setHeaderText("Input not valid");
+			errorAlert.setContentText("Fill in all the fields");
+			errorAlert.showAndWait();
+			error = true; 
+		}
+
+		// Checks if a date is picked
+		if (birthdate.getValue() == null) {
+			Alert errorAlert = new Alert(AlertType.ERROR);
+			errorAlert.setHeaderText("Input not valid");
+			errorAlert.setContentText("Pick a date");
+			errorAlert.showAndWait();
+			error = true; 
+		}
+
+		// Checks if they picked either staff or user, cant be staff and user
+		if ((course.getValue() == "Yes" && staff.getValue() == "Yes") || (course.getValue() == "No" && staff.getValue() == "No")) {
+			Alert errorAlert = new Alert(AlertType.ERROR);
+			errorAlert.setHeaderText("Input not valid");
+			errorAlert.setContentText("You have to pick Staff or User");
+			errorAlert.showAndWait();
+			error = true; 
+		}
+
+		if (!error) {
+			String isCourseTaker = null; 
+			String isStaff = null; 
+
+			if (staff.getValue().equals("Yes")) {
+				isStaff = "1"; 
+			} else {
+				isCourseTaker = "1"; 
+			}
+
+			Date sqlDate = Date.valueOf(birthdate.getValue());
+
+			db.updateUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+		}
+	});
+
+	this.scene = new Scene(gridPane, 600, 700);
 	this.stage.setScene(this.scene);
-
 }
 
 

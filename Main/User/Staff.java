@@ -1,7 +1,6 @@
 package Main.User;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Staff extends User {
 
