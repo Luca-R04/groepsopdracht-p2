@@ -3,9 +3,16 @@ package Main.Database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+
+import Main.User.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Database {
+    private static final int ObservableList = 0;
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
     private Connection con = null;
     private Statement stmt = null;
@@ -71,6 +78,38 @@ public class Database {
         }
 
         return users;
+    }
+
+    public ObservableList<User> getUsObservableList() {
+        ObservableList<User>  UserList = FXCollections.observableArrayList();
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM [User]";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                UserList.add(new  User(
+                        rs.getString("Email"),
+                        rs.getString("Name"),
+                        rs.getDate("DateOfBirth "),
+                        rs.getString("Gender"),
+                        rs.getString("Address"),
+                        rs.getString("Residence"),
+                        rs.getString("Country"),
+                        rs.getString("CourseTakerId"),
+                        rs.getString("StaffID")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return UserList;
     }
 
     public void deleteUser(String email) {
