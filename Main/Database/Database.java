@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Main.User.User;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Database {
@@ -14,7 +15,8 @@ public class Database {
     private Connection con = null;
     private Statement stmt = null;
     private ResultSet rs = null;
-    private ObservableList<User> userList; 
+    private ObservableList<User> userList = FXCollections.observableArrayList(); 
+
 
     public Database() {
         try {
@@ -89,6 +91,33 @@ public class Database {
     }
 
     public ObservableList<User> getUsersGUI() {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM [User]";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                    userList.add(new User(rs.getString("Email"), 
+                    rs.getString("Name"), 
+                    rs.getDate("DateOfBirth"), 
+                    rs.getString("Gender"),
+                    rs.getString("Address"),
+                    rs.getString("Residence"),
+                    rs.getString("Country"),
+                    rs.getString("CourseTakerID"),
+                    rs.getString("StaffID")
+                    ));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
         return userList;
     }
 

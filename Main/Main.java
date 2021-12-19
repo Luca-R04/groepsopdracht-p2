@@ -6,6 +6,7 @@ package Main;
 
 // import Main.User.User;
 import javafx.application.Application;
+import Main.Database.Database;
 // import Main.Database.Database;
 import Main.GUI.GUI;
 
@@ -13,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         
         // Database db = new Database();
+        // System.out.println(db.getUsersGUI());
         // Date date = new Date(12 - 12 - 2021);
         // User user = new User("johndoe@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands",
         //         "1", null);

@@ -190,31 +190,31 @@ public void sceneUserRead() {
 	///////////////////////////////////////////////////////////////////////////
 
 	// TableView Columns
-	TableColumn<Map<String, ArrayList<String>>, String> emailColumn = new TableColumn<>();
+	TableColumn<User, String> emailColumn = new TableColumn<>();
 	emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-	TableColumn<Map<String, ArrayList<String>>, String> nameColumn = new TableColumn<>();
+	TableColumn<User, String> nameColumn = new TableColumn<>();
 	nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-	TableColumn<Map<String, ArrayList<String>>, Date> birthdateColumn = new TableColumn<>();
+	TableColumn<User, Date> birthdateColumn = new TableColumn<>();
 	birthdateColumn.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
 
-	TableColumn<Map<String, ArrayList<String>>, String> genderColumn = new TableColumn<>();
+	TableColumn<User, String> genderColumn = new TableColumn<>();
 	genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
-	TableColumn<Map<String, ArrayList<String>>, String> addressColumn = new TableColumn<>();
+	TableColumn<User, String> addressColumn = new TableColumn<>();
 	addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
 
-	TableColumn<Map<String, ArrayList<String>>, String> residenceColumn = new TableColumn<>();
+	TableColumn<User, String> residenceColumn = new TableColumn<>();
 	residenceColumn.setCellValueFactory(new PropertyValueFactory<>("residence"));
 
-	TableColumn<Map<String, ArrayList<String>>, String> countryColumn = new TableColumn<>();
+	TableColumn<User, String> countryColumn = new TableColumn<>();
 	countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
 
-	TableColumn<Map<String, ArrayList<String>>, String> isCourseTakerColumn = new TableColumn<>();
+	TableColumn<User, String> isCourseTakerColumn = new TableColumn<>();
 	isCourseTakerColumn.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
 
-	TableColumn<Map<String, ArrayList<String>>, String> isStaffColumn = new TableColumn<>();
+	TableColumn<User, String> isStaffColumn = new TableColumn<>();
 	isStaffColumn.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
 
 	///////////////////////////////////////////////////////////////////////////
@@ -223,6 +223,9 @@ public void sceneUserRead() {
 
 	TableView<User> table = new TableView<>();
 	table.setItems(db.getUsersGUI());
+	table.getColumns().addAll(emailColumn, nameColumn, birthdateColumn, genderColumn, addressColumn, residenceColumn, countryColumn, isCourseTakerColumn, isStaffColumn);
+	
+	gridPane.getChildren().add(table);
 	
 
 	this.scene = new Scene(gridPane, 500, 500);
