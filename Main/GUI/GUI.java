@@ -1,11 +1,13 @@
 package Main.GUI;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import Main.Database.Database;
 import Main.User.User;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -18,8 +20,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class GUI extends Application {
 	Stage stage;
@@ -152,16 +157,46 @@ public void sceneUserCreate() {
 
 		// Method to see a overview of the users
 public void sceneUserRead() {
-	
+
 	GridPane gridPane = new GridPane();
 	
+	///////////////////////////////////////////////////////////////////////////
 
-	// Tabeleview
-	TableView<String> tableView = new TableView<>();
-	// Tableview colums
-	TableColumn<Map, String> columnEmail = new TableColumn<>("Email");
+	// TableView Columns
+	TableColumn<Map, String> emailColumn = new TableColumn<>();
+	emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
+	TableColumn<Map, String> nameColumn = new TableColumn<>();
+	nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
+	TableColumn<Map, Date> birthdateColumn = new TableColumn<>();
+	birthdateColumn.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
+
+	TableColumn<Map, String> genderColumn = new TableColumn<>();
+	genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+
+	TableColumn<Map, String> addressColumn = new TableColumn<>();
+	addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+
+	TableColumn<Map, String> residenceColumn = new TableColumn<>();
+	residenceColumn.setCellValueFactory(new PropertyValueFactory<>("residence"));
+
+	TableColumn<Map, String> countryColumn = new TableColumn<>();
+	countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+
+	TableColumn<Map, String> isCourseTakerColumn = new TableColumn<>();
+	isCourseTakerColumn.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
+
+	TableColumn<Map, String> isStaffColumn = new TableColumn<>();
+	isStaffColumn.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// TableView
+
+	TableView<User> table = new TableView();
+	table.setItems(db.getAllUsers());
+	
 
 	this.scene = new Scene(gridPane, 500, 500);
 	this.stage.setScene(this.scene);
