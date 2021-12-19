@@ -66,6 +66,7 @@ public void sceneUserCreate() {
 	Label lBirthdate = new Label("Birthdate: ");
 	Label lGender = new Label("Gender: ");
 	Label lAddress = new Label("Address:");
+	Label lCountry = new Label("Country:");
 	Label lResidence = new Label("Residence: ");
 	Label lCourse = new Label("Course taker: ");
 	Label lStaff = new Label("Staff: ");
@@ -76,6 +77,7 @@ public void sceneUserCreate() {
 	DatePicker birthdate = new DatePicker();
 	TextField gender = new TextField();
 	TextField address = new TextField();
+	TextField country = new TextField();
 	TextField residence = new TextField();
 	
 	// comboBox
@@ -105,16 +107,19 @@ public void sceneUserCreate() {
 	gridPane.add(lAddress, 0, 5);
 	gridPane.add(address, 1, 5);
 
-	gridPane.add(lResidence, 0, 6);
-	gridPane.add(residence, 1, 6);
+	gridPane.add(lCountry, 0, 6);
+	gridPane.add(country, 1, 6);
 
-	gridPane.add(lCourse, 0, 7);
-	gridPane.add(course, 1, 7);
+	gridPane.add(lResidence, 0, 7);
+	gridPane.add(residence, 1, 7);
 
-	gridPane.add(lStaff, 0, 8);
-	gridPane.add(staff, 1, 8);
+	gridPane.add(lCourse, 0, 8);
+	gridPane.add(course, 1, 8);
 
-	gridPane.add(bSubmit, 1, 9);
+	gridPane.add(lStaff, 0, 9);
+	gridPane.add(staff, 1, 9);
+
+	gridPane.add(bSubmit, 1, 10);
 
 	// Styling
 	gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -123,6 +128,7 @@ public void sceneUserCreate() {
 
 	// Functions
 	bSubmit.setOnAction((action) -> {
+		boolean error = false;
 
 		// Checks if all the fields are filled in
 		if (email.getText().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
@@ -130,6 +136,7 @@ public void sceneUserCreate() {
 			errorAlert.setHeaderText("Input not valid");
 			errorAlert.setContentText("Fill in all the fields");
 			errorAlert.showAndWait();
+			error = true; 
 		}
 
 		// Checks if a date is picked
@@ -138,6 +145,7 @@ public void sceneUserCreate() {
 			errorAlert.setHeaderText("Input not valid");
 			errorAlert.setContentText("Pick a date");
 			errorAlert.showAndWait();
+			error = true; 
 		}
 
 		// Checks if they picked either staff or user, cant be staff and user
@@ -146,6 +154,20 @@ public void sceneUserCreate() {
 			errorAlert.setHeaderText("Input not valid");
 			errorAlert.setContentText("You have to pick Staff or User");
 			errorAlert.showAndWait();
+			error = true; 
+		}
+
+		if (!error) {
+			String isCourseTaker = null; 
+			String isStaff = null; 
+
+			if (staff.getValue().equals("Yes")) {
+				isStaff = "1"; 
+			} else {
+				isCourseTaker = "1"; 
+			}
+
+			db.createUser(email.getText(), name.getText(), birthdate.getValue(), gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
 		}
 	});
 

@@ -1,6 +1,7 @@
 package Main.Database;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class Database {
         if (con != null) try { con.close(); } catch (Exception e) {}
     }
 
-    public void createUser(String email, String name, Date birthDate, String gender, String address, String residence,
+    public void createUser(String email, String name, LocalDate birthDate, String gender, String address, String residence,
             String country, String isCourseTaker, String isStaff) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
