@@ -186,46 +186,55 @@ public void sceneUserCreate() {
 public void sceneUserRead() {
 
 	GridPane gridPane = new GridPane();
+	Map<String, ArrayList<String>> users = db.getAllUsers();
+
+		users.values().forEach((user) -> {
+			for(int i = 0; i < users.size(); i++) {
+				Label l = new Label(user.get(i));
+				gridPane.add(l, i, i);
+			}
+		}); 
+
 	
 	///////////////////////////////////////////////////////////////////////////
 
 	// TableView Columns
-	TableColumn<User, String> emailColumn = new TableColumn<>();
-	emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+	// TableColumn<User, String> emailColumn = new TableColumn<>();
+	// emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-	TableColumn<User, String> nameColumn = new TableColumn<>();
-	nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+	// TableColumn<User, String> nameColumn = new TableColumn<>();
+	// nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-	TableColumn<User, Date> birthdateColumn = new TableColumn<>();
-	birthdateColumn.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
+	// TableColumn<User, Date> birthdateColumn = new TableColumn<>();
+	// birthdateColumn.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
 
-	TableColumn<User, String> genderColumn = new TableColumn<>();
-	genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+	// TableColumn<User, String> genderColumn = new TableColumn<>();
+	// genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
-	TableColumn<User, String> addressColumn = new TableColumn<>();
-	addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+	// TableColumn<User, String> addressColumn = new TableColumn<>();
+	// addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
 
-	TableColumn<User, String> residenceColumn = new TableColumn<>();
-	residenceColumn.setCellValueFactory(new PropertyValueFactory<>("residence"));
+	// TableColumn<User, String> residenceColumn = new TableColumn<>();
+	// residenceColumn.setCellValueFactory(new PropertyValueFactory<>("residence"));
 
-	TableColumn<User, String> countryColumn = new TableColumn<>();
-	countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+	// TableColumn<User, String> countryColumn = new TableColumn<>();
+	// countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
 
-	TableColumn<User, String> isCourseTakerColumn = new TableColumn<>();
-	isCourseTakerColumn.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
+	// TableColumn<User, String> isCourseTakerColumn = new TableColumn<>();
+	// isCourseTakerColumn.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
 
-	TableColumn<User, String> isStaffColumn = new TableColumn<>();
-	isStaffColumn.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
+	// TableColumn<User, String> isStaffColumn = new TableColumn<>();
+	// isStaffColumn.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
 
-	///////////////////////////////////////////////////////////////////////////
+	// ///////////////////////////////////////////////////////////////////////////
 
-	// TableView
+	// // TableView
 
-	TableView<User> table = new TableView<>();
-	table.setItems(db.getUsersGUI());
-	table.getColumns().addAll(emailColumn, nameColumn, birthdateColumn, genderColumn, addressColumn, residenceColumn, countryColumn, isCourseTakerColumn, isStaffColumn);
+	// TableView<User> table = new TableView<>();
+	// table.setItems(db.getUsersGUI());
+	// table.getColumns().addAll(emailColumn, nameColumn, birthdateColumn, genderColumn, addressColumn, residenceColumn, countryColumn, isCourseTakerColumn, isStaffColumn);
 	
-	gridPane.getChildren().add(table);
+	// gridPane.getChildren().add(table);
 	
 
 	this.scene = new Scene(gridPane, 500, 500);

@@ -67,16 +67,6 @@ public class Database {
                 ArrayList<String> userData = new ArrayList<>();
                 for (int i = 2; i < 9; i++) {
                     userData.add(rs.getString(i));
-                    userList.add(new User(rs.getString("Email"), 
-                    rs.getString("Name"), 
-                    rs.getDate("DateOfBirth"), 
-                    rs.getString("Gender"),
-                    rs.getString("Address"),
-                    rs.getString("Residence"),
-                    rs.getString("Country"),
-                    rs.getString("isCourseTaker"),
-                    rs.getString("isStaff")
-                    ));
                 }
 
                 users.put(rs.getString(1), userData);
