@@ -74,8 +74,8 @@ public void sceneUserCreate() {
         "No"
     );
 
-	ComboBox course = new ComboBox<>(options);
-	ComboBox staff = new ComboBox<>(options);
+	ComboBox<String> course = new ComboBox<>(options);
+	ComboBox<String> staff = new ComboBox<>(options);
 
 	
 	// Coordinates for the elements
