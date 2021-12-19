@@ -1,6 +1,8 @@
 package Main.GUI;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class GUI extends Application {
 		this.stage = stage;
 		
 		// Changes the title of the window.
-		this.stage.setTitle("Codecademy: Luca Rinck - 218...., Martijn Schemers - 218...., Max Stokla - 2186459, Laurens Weterings - 2189413");
+		this.stage.setTitle("Codecademy: Luca Rinck - 218...., Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
 
 		// Changes the scene using the startScene method
 		startScene();
@@ -167,7 +169,9 @@ public void sceneUserCreate() {
 				isCourseTaker = "1"; 
 			}
 
-			db.createUser(email.getText(), name.getText(), birthdate.getValue(), gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+			Date sqlDate = Date.valueOf(birthdate.getValue());
+
+			db.createUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
 		}
 	});
 
@@ -218,7 +222,7 @@ public void sceneUserRead() {
 	// TableView
 
 	TableView<User> table = new TableView<>();
-	table.setItems(db.getAllUsers());
+	table.setItems(db.getUsersGUI());
 	
 
 	this.scene = new Scene(gridPane, 500, 500);

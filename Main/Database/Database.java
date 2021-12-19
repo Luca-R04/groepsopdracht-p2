@@ -6,11 +6,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import Main.User.User;
+import javafx.collections.ObservableList;
+
 public class Database {
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
     private Connection con = null;
     private Statement stmt = null;
     private ResultSet rs = null;
+    private ObservableList<User> userList; 
 
     public Database() {
         try {
@@ -29,7 +33,7 @@ public class Database {
         if (con != null) try { con.close(); } catch (Exception e) {}
     }
 
-    public void createUser(String email, String name, LocalDate birthDate, String gender, String address, String residence,
+    public void createUser(String email, String name, Date birthDate, String gender, String address, String residence,
             String country, String isCourseTaker, String isStaff) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -61,6 +65,16 @@ public class Database {
                 ArrayList<String> userData = new ArrayList<>();
                 for (int i = 2; i < 9; i++) {
                     userData.add(rs.getString(i));
+                    userList.add(new User(rs.getString("Email"), 
+                    rs.getString("Name"), 
+                    rs.getDate("DateOfBirth"), 
+                    rs.getString("Gender"),
+                    rs.getString("Address"),
+                    rs.getString("Residence"),
+                    rs.getString("Country"),
+                    rs.getString("isCourseTaker"),
+                    rs.getString("isStaff")
+                    ));
                 }
 
                 users.put(rs.getString(1), userData);
@@ -72,6 +86,10 @@ public class Database {
         }
 
         return users;
+    }
+
+    public ObservableList<User> getUsersGUI() {
+        return userList;
     }
 
     public void deleteUser(String email) {
