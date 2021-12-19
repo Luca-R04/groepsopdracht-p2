@@ -1,12 +1,12 @@
 package Main;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
+// import java.sql.Date;
+// import java.util.ArrayList;
+// import java.util.HashMap;
 
-import Main.User.User;
+// import Main.User.User;
 import javafx.application.Application;
-import Main.Database.Database;
+// import Main.Database.Database;
 import Main.GUI.GUI;
 
 public class Main {
@@ -30,6 +30,7 @@ public class Main {
 
         // db.deleteUser("johndoe2@gmail.com");
 
+        
         Application.launch(GUI.class);
     }
 }

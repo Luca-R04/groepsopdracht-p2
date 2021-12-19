@@ -1,6 +1,5 @@
 package Main.GUI;
 
-import Main.ContentItem.Course.Course;
 import Main.Database.Database;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
