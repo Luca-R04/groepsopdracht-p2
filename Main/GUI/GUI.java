@@ -6,6 +6,9 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import Main.Database.Database;
 import Main.User.User;
@@ -26,6 +29,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -187,59 +191,52 @@ public void sceneUserRead() {
 
 	GridPane gridPane = new GridPane();
 	Map<String, ArrayList<String>> users = db.getAllUsers();
+	int count = 0; 
+	Button update = null; 
+	Button delete = null;
 
-		users.values().forEach((user) -> {
-			for(int i = 0; i < users.size(); i++) {
-				Label l = new Label(user.get(i));
-				gridPane.add(l, i, i);
-			}
-		}); 
+	for(ArrayList<String> user : users.values()) {
+		HBox userLayer = new HBox();
 
-	
-	///////////////////////////////////////////////////////////////////////////
+		String email = getKey(users, user).toString().trim();
+		Label lEmail = new Label(email);
+		userLayer.getChildren().add(lEmail);
 
-	// TableView Columns
-	// TableColumn<User, String> emailColumn = new TableColumn<>();
-	// emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+		for(int i = 0; i < user.size(); i++) {
+			Label data = new Label(user.get(i));
+			userLayer.getChildren().add(data);
+			userLayer.setSpacing(10);
+		}
 
-	// TableColumn<User, String> nameColumn = new TableColumn<>();
-	// nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+		update = new Button("Update");
+		delete = new Button("Delete");
+		userLayer.getChildren().add(update);
+		userLayer.getChildren().add(delete);
 
-	// TableColumn<User, Date> birthdateColumn = new TableColumn<>();
-	// birthdateColumn.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
 
-	// TableColumn<User, String> genderColumn = new TableColumn<>();
-	// genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+		delete.setOnAction((event) -> {
+			db.deleteUser(email);
+		});
 
-	// TableColumn<User, String> addressColumn = new TableColumn<>();
-	// addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+		gridPane.add(userLayer, 0, count);
+		count++;
+	}
 
-	// TableColumn<User, String> residenceColumn = new TableColumn<>();
-	// residenceColumn.setCellValueFactory(new PropertyValueFactory<>("residence"));
-
-	// TableColumn<User, String> countryColumn = new TableColumn<>();
-	// countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
-
-	// TableColumn<User, String> isCourseTakerColumn = new TableColumn<>();
-	// isCourseTakerColumn.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
-
-	// TableColumn<User, String> isStaffColumn = new TableColumn<>();
-	// isStaffColumn.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
-
-	// ///////////////////////////////////////////////////////////////////////////
-
-	// // TableView
-
-	// TableView<User> table = new TableView<>();
-	// table.setItems(db.getUsersGUI());
-	// table.getColumns().addAll(emailColumn, nameColumn, birthdateColumn, genderColumn, addressColumn, residenceColumn, countryColumn, isCourseTakerColumn, isStaffColumn);
-	
-	// gridPane.getChildren().add(table);
-	
+	update.setOnAction((event) -> {
+		sceneUserUpdate();
+	});
 
 	this.scene = new Scene(gridPane, 500, 500);
 	this.stage.setScene(this.scene);
 
+}
+
+public static <T, E> Set<T> getKey(Map<T, E> map, E value) {
+    return map.entrySet()
+              .stream()
+              .filter(entry -> Objects.equals(entry.getValue(), value))
+              .map(Map.Entry::getKey)
+              .collect(Collectors.toSet());
 }
 
 

@@ -6,6 +6,9 @@ package Main;
 
 // import Main.User.User;
 import javafx.application.Application;
+
+import java.sql.Date;
+
 import Main.Database.Database;
 // import Main.Database.Database;
 import Main.GUI.GUI;
@@ -13,7 +16,7 @@ import Main.GUI.GUI;
 public class Main {
     public static void main(String[] args) {
         
-        // Database db = new Database();
+        Database db = new Database();
         // System.out.println(db.getUsersGUI());
         // Date date = new Date(12 - 12 - 2021);
         // User user = new User("johndoe@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands",
@@ -23,7 +26,8 @@ public class Main {
         // User user3 = new User("johndoe3@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands",
         //         null, "1");
 
-        // db.updateUser("johndoe3@gmail.com", "John", date, "female", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
+        Date date = new Date(12-2-2021);
+        db.updateUser("johndoe3@gmail.com", "John", date, "female", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
 
         
 
@@ -33,6 +37,6 @@ public class Main {
         // db.deleteUser("johndoe2@gmail.com");
 
         
-        Application.launch(GUI.class);
+        // Application.launch(GUI.class);
     }
 }
