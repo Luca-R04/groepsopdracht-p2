@@ -1,6 +1,7 @@
 package Main.GUI;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,38 +164,38 @@ public void sceneUserRead() {
 	///////////////////////////////////////////////////////////////////////////
 
 	// TableView Columns
-	TableColumn<Map, String> emailColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, String> emailColumn = new TableColumn<>();
 	emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-	TableColumn<Map, String> nameColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, String> nameColumn = new TableColumn<>();
 	nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-	TableColumn<Map, Date> birthdateColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, Date> birthdateColumn = new TableColumn<>();
 	birthdateColumn.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
 
-	TableColumn<Map, String> genderColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, String> genderColumn = new TableColumn<>();
 	genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
-	TableColumn<Map, String> addressColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, String> addressColumn = new TableColumn<>();
 	addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
 
-	TableColumn<Map, String> residenceColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, String> residenceColumn = new TableColumn<>();
 	residenceColumn.setCellValueFactory(new PropertyValueFactory<>("residence"));
 
-	TableColumn<Map, String> countryColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, String> countryColumn = new TableColumn<>();
 	countryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
 
-	TableColumn<Map, String> isCourseTakerColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, String> isCourseTakerColumn = new TableColumn<>();
 	isCourseTakerColumn.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
 
-	TableColumn<Map, String> isStaffColumn = new TableColumn<>();
+	TableColumn<Map<String, ArrayList<String>>, String> isStaffColumn = new TableColumn<>();
 	isStaffColumn.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
 
 	///////////////////////////////////////////////////////////////////////////
 
 	// TableView
 
-	TableView<User> table = new TableView();
+	TableView<User> table = new TableView<>();
 	table.setItems(db.getAllUsers());
 	
 
