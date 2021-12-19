@@ -3,6 +3,7 @@ package Main.Database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Database {
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
@@ -44,8 +45,8 @@ public class Database {
         }
     }
 
-    public HashMap<String, ArrayList<String>> getAllUsers() {
-        HashMap<String, ArrayList<String>> users = new HashMap<>();
+    public Map<String, ArrayList<String>> getAllUsers() {
+        Map<String, ArrayList<String>> users = new HashMap<>();
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

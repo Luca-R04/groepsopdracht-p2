@@ -1,6 +1,10 @@
 package Main.GUI;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import Main.Database.Database;
+import Main.User.User;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
@@ -26,7 +32,7 @@ public class GUI extends Application {
 		this.stage = stage;
 		
 		// Changes the title of the window.
-		this.stage.setTitle("Codecademy: Luca Rinck - 218...., Martijn Schemers - 218...., Max Stokla - 2186459, Laurens Weterings - 218....");
+		this.stage.setTitle("Codecademy: Luca Rinck - 218...., Martijn Schemers - 218...., Max Stokla - 2186459, Laurens Weterings - 2189413");
 
 		// Changes the scene using the startScene method
 		startScene();
@@ -146,9 +152,15 @@ public void sceneUserCreate() {
 
 		// Method to see a overview of the users
 public void sceneUserRead() {
-
+	
 	GridPane gridPane = new GridPane();
-	gridPane.getChildren().add(new Label("Read"));
+	
+
+	// Tabeleview
+	TableView<String> tableView = new TableView<>();
+	// Tableview colums
+	TableColumn<Map, String> columnEmail = new TableColumn<>("Email");
+
 
 
 	this.scene = new Scene(gridPane, 500, 500);
