@@ -1,13 +1,10 @@
 package Main.GUI;
+import Main.Database.Database;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import Main.Database.Database;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,451 +27,398 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		
 		this.stage = stage;
-		
+
 		// Changes the title of the window.
-		this.stage.setTitle("Codecademy: Luca Rinck - 218...., Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
+		this.stage.setTitle("Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
 
 		// Changes the scene using the startScene method
 		startScene();
 
-
 		// Displays the stage element
 		this.stage.show();
 	}
-    
-	
 
+	// Method for the user to fill in data.
+	public void sceneUserCreate() {
+		GridPane gridPane = new GridPane();
 
-		// Method for the user to fill in data.
-public void sceneUserCreate() {
-	
-	GridPane gridPane = new GridPane();
+		// Buttons
+		Button bSubmit = new Button("Submit");
 
+		// Labels;
+		Label lEmail = new Label("Email: ");
+		Label lName = new Label("Name: ");
+		Label lBirthdate = new Label("Birthdate: ");
+		Label lGender = new Label("Gender: ");
+		Label lAddress = new Label("Address:");
+		Label lCountry = new Label("Country:");
+		Label lResidence = new Label("Residence: ");
+		Label lCourse = new Label("Course taker: ");
+		Label lStaff = new Label("Staff: ");
 
-	// Buttons
-	Button bSubmit = new Button("Submit");
+		// Text fields
+		TextField email = new TextField();
+		TextField name = new TextField();
+		DatePicker birthdate = new DatePicker();
+		TextField gender = new TextField();
+		TextField address = new TextField();
+		TextField country = new TextField();
+		TextField residence = new TextField();
 
-	// Labels;
-	Label lEmail = new Label("Email: ");
-	Label lName = new Label("Name: ");
-	Label lBirthdate = new Label("Birthdate: ");
-	Label lGender = new Label("Gender: ");
-	Label lAddress = new Label("Address:");
-	Label lCountry = new Label("Country:");
-	Label lResidence = new Label("Residence: ");
-	Label lCourse = new Label("Course taker: ");
-	Label lStaff = new Label("Staff: ");
+		// comboBox
+		ObservableList<String> options = FXCollections.observableArrayList(
+				"Yes",
+				"No");
 
-	// Text fields
-	TextField email = new TextField();
-	TextField name = new TextField();
-	DatePicker birthdate = new DatePicker();
-	TextField gender = new TextField();
-	TextField address = new TextField();
-	TextField country = new TextField();
-	TextField residence = new TextField();
-	
-	// comboBox
-	ObservableList<String> options = 
-    FXCollections.observableArrayList(
-        "Yes",
-        "No"
-    );
+		ComboBox<String> course = new ComboBox<>(options);
+		ComboBox<String> staff = new ComboBox<>(options);
 
-	ComboBox<String> course = new ComboBox<>(options);
-	ComboBox<String> staff = new ComboBox<>(options);
+		// Coordinates for the elements
+		gridPane.add(lEmail, 0, 1);
+		gridPane.add(email, 1, 1);
 
-	
-	// Coordinates for the elements
-	gridPane.add(lEmail, 0, 1);
-	gridPane.add(email, 1, 1);
+		gridPane.add(lName, 0, 2);
+		gridPane.add(name, 1, 2);
 
-	gridPane.add(lName, 0, 2);
-	gridPane.add(name, 1, 2);
-	
-	gridPane.add(lBirthdate, 0, 3);
-	gridPane.add(birthdate, 1, 3);
+		gridPane.add(lBirthdate, 0, 3);
+		gridPane.add(birthdate, 1, 3);
 
-	gridPane.add(lGender, 0, 4);
-	gridPane.add(gender, 1, 4);
+		gridPane.add(lGender, 0, 4);
+		gridPane.add(gender, 1, 4);
 
-	gridPane.add(lAddress, 0, 5);
-	gridPane.add(address, 1, 5);
+		gridPane.add(lAddress, 0, 5);
+		gridPane.add(address, 1, 5);
 
-	gridPane.add(lCountry, 0, 6);
-	gridPane.add(country, 1, 6);
+		gridPane.add(lCountry, 0, 6);
+		gridPane.add(country, 1, 6);
 
-	gridPane.add(lResidence, 0, 7);
-	gridPane.add(residence, 1, 7);
+		gridPane.add(lResidence, 0, 7);
+		gridPane.add(residence, 1, 7);
 
-	gridPane.add(lCourse, 0, 8);
-	gridPane.add(course, 1, 8);
+		gridPane.add(lCourse, 0, 8);
+		gridPane.add(course, 1, 8);
 
-	gridPane.add(lStaff, 0, 9);
-	gridPane.add(staff, 1, 9);
+		gridPane.add(lStaff, 0, 9);
+		gridPane.add(staff, 1, 9);
 
-	gridPane.add(bSubmit, 1, 10);
+		gridPane.add(bSubmit, 1, 10);
 
-	// Styling
-	gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
-	gridPane.setVgap(10); 
-	gridPane.setHgap(10);
+		// Styling
+		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+		gridPane.setVgap(10);
+		gridPane.setHgap(10);
 
-	// Functions
-	bSubmit.setOnAction((action) -> {
-		boolean error = false;
+		// Functions
+		bSubmit.setOnAction((action) -> {
+			boolean error = false;
 
-		// Checks if all the fields are filled in
-		if (email.getText().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
-			Alert errorAlert = new Alert(AlertType.ERROR);
-			errorAlert.setHeaderText("Input not valid");
-			errorAlert.setContentText("Fill in all the fields");
-			errorAlert.showAndWait();
-			error = true; 
-		}
-
-		// Checks if a date is picked
-		if (birthdate.getValue() == null) {
-			Alert errorAlert = new Alert(AlertType.ERROR);
-			errorAlert.setHeaderText("Input not valid");
-			errorAlert.setContentText("Pick a date");
-			errorAlert.showAndWait();
-			error = true; 
-		}
-
-		// Checks if they picked either staff or user, cant be staff and user
-		if ((course.getValue() == "Yes" && staff.getValue() == "Yes") || (course.getValue() == "No" && staff.getValue() == "No")) {
-			Alert errorAlert = new Alert(AlertType.ERROR);
-			errorAlert.setHeaderText("Input not valid");
-			errorAlert.setContentText("You have to pick Staff or User");
-			errorAlert.showAndWait();
-			error = true; 
-		}
-
-		if (!error) {
-			String isCourseTaker = null; 
-			String isStaff = null; 
-
-			if (staff.getValue().equals("Yes")) {
-				isStaff = "1"; 
-			} else {
-				isCourseTaker = "1"; 
+			// Checks if all the fields are filled in
+			if (email.getText().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty()
+					|| address.getText().isEmpty() || residence.getText().isEmpty()) {
+				Alert errorAlert = new Alert(AlertType.ERROR);
+				errorAlert.setHeaderText("Input not valid");
+				errorAlert.setContentText("Fill in all the fields");
+				errorAlert.showAndWait();
+				error = true;
 			}
 
-			Date sqlDate = Date.valueOf(birthdate.getValue());
+			// Checks if a date is picked
+			if (birthdate.getValue() == null) {
+				Alert errorAlert = new Alert(AlertType.ERROR);
+				errorAlert.setHeaderText("Input not valid");
+				errorAlert.setContentText("Pick a date");
+				errorAlert.showAndWait();
+				error = true;
+			}
 
-			db.createUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
-		}
-	});
+			// Checks if they picked either staff or user, cant be staff and user
+			if ((course.getValue() == "Yes" && staff.getValue() == "Yes")
+					|| (course.getValue() == "No" && staff.getValue() == "No")) {
+				Alert errorAlert = new Alert(AlertType.ERROR);
+				errorAlert.setHeaderText("Input not valid");
+				errorAlert.setContentText("You have to pick Staff or User");
+				errorAlert.showAndWait();
+				error = true;
+			}
 
+			if (!error) {
+				String isCourseTaker = null;
+				String isStaff = null;
 
-	this.scene = new Scene(gridPane, 500, 700);
-	this.stage.setScene(this.scene);
+				if (staff.getValue().equals("Yes")) {
+					isStaff = "1";
+				} else {
+					isCourseTaker = "1";
+				}
 
-}
+				Date sqlDate = Date.valueOf(birthdate.getValue());
 
-
-		// Method to see a overview of the users
-public void sceneUserRead() {
-
-	GridPane gridPane = new GridPane();
-	Map<String, ArrayList<String>> users = db.getAllUsers();
-	int count = 0; 
-	Button update = null; 
-	Button delete = null;
-
-	for(ArrayList<String> user : users.values()) {
-		HBox userLayer = new HBox();
-
-		String email = getKey(users, user).toString().trim();
-		Label lEmail = new Label(email);
-		userLayer.getChildren().add(lEmail);
-
-		for(int i = 0; i < user.size(); i++) {
-			Label data = new Label(user.get(i));
-			userLayer.getChildren().add(data);
-			userLayer.setSpacing(10);
-		}
-
-		update = new Button("Update");
-		delete = new Button("Delete");
-		userLayer.getChildren().add(update);
-		userLayer.getChildren().add(delete);
-
-
-		delete.setOnAction((event) -> {
-			db.deleteUser(email);
+				db.createUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(),
+						residence.getText(), country.getText(), isCourseTaker, isStaff);
+			}
 		});
 
-		gridPane.add(userLayer, 0, count);
-		count++;
+		this.scene = new Scene(gridPane, 500, 700);
+		this.stage.setScene(this.scene);
 	}
 
-	update.setOnAction((event) -> {
-		sceneUserUpdate();
-	});
+	// Method to see a overview of the users
+	public void sceneUserRead() {
+		GridPane gridPane = new GridPane();
+		Map<String, ArrayList<String>> users = db.getAllUsers();
+		int count = 0;
 
-	this.scene = new Scene(gridPane, 500, 500);
-	this.stage.setScene(this.scene);
+		for (String key : users.keySet()) {
+			HBox userLayer = new HBox();
 
-}
+			Label lEmail = new Label(key);
+			userLayer.getChildren().add(lEmail);
 
-public static <T, E> Set<T> getKey(Map<T, E> map, E value) {
-    return map.entrySet()
-              .stream()
-              .filter(entry -> Objects.equals(entry.getValue(), value))
-              .map(Map.Entry::getKey)
-              .collect(Collectors.toSet());
-}
-
-
-		// Method for altering a user
-public void sceneUserUpdate() {
-	GridPane gridPane = new GridPane();
-	gridPane.getChildren().add(new Label("Update"));
-
-	Button bSubmit = new Button("Submit");
-
-	// Labels;
-	Label lEmail = new Label("Email: ");
-	Label lName = new Label("Name: ");
-	Label lBirthdate = new Label("Birthdate: ");
-	Label lGender = new Label("Gender: ");
-	Label lAddress = new Label("Address:");
-	Label lCountry = new Label("Country:");
-	Label lResidence = new Label("Residence: ");
-	Label lCourse = new Label("Course taker: ");
-	Label lStaff = new Label("Staff: ");
-
-	// Text fields
-	TextField email = new TextField();
-	TextField name = new TextField();
-	DatePicker birthdate = new DatePicker();
-	TextField gender = new TextField();
-	TextField address = new TextField();
-	TextField country = new TextField();
-	TextField residence = new TextField();
-	
-	// comboBox
-	ObservableList<String> options = 
-    FXCollections.observableArrayList(
-        "Yes",
-        "No"
-    );
-
-	ComboBox<String> course = new ComboBox<>(options);
-	ComboBox<String> staff = new ComboBox<>(options);
-
-	
-	// Coordinates for the elements
-	gridPane.add(lEmail, 0, 1);
-	gridPane.add(email, 1, 1);
-
-	gridPane.add(lName, 0, 2);
-	gridPane.add(name, 1, 2);
-	
-	gridPane.add(lBirthdate, 0, 3);
-	gridPane.add(birthdate, 1, 3);
-
-	gridPane.add(lGender, 0, 4);
-	gridPane.add(gender, 1, 4);
-
-	gridPane.add(lAddress, 0, 5);
-	gridPane.add(address, 1, 5);
-
-	gridPane.add(lCountry, 0, 6);
-	gridPane.add(country, 1, 6);
-
-	gridPane.add(lResidence, 0, 7);
-	gridPane.add(residence, 1, 7);
-
-	gridPane.add(lCourse, 0, 8);
-	gridPane.add(course, 1, 8);
-
-	gridPane.add(lStaff, 0, 9);
-	gridPane.add(staff, 1, 9);
-
-	gridPane.add(bSubmit, 1, 10);
-
-	// Styling
-	gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
-	gridPane.setVgap(10); 
-	gridPane.setHgap(10);
-
-	// Functions
-	bSubmit.setOnAction((action) -> {
-		boolean error = false;
-
-		// Checks if all the fields are filled in
-		if (email.getText().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
-			Alert errorAlert = new Alert(AlertType.ERROR);
-			errorAlert.setHeaderText("Input not valid");
-			errorAlert.setContentText("Fill in all the fields");
-			errorAlert.showAndWait();
-			error = true; 
-		}
-
-		// Checks if a date is picked
-		if (birthdate.getValue() == null) {
-			Alert errorAlert = new Alert(AlertType.ERROR);
-			errorAlert.setHeaderText("Input not valid");
-			errorAlert.setContentText("Pick a date");
-			errorAlert.showAndWait();
-			error = true; 
-		}
-
-		// Checks if they picked either staff or user, cant be staff and user
-		if ((course.getValue() == "Yes" && staff.getValue() == "Yes") || (course.getValue() == "No" && staff.getValue() == "No")) {
-			Alert errorAlert = new Alert(AlertType.ERROR);
-			errorAlert.setHeaderText("Input not valid");
-			errorAlert.setContentText("You have to pick Staff or User");
-			errorAlert.showAndWait();
-			error = true; 
-		}
-
-		if (!error) {
-			String isCourseTaker = null; 
-			String isStaff = null; 
-
-			if (staff.getValue().equals("Yes")) {
-				isStaff = "1"; 
-			} else {
-				isCourseTaker = "1"; 
+			for (int i = 0; i < users.get(key).size(); i++) {
+				Label data = new Label(users.get(key).get(i));
+				userLayer.getChildren().add(data);
+				userLayer.setSpacing(10);
 			}
 
-			Date sqlDate = Date.valueOf(birthdate.getValue());
+			Button update = new Button("Update");
+			Button delete = new Button("Delete");
+			userLayer.getChildren().add(update);
+			userLayer.getChildren().add(delete);
 
-			db.updateUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+			delete.setOnAction((event) -> {
+				db.deleteUser(key);
+				sceneUserRead();
+			});
+
+			update.setOnAction((event) -> {
+				sceneUserUpdate();
+			});
+
+			gridPane.add(userLayer, 0, count);
+			count++;
 		}
-	});
 
-	this.scene = new Scene(gridPane, 600, 700);
-	this.stage.setScene(this.scene);
-}
+		this.scene = new Scene(gridPane, 500, 500);
+		this.stage.setScene(this.scene);
+	}
 
+	// Method for altering a user
+	public void sceneUserUpdate() {
+		GridPane gridPane = new GridPane();
 
-		// Method for deleting a user
-public void sceneUserDelete() {		
+		Button bSubmit = new Button("Submit");
 
-	GridPane gridPane = new GridPane();
-	gridPane.getChildren().add(new Label("Delete"));
+		// Labels;
+		Label lEmail = new Label("Email: ");
+		Label lName = new Label("Name: ");
+		Label lBirthdate = new Label("Birthdate: ");
+		Label lGender = new Label("Gender: ");
+		Label lAddress = new Label("Address:");
+		Label lCountry = new Label("Country:");
+		Label lResidence = new Label("Residence: ");
+		Label lCourse = new Label("Course taker: ");
+		Label lStaff = new Label("Staff: ");
 
+		// Text fields
+		TextField email = new TextField();
+		TextField name = new TextField();
+		DatePicker birthdate = new DatePicker();
+		TextField gender = new TextField();
+		TextField address = new TextField();
+		TextField country = new TextField();
+		TextField residence = new TextField();
 
-	this.scene = new Scene(gridPane, 500, 500);
-	this.stage.setScene(this.scene);
+		// comboBox
+		ObservableList<String> options = FXCollections.observableArrayList(
+				"Yes",
+				"No");
 
-}
+		ComboBox<String> course = new ComboBox<>(options);
+		ComboBox<String> staff = new ComboBox<>(options);
 
+		// Coordinates for the elements
+		gridPane.add(lEmail, 0, 1);
+		gridPane.add(email, 1, 1);
 
-// Method that gives options for the user to navigate through the CRUD system
-public void sceneUser() {
+		gridPane.add(lName, 0, 2);
+		gridPane.add(name, 1, 2);
 
-	// Creating all the buttons	
-	Button bCreate = new Button("Create a user");
-	Button bRead = new Button("View users");
-	Button bUpdate = new Button("Update users");
-	Button bDelete = new Button("Delete users");
+		gridPane.add(lBirthdate, 0, 3);
+		gridPane.add(birthdate, 1, 3);
 
-	// New Gridpane
-	GridPane gridPane = new GridPane();
+		gridPane.add(lGender, 0, 4);
+		gridPane.add(gender, 1, 4);
 
-	// Specifies coordinates for the buttons
-	gridPane.add(bCreate, 0, 1);
-	gridPane.add(bRead, 1, 1);
+		gridPane.add(lAddress, 0, 5);
+		gridPane.add(address, 1, 5);
 
-	gridPane.add(bUpdate, 0, 2);
-	gridPane.add(bDelete, 1, 2);
-	
-	
-	// Styling
-	gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
-	gridPane.setVgap(10); 
-	gridPane.setHgap(10);
+		gridPane.add(lCountry, 0, 6);
+		gridPane.add(country, 1, 6);
 
+		gridPane.add(lResidence, 0, 7);
+		gridPane.add(residence, 1, 7);
 
-	// Button functions
+		gridPane.add(lCourse, 0, 8);
+		gridPane.add(course, 1, 8);
 
-	// bCreate
-	bCreate.setOnAction((action) -> {
-		sceneUserCreate();
-	});
+		gridPane.add(lStaff, 0, 9);
+		gridPane.add(staff, 1, 9);
 
-	bRead.setOnAction((action) -> {
-		sceneUserRead();
-	});
+		gridPane.add(bSubmit, 1, 10);
 
-	bUpdate.setOnAction((action) -> {
-		sceneUserUpdate();
-	});
+		// Styling
+		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+		gridPane.setVgap(10);
+		gridPane.setHgap(10);
 
-	bDelete.setOnAction((action) -> {
-		sceneUserDelete();
-	});
+		// Functions
+		bSubmit.setOnAction((action) -> {
+			boolean error = false;
 
-	// Change the scene
-	this.scene = new Scene(gridPane, 500, 500);
-	this.stage.setScene(this.scene);
+			// Checks if all the fields are filled in
+			if (email.getText().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty()
+					|| address.getText().isEmpty() || residence.getText().isEmpty()) {
+				Alert errorAlert = new Alert(AlertType.ERROR);
+				errorAlert.setHeaderText("Input not valid");
+				errorAlert.setContentText("Fill in all the fields");
+				errorAlert.showAndWait();
+				error = true;
+			}
 
-}
-	
+			// Checks if a date is picked
+			if (birthdate.getValue() == null) {
+				Alert errorAlert = new Alert(AlertType.ERROR);
+				errorAlert.setHeaderText("Input not valid");
+				errorAlert.setContentText("Pick a date");
+				errorAlert.showAndWait();
+				error = true;
+			}
 
-	
+			// Checks if they picked either staff or user, cant be staff and user
+			if ((course.getValue() == "Yes" && staff.getValue() == "Yes")
+					|| (course.getValue() == "No" && staff.getValue() == "No")) {
+				Alert errorAlert = new Alert(AlertType.ERROR);
+				errorAlert.setHeaderText("Input not valid");
+				errorAlert.setContentText("You have to pick Staff or User");
+				errorAlert.showAndWait();
+				error = true;
+			}
 
+			if (!error) {
+				String isCourseTaker = null;
+				String isStaff = null;
+
+				if (staff.getValue().equals("Yes")) {
+					isStaff = "1";
+				} else {
+					isCourseTaker = "1";
+				}
+
+				Date sqlDate = Date.valueOf(birthdate.getValue());
+
+				db.updateUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(),
+						residence.getText(), country.getText(), isCourseTaker, isStaff);
+			}
+		});
+
+		this.scene = new Scene(gridPane, 600, 700);
+		this.stage.setScene(this.scene);
+	}
+
+	// Method that gives options for the user to navigate through the CRUD system
+	public void sceneUser() {
+		// Creating all the buttons
+		Button bCreate = new Button("Create a user");
+		Button bRead = new Button("View users");
+		Button bUpdate = new Button("Update users");
+		// Button bDelete = new Button("Delete users");
+
+		// New Gridpane
+		GridPane gridPane = new GridPane();
+
+		// Specifies coordinates for the buttons
+		gridPane.add(bCreate, 0, 1);
+		gridPane.add(bRead, 1, 1);
+
+		gridPane.add(bUpdate, 0, 2);
+		// gridPane.add(bDelete, 1, 2);
+
+		// Styling
+		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+		gridPane.setVgap(10);
+		gridPane.setHgap(10);
+
+		// Button functions
+		bCreate.setOnAction((action) -> {
+			sceneUserCreate();
+		});
+
+		bRead.setOnAction((action) -> {
+			sceneUserRead();
+		});
+
+		bUpdate.setOnAction((action) -> {
+			sceneUserUpdate();
+		});
+
+		// bDelete.setOnAction((action) -> {
+		// 	sceneUserDelete();
+		// });
+
+		// Change the scene
+		this.scene = new Scene(gridPane, 500, 500);
+		this.stage.setScene(this.scene);
+	}
 
 	// Method sets up the start screen with buttons to navigate
 	public void startScene() {
 		// Creates all the buttons
 		Button bCourse = new Button("Courses");
-        Button bEnroledCourse = new Button("Your enroled courses");
-        Button bTop3course = new Button("Top 3 courses");
-        Button bWebcast = new Button("Webcasts");
-        Button bEnroledWebcast = new Button("Your enroled Webcasts");
-        Button bTop3webcast = new Button("Top 3 Webcasts");
-        Button bCertificates = new Button("Your certificates");
+		Button bEnroledCourse = new Button("Your enroled courses");
+		Button bTop3course = new Button("Top 3 courses");
+		Button bWebcast = new Button("Webcasts");
+		Button bEnroledWebcast = new Button("Your enroled Webcasts");
+		Button bTop3webcast = new Button("Top 3 Webcasts");
+		Button bCertificates = new Button("Your certificates");
 		Button bUser = new Button("User overview");
 
 		// New gridpane
 		GridPane gridPane = new GridPane();
-        
+
 		// Specifies coordinates for the buttons
-        gridPane.add(bCourse, 0, 1);
-        gridPane.add(bEnroledCourse, 1, 1);
-		
-        gridPane.add(bWebcast, 0, 2);
-        gridPane.add(bEnroledWebcast, 1, 2);
+		gridPane.add(bCourse, 0, 1);
+		gridPane.add(bEnroledCourse, 1, 1);
+
+		gridPane.add(bWebcast, 0, 2);
+		gridPane.add(bEnroledWebcast, 1, 2);
 
 		gridPane.add(bTop3course, 0, 3);
-        gridPane.add(bTop3webcast, 1, 3);
+		gridPane.add(bTop3webcast, 1, 3);
 
-        gridPane.add(bCertificates, 0, 4);
+		gridPane.add(bCertificates, 0, 4);
 		gridPane.add(bUser, 1, 4);
-		
+
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
-		gridPane.setVgap(10); 
+		gridPane.setVgap(10);
 		gridPane.setHgap(10);
-		
+
 		bCourse.setMaxWidth(300);
-        bEnroledCourse.setMaxWidth(300);
-        bTop3course.setMaxWidth(300);
-        bWebcast.setMaxWidth(300);
-        bEnroledWebcast.setMaxWidth(300);
-        bTop3webcast.setMaxWidth(300);
-        bCertificates.setMaxWidth(300);
+		bEnroledCourse.setMaxWidth(300);
+		bTop3course.setMaxWidth(300);
+		bWebcast.setMaxWidth(300);
+		bEnroledWebcast.setMaxWidth(300);
+		bTop3webcast.setMaxWidth(300);
+		bCertificates.setMaxWidth(300);
 		bUser.setMaxWidth(300);
 		this.scene = new Scene(gridPane, 500, 500);
 		this.stage.setScene(this.scene);
 
 		// Button functions
-
 		// bUser
 		bUser.setOnAction((event) -> {
 			sceneUser();
 		});
 	}
-
-	
-
 }
