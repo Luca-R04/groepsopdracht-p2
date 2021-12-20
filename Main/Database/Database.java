@@ -5,16 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import Main.User.User;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class Database {
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
     private Connection con = null;
     private Statement stmt = null;
     private ResultSet rs = null;
-    private ObservableList<User> userList = FXCollections.observableArrayList(); 
 
 
     public Database() {
@@ -34,6 +29,7 @@ public class Database {
         if (con != null) try { con.close(); } catch (Exception e) {}
     }
 
+    // Creates a user inside the database 
     public void createUser(String email, String name, Date birthDate, String gender, String address, String residence,
             String country, String isCourseTaker, String isStaff) {
         try {
@@ -51,6 +47,7 @@ public class Database {
         }
     }
 
+    // Retrieve all users and put them in a HashMap with the Email as key  
     public Map<String, ArrayList<String>> getAllUsers() {
         Map<String, ArrayList<String>> users = new HashMap<>();
 
@@ -79,41 +76,9 @@ public class Database {
         return users;
     }
 
-    public ObservableList<User> getUsersGUI() {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            String SQL = "SELECT * FROM [User]";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-
-            while (rs.next()) {
-                    userList.add(new User(rs.getString("Email"), 
-                    rs.getString("Name"), 
-                    rs.getDate("DateOfBirth"), 
-                    rs.getString("Gender"),
-                    rs.getString("Address"),
-                    rs.getString("Residence"),
-                    rs.getString("Country"),
-                    rs.getString("CourseTakerID"),
-                    rs.getString("StaffID")
-                    ));
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        return userList;
-    }
-
     public void deleteUser(String email) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Maak de verbinding met de database.
             con = DriverManager.getConnection(connectionUrl);
 
             String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
