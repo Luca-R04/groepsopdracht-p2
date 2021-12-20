@@ -39,7 +39,8 @@ public class Database {
             String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','" 
             + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ")";
             stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -83,7 +84,8 @@ public class Database {
 
             String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
             stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -102,7 +104,8 @@ public class Database {
                     + address + "', Residence = '" + residence + "', Country = '" + country + "', CourseTakerID = "
                     + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + email + "'";
             stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
