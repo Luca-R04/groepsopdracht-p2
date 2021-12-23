@@ -27,6 +27,7 @@ public abstract class GUI extends Application {
 	public Stage stage;
 	public Scene scene;
 	public Database db = new Database();
+	public User user = new User();
 
 
 	@Override

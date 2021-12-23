@@ -62,9 +62,12 @@ public class Database {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
 
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
             while (rs.next()) {
                 ArrayList<String> userData = new ArrayList<>();
-                for (int i = 2; i < 9; i++) {
+                for (int i = 2; i < columnCount + 1; i++) {
                     userData.add(rs.getString(i));
                 }
 
@@ -132,8 +135,6 @@ public class Database {
     }
 
     public void createWebcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
-        this.createContentItem(publicationDate, status, 1, null);
-
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -148,11 +149,29 @@ public class Database {
         } finally {
             excecuteFinally();
         }
+
+        int id = 0; 
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT TOP 1 * FROM Webcast ORDER BY Id DESC";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            if (rs.next()) {
+                id = rs.getInt("Id"); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        this.createContentItem(publicationDate, status, id, null);
     }
 
     public void createCourse(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
-        this.createContentItem(publicationDate, status, null, 10);
-        
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -166,5 +185,25 @@ public class Database {
         } finally {
             excecuteFinally();
         }
+
+        int id = 0; 
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT TOP 1 * FROM Course ORDER BY Id DESC";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            if (rs.next()) {
+                id = rs.getInt("Id"); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        this.createContentItem(publicationDate, status, null, id);
     }
 }

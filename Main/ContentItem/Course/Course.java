@@ -12,15 +12,18 @@ public class Course extends ContentItem {
     private int percentageViewed; 
     private Database db = new Database();
 
-    public Course(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {        
+    public Course(Date publicationDate, String status, String name, String topic, String text, String level) {        
         super(publicationDate, status); 
 
         this.name = name; 
         this.topic = topic; 
         this.text = text; 
         this.level = level; 
-        this.percentageViewed = percentageViewed;
 
         db.createCourse(publicationDate, status, this.name, this.topic, this.text, this.level, this.percentageViewed); 
+    }
+
+    public void updatePercentageViewed(int value) {
+        this.percentageViewed = value;
     }
 }
