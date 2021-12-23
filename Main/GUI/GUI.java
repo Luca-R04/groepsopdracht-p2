@@ -21,11 +21,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import Main.GUI.User;
+
 public abstract class GUI extends Application {
-	Stage stage;
-	Scene scene;
-	Database db = new Database();
-	User user = new User();
+	public Stage stage;
+	public Scene scene;
+	public Database db = new Database();
 
 
 	@Override
@@ -93,6 +94,8 @@ public abstract class GUI extends Application {
 			user.sceneUser();
 		});
 	}
+
+
 
 
 }

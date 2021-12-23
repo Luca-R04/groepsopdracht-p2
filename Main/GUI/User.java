@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -21,10 +22,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class User extends GUI {
-
-    public User() {
-        sceneUser();
-    }
 
 	// Method for the user to fill in data.
 	public void sceneUserCreate() {
