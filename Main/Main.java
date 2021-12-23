@@ -33,5 +33,6 @@ public class Main {
 
         // Webcast w = new Webcast(date, "not done", "Webcast 1", "https://www.google.com", 100, "Toon", "Test webcast", s);
         Course s = new Course(date, "not done", "Webcast 1", "https://www.google.com", "Test webcast", "Toon", 100);
+        Application.launch(GUI.class);
     }
 }
