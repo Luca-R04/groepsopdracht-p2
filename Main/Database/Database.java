@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import Main.ContentItem.Speaker;
+
 public class Database {
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
     private Connection con = null;
@@ -113,14 +115,12 @@ public class Database {
         }
     }
 
-    public void createWebcast(String email, String name, Date birthDate, String gender, String address, String residence,
-            String country, String isCourseTaker, String isStaff) {
+    public void createContentItem(Date publicationDate, String status, Integer webcastID, Integer courseID) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Webcast VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','" 
-            + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ")";
+            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID  + "," + courseID + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -131,12 +131,33 @@ public class Database {
         }
     }
 
-    public void createContentItem(Date publicationDate, String status, int webcastID, int courseID) {
+    public void createWebcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
+        this.createContentItem(publicationDate, status, 1, null);
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "','" + webcastID  + "','" + courseID + ")";
+            String SQL = "INSERT INTO Webcast VALUES ('" + title + "','" + URL + "','" + description + "','" + duration + "','" 
+            + speaker.getName() + "','" + speaker.getOrganization() + "')";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
+
+    public void createCourse(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
+        this.createContentItem(publicationDate, status, null, 10);
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO Course VALUES ('" + name + "','" + topic + "','" + text + "','" + level + "'," + percentageViewed + "," + null + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);

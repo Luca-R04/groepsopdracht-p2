@@ -1,34 +1,28 @@
 package Main.ContentItem;
 
 import java.sql.Date;
-import java.util.ArrayList;
 
 import Main.Database.Database;
 
 public class Webcast extends ContentItem {
     private String title; 
-    private String url; 
+    private String URL; 
     private int duration; 
     private String staffName; 
     private String description; 
-    private ArrayList<Speaker> speakers;
+    private Speaker speaker;
     private Database db = new Database(); 
 
-    public Webcast(Date publicationDate, String status, String title, String url, int duration, String staffName, String description) {
+    public Webcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
         super(publicationDate, status);
 
         this.title = title;
-        this.url = url;
+        this.URL = URL;
         this.duration = duration;
         this.staffName = staffName;
         this.description = description;
+        this.speaker = speaker;
 
-        this.speakers = new ArrayList<>();
-
-        // db.createWebcast();
-    }
-
-    public void addSpeaker(Speaker speaker) {
-        this.speakers.add(speaker);
+        db.createWebcast(publicationDate, status, this.title, this.URL, this.duration, this.staffName, this.description, this.speaker);
     }
 }

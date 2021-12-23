@@ -17,4 +17,12 @@ public class Speaker {
     public void addWebcast(Webcast webcast) {
         this.webcasts.add(webcast);
     }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public String getName() {
+        return name; 
+    }
 }
