@@ -1,5 +1,6 @@
 package Main.ContentItem.Course;
 import java.sql.Date;
+import java.util.ArrayList;
 
 import Main.ContentItem.ContentItem;
 import Main.Database.Database;
@@ -10,6 +11,7 @@ public class Course extends ContentItem {
     private String text; 
     private String level; 
     private int percentageViewed; 
+    private ArrayList<Module> modules; 
     private Database db = new Database();
 
     public Course(Date publicationDate, String status, String name, String topic, String text, String level) {        
@@ -25,5 +27,9 @@ public class Course extends ContentItem {
 
     public void updatePercentageViewed(int value) {
         this.percentageViewed = value;
+    }
+
+    public void addModule(Module module) {
+        this.modules.add(module);
     }
 }

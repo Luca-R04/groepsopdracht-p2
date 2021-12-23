@@ -134,43 +134,6 @@ public class Database {
         }
     }
 
-    public void createWebcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            String SQL = "INSERT INTO Webcast VALUES ('" + title + "','" + URL + "','" + description + "','" + duration + "','" 
-            + speaker.getName() + "','" + speaker.getOrganization() + "')";
-            stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
-            System.out.println(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        int id = 0; 
-
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            String SQL = "SELECT TOP 1 * FROM Webcast ORDER BY Id DESC";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-            if (rs.next()) {
-                id = rs.getInt("Id"); 
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        this.createContentItem(publicationDate, status, id, null);
-    }
-
     public void createCourse(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -205,5 +168,108 @@ public class Database {
         }
 
         this.createContentItem(publicationDate, status, null, id);
+    }
+
+    public void deleteCourse(String name) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "DELETE FROM Course WHERE Name = '" + name + "'";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
+
+    public void updateCourse(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            // Stel een SQL query samen.
+            String SQL = "UPDATE Course SET Name = '" + name + "', Topic = '" + topic + "', Text = '" + text + "', Lvl = '" + level + "', PercentageViewed = " + percentageViewed + "WHERE Name = '" + name + "'";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
+
+    public void createWebcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO Webcast VALUES ('" + title + "','" + URL + "','" + description + "','" + duration + "','" 
+            + speaker.getName() + "','" + speaker.getOrganisation() + "')";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        int id = 0; 
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT TOP 1 * FROM Webcast ORDER BY Id DESC";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            if (rs.next()) {
+                id = rs.getInt("Id"); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        this.createContentItem(publicationDate, status, id, null);
+    }
+
+    public void deleteWebcast(String title, String URL) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "DELETE FROM Webcast WHERE Title = '" + title + "' AND URL = '" + URL + "'";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
+
+    public void updateWebcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            // Stel een SQL query samen.
+            String SQL = "UPDATE Webcast SET Title = '" + title + "', URL = '" + URL + "', Description = '" + description + "', Duration = '" + duration + "', SpeakerName = '" + speaker.getName() + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + title + "' AND URL = '" + URL + "'";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
     }
 }
