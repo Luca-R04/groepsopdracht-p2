@@ -26,6 +26,6 @@ public class Main {
         // HashMap<String, ArrayList<String>> users = db.getAllUsers();
         // System.out.println(users.get("johndoe@gmail.com"));
         
-        // Application.launch(GUI.class);
+        Application.launch(GUI.class);
     }
 }
