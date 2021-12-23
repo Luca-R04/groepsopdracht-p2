@@ -112,4 +112,38 @@ public class Database {
             excecuteFinally();
         }
     }
+
+    public void createWebcast(String email, String name, Date birthDate, String gender, String address, String residence,
+            String country, String isCourseTaker, String isStaff) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO Webcast VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','" 
+            + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ")";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
+
+    public void createContentItem(Date publicationDate, String status, int webcastID, int courseID) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "','" + webcastID  + "','" + courseID + ")";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
 }
