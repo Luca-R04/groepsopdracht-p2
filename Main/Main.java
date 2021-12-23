@@ -29,16 +29,18 @@ public class Main {
         // System.out.println(users.get("johndoe@gmail.com"));
         
         // Application.launch(GUI.class);
-        Speaker s = new Speaker("Github", "Christian"); 
+        Speaker s = new Speaker("Google", "Christian"); 
 
-        // Webcast w = new Webcast(date, "not done", "Webcast 3", "https://www.google.com", 100, "Toon", "Test webcast", s);
+        Webcast w = new Webcast(date, "not done", "Webcast 3", "https://www.google.com", 100, "Toon", "Test webcast", s);
+        w.update(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
+
         // Course s = new Course(date, "not done", "Course 5", "https://www.google.com", "Test course", "Kees");
         // Application.launch(GUI.class);
 
         // db.deleteCourse("Course 5");
         // db.deleteWebcast("Webcast 3", "https://www.google.com"); 
         // db.updateCourse(date, "not done", "Course 3", "https://www.google.com", "Test course", "Kees", 10);
-        db.updateWebcast(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
+        // db.updateWebcast(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
 
         // System.out.println(db.getAllUsers());            
     }

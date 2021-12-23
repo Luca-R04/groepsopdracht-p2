@@ -25,11 +25,17 @@ public class Course extends ContentItem {
         db.createCourse(publicationDate, status, this.name, this.topic, this.text, this.level, this.percentageViewed); 
     }
 
-    public void updatePercentageViewed(int value) {
-        this.percentageViewed = value;
-    }
-
     public void addModule(Module module) {
         this.modules.add(module);
+    }
+
+    public void update(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
+        this.name = name;
+        this.topic = topic;
+        this.text = text;
+        this.level = level;
+        this.percentageViewed = percentageViewed;
+
+        db.updateCourse(publicationDate, status, name, topic, text, level, percentageViewed); 
     }
 }

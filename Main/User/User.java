@@ -16,8 +16,7 @@ public class User {
     private String isStaff;
     private Database db = new Database();
 
-    public User(String email, String name, Date birthDate, String gender, String address, String residence,
-            String country, String isCourseTaker, String isStaff) {
+    public User(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
         this.email = email;
         this.name = name;
         this.birthDate = birthDate;
@@ -28,7 +27,20 @@ public class User {
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
 
-        db.createUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country,
-                this.isCourseTaker, this.isStaff);
+        db.createUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
+    }
+
+    public void update(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
+        this.email = email;
+        this.name = name;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.address = address;
+        this.residence = residence;
+        this.country = country;
+        this.isCourseTaker = isCourseTaker;
+        this.isStaff = isStaff;
+
+        db.updateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff); 
     }
 }
