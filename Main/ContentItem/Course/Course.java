@@ -27,6 +27,8 @@ public class Course extends ContentItem {
 
     public void addModule(Module module) {
         this.modules.add(module);
+
+        // db.addModuleToCourse(this, module);
     }
 
     public void update(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {

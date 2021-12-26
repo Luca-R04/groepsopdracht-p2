@@ -1,12 +1,15 @@
 package Main;
 
 import java.sql.Date;
-// import java.util.ArrayList;
-// import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Scanner;
 
 import javafx.application.Application;
 import Main.ContentItem.Speaker;
 import Main.ContentItem.Webcast;
+import Main.ContentItem.Course.ContactPerson;
+import Main.ContentItem.Course.Module;
 import Main.ContentItem.Course.Course;
 import Main.Database.Database;
 import Main.User.User;
@@ -29,18 +32,36 @@ public class Main {
         // System.out.println(users.get("johndoe@gmail.com"));
         
         // Application.launch(GUI.class);
-        Speaker s = new Speaker("Google", "Christian"); 
+        // Speaker s = new Speaker("Google", "Christian"); 
 
-        Webcast w = new Webcast(date, "not done", "Webcast 3", "https://www.google.com", 100, "Toon", "Test webcast", s);
-        w.update(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
+        // Webcast w = new Webcast(date, "not done", "Webcast 3", "https://www.google.com", 100, "Toon", "Test webcast", s);
+        // w.update(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
 
         // Course s = new Course(date, "not done", "Course 5", "https://www.google.com", "Test course", "Kees");
         // Application.launch(GUI.class);
 
-        // db.deleteCourse("Course 5");
-        // db.deleteWebcast("Webcast 3", "https://www.google.com"); 
-        // db.updateCourse(date, "not done", "Course 3", "https://www.google.com", "Test course", "Kees", 10);
-        // db.updateWebcast(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
+        // ContactPerson john = new ContactPerson("uyghjgwdasjhkgupda@gmail.com", "John");
+
+        // while(true) {
+        //     Scanner s = new Scanner(System.in);
+        //     String input = s.nextLine();
+
+        //     if(input.equals("update")) {
+        //         System.out.println("Email: ");
+        //         String email = s.nextLine();
+        //         System.out.println("Name: ");
+        //         String name = s.nextLine();
+
+        //         john.update(email, name);
+        //     }
+
+        //     if(input.equals("delete")) {
+        //         john.delete();
+        //     }
+        // }
+
+        // Module m = new Module("Programming 6", "2", 1234555, "Module about programming");
+        // john.addModule(m);
 
         // System.out.println(db.getAllUsers());            
     }

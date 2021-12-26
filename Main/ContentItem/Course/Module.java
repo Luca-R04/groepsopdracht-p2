@@ -15,7 +15,7 @@ public class Module {
         this.serialNumber = serialNumber;
         this.description = description;
 
-        // db.createModule();
+        db.createModule(this);
     }
 
     public void update(String title, String version, int serialNumber, String description) {
@@ -24,6 +24,22 @@ public class Module {
         this.serialNumber = serialNumber;
         this.description = description;
 
-        // db.updateModule(title, version, serialNumber, description);
+        // db.updateModule(this, title, version, serialNumber, description);
+    }
+
+    public String getTitle() {
+        return this.title; 
+    }
+
+    public String getVersion() {
+        return this.version;
+    }
+
+    public int getSerialNumber() {
+        return this.serialNumber;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 }
