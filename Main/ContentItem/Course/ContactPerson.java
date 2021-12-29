@@ -16,7 +16,7 @@ public class ContactPerson {
 
         this.modules = new ArrayList<>();
 
-        db.createContactPerson(email, name);
+        db.createContactPerson(this);
     }
 
     public void addModule(Module module) {
@@ -38,5 +38,9 @@ public class ContactPerson {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

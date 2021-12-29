@@ -2,21 +2,16 @@ package Main.ContentItem;
 
 import java.util.ArrayList;
 
-import Main.Database.Database;
-
 public class Speaker {
     private String organisation;
     private String name;
     private ArrayList<Webcast> webcasts; 
-    private Database db = new Database();
 
     public Speaker(String organisation, String name) {
         this.organisation = organisation;
         this.name = name;
 
         this.webcasts = new ArrayList<>();
-
-        // db.createSpeaker();
     }
 
     public void addWebcast(Webcast webcast) {
@@ -34,7 +29,5 @@ public class Speaker {
     public void update(String organisation, String name) {
         this.organisation = organisation;
         this.name = name;
-
-        // db.updateSpeaker(organisation, name);
     }
 }

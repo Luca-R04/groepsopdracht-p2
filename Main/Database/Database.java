@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Main.ContentItem.Speaker;
+import Main.ContentItem.Webcast;
 import Main.ContentItem.Course.ContactPerson;
+import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Module;
 
 public class Database {
@@ -14,7 +16,6 @@ public class Database {
     private Connection con = null;
     private Statement stmt = null;
     private ResultSet rs = null;
-
 
     public Database() {
         try {
@@ -136,12 +137,12 @@ public class Database {
         }
     }
 
-    public void createCourse(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
+    public void createCourse(Date publicationDate, String status, Course c) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Course VALUES ('" + name + "','" + topic + "','" + text + "','" + level + "'," + percentageViewed + "," + null + ")";
+            String SQL = "INSERT INTO Course VALUES ('" + c.getName() + "','" + c.getTopic() + "','" + c.getText() + "','" + c.getLevel() + "'," + c.getPercentageViewed() + "," + null + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -172,12 +173,12 @@ public class Database {
         this.createContentItem(publicationDate, status, null, id);
     }
 
-    public void deleteCourse(String name) {
+    public void deleteCourse(Course c) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "DELETE FROM Course WHERE Name = '" + name + "'";
+            String SQL = "DELETE FROM Course WHERE Name = '" + c.getName() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -188,13 +189,13 @@ public class Database {
         }
     }
 
-    public void updateCourse(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
+    public void updateCourse(Course c, Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "UPDATE Course SET Name = '" + name + "', Topic = '" + topic + "', Text = '" + text + "', Lvl = '" + level + "', PercentageViewed = " + percentageViewed + "WHERE Name = '" + name + "'";
+            String SQL = "UPDATE Course SET Name = '" + name + "', Topic = '" + topic + "', Text = '" + text + "', Lvl = '" + level + "', PercentageViewed = " + percentageViewed + "WHERE Name = '" + c.getName() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -205,13 +206,13 @@ public class Database {
         }
     }
 
-    public void createWebcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
+    public void createWebcast(Date publicationDate, String status, Webcast w) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Webcast VALUES ('" + title + "','" + URL + "','" + description + "','" + duration + "','" 
-            + speaker.getName() + "','" + speaker.getOrganisation() + "')";
+            String SQL = "INSERT INTO Webcast VALUES ('" + w.getTitle() + "','" + w.getURL() + "','" + w.getDescription() + "','" + w.getDuration() + "','" 
+            + w.getSpeaker().getName() + "','" + w.getSpeaker().getOrganisation() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -242,12 +243,12 @@ public class Database {
         this.createContentItem(publicationDate, status, id, null);
     }
 
-    public void deleteWebcast(String title, String URL) {
+    public void deleteWebcast(Webcast w) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "DELETE FROM Webcast WHERE Title = '" + title + "' AND URL = '" + URL + "'";
+            String SQL = "DELETE FROM Webcast WHERE Title = '" + w.getTitle() + "' AND URL = '" + w.getURL() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -258,13 +259,12 @@ public class Database {
         }
     }
 
-    public void updateWebcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
+    public void updateWebcast(Webcast w, Date publicationDate, String status, String title, String URL, int duration, String description, Speaker speaker) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            // Stel een SQL query samen.
-            String SQL = "UPDATE Webcast SET Title = '" + title + "', URL = '" + URL + "', Description = '" + description + "', Duration = '" + duration + "', SpeakerName = '" + speaker.getName() + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + title + "' AND URL = '" + URL + "'";
+            String SQL = "UPDATE Webcast SET Title = '" + title + "', URL = '" + URL + "', Description = '" + description + "', Duration = '" + duration + "', SpeakerName = '" + speaker.getName() + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + w.getTitle() + "' AND URL = '" + w.getURL() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -275,12 +275,12 @@ public class Database {
         }
     }
 
-    public void createContactPerson(String email, String name) {
+    public void createContactPerson(ContactPerson c) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO ContactPerson VALUES ('" + email + "','" + name + "')";
+            String SQL = "INSERT INTO ContactPerson VALUES ('" + c.getEmail() + "','" + c.getName() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -340,6 +340,23 @@ public class Database {
         }
     }
 
+    public void updateModule(Module m, String title, String version, int serialNumber, String description) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            // Stel een SQL query samen.
+            String SQL = "UPDATE Module SET Title = '" + title + "', Version = '" + version + "', SerialNumber = '" + serialNumber + "', Description = '" + description + "'WHERE Title = '" + m.getTitle() + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
+
     public void addModuleToContactPerson(ContactPerson c, Module m) {
         int contactPersonId = 0; 
 
@@ -365,6 +382,41 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             String SQL = "UPDATE Module SET ContactPersonID = " + contactPersonId + "WHERE Title = '" + m.getTitle() + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
+
+    public void addModuleToCourse(Course c, Module m) {
+        int courseId = 0; 
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Id FROM Course WHERE Name = '" + c.getName() + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            while(rs.next()) {
+                courseId = rs.getInt("Id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "UPDATE Module SET CourseID = " + courseId + "WHERE Title = '" + m.getTitle() + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);

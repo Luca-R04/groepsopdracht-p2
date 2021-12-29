@@ -8,32 +8,53 @@ public class Webcast extends ContentItem {
     private String title; 
     private String URL; 
     private int duration; 
-    private String staffName; 
     private String description; 
     private Speaker speaker;
     private Database db = new Database(); 
 
-    public Webcast(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
+    public Webcast(Date publicationDate, String status, String title, String URL, int duration, String description, Speaker speaker) {
         super(publicationDate, status);
 
         this.title = title;
         this.URL = URL;
         this.duration = duration;
-        this.staffName = staffName;
         this.description = description;
         this.speaker = speaker;
 
-        db.createWebcast(publicationDate, status, this.title, this.URL, this.duration, this.staffName, this.description, this.speaker);
+        db.createWebcast(publicationDate, status, this);
     }
 
-    public void update(Date publicationDate, String status, String title, String URL, int duration, String staffName, String description, Speaker speaker) {
+    public void update(Date publicationDate, String status, String title, String URL, int duration, String description, Speaker speaker) {
+        db.updateWebcast(this, publicationDate, status, title, URL, duration, description, speaker);
+
         this.title = title;
         this.URL = URL;
         this.duration = duration;
-        this.staffName = staffName;
         this.description = description;
         this.speaker = speaker;
+    }
 
-        db.updateWebcast(publicationDate, status, this.title, this.URL, this.duration, this.staffName, this.description, this.speaker);
+    public void delete() {
+        db.deleteWebcast(this);
+    }
+
+    public String getTitle() {
+        return this.title; 
+    }
+
+    public String getURL() {
+        return this.URL;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public int getDuration() {
+        return this.duration;
+    }
+
+    public Speaker getSpeaker() {
+        return this.speaker;
     }
 }

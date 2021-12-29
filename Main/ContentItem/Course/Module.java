@@ -19,12 +19,12 @@ public class Module {
     }
 
     public void update(String title, String version, int serialNumber, String description) {
+        db.updateModule(this, title, version, serialNumber, description);
+
         this.title = title;
         this.version = version;
         this.serialNumber = serialNumber;
         this.description = description;
-
-        // db.updateModule(this, title, version, serialNumber, description);
     }
 
     public String getTitle() {

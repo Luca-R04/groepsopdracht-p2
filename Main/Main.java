@@ -37,7 +37,10 @@ public class Main {
         // Webcast w = new Webcast(date, "not done", "Webcast 3", "https://www.google.com", 100, "Toon", "Test webcast", s);
         // w.update(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
 
-        // Course s = new Course(date, "not done", "Course 5", "https://www.google.com", "Test course", "Kees");
+        // Module m = new Module("Programming 3", "2", 1234555, "Module about programming");
+        // Course s = new Course(date, "not done", "Course 3", "https://www.google.com", "Test course", "Kees");
+        // s.addModule(m);
+        
         // Application.launch(GUI.class);
 
         // ContactPerson john = new ContactPerson("uyghjgwdasjhkgupda@gmail.com", "John");
@@ -60,7 +63,6 @@ public class Main {
         //     }
         // }
 
-        // Module m = new Module("Programming 6", "2", 1234555, "Module about programming");
         // john.addModule(m);
 
         // System.out.println(db.getAllUsers());            

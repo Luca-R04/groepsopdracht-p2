@@ -21,23 +21,48 @@ public class Course extends ContentItem {
         this.topic = topic; 
         this.text = text; 
         this.level = level; 
+        this.modules = new ArrayList<>();
 
-        db.createCourse(publicationDate, status, this.name, this.topic, this.text, this.level, this.percentageViewed); 
+        db.createCourse(publicationDate, status, this); 
     }
 
     public void addModule(Module module) {
         this.modules.add(module);
 
-        // db.addModuleToCourse(this, module);
+        db.addModuleToCourse(this, module);
     }
 
     public void update(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
+        db.updateCourse(this, publicationDate, status, name, topic, text, level, percentageViewed); 
+
         this.name = name;
         this.topic = topic;
         this.text = text;
         this.level = level;
         this.percentageViewed = percentageViewed;
+    }
 
-        db.updateCourse(publicationDate, status, name, topic, text, level, percentageViewed); 
+    public void delete() {
+        db.deleteCourse(this);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getTopic() {
+        return this.topic;
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public String getLevel() {
+        return this.level;
+    }
+
+    public int getPercentageViewed() {
+        return this.percentageViewed;
     }
 }
