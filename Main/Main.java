@@ -14,6 +14,7 @@ import Main.ContentItem.Course.Course;
 import Main.Database.Database;
 import Main.User.User;
 import Main.GUI.GUI;
+import Main.GUI.Test;
 
 public class Main {
     public static void main(String[] args) {
@@ -41,7 +42,7 @@ public class Main {
         // Course s = new Course(date, "not done", "Course 3", "https://www.google.com", "Test course", "Kees");
         // s.addModule(m);
         
-        // Application.launch(GUI.class);
+        Application.launch(GUI.class);
 
         // ContactPerson john = new ContactPerson("uyghjgwdasjhkgupda@gmail.com", "John");
 

@@ -23,20 +23,20 @@ import javafx.stage.Stage;
 
 import Main.GUI.User;
 
-public abstract class GUI extends Application {
+public class GUI extends Application {
 	public Stage stage;
 	public Scene scene;
 	public Database db = new Database();
-	public User user = new User();
-
+	private User user = new User();
 
 	@Override
 	public void start(Stage stage) {
 		this.stage = stage;
 
 		// Changes the title of the window.
-		this.stage.setTitle(
-				"Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
+		this.stage.setTitle("Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
+
+		this.stage.setScene(scene);
 
 		// Changes the scene using the startScene method
 		startScene();
@@ -86,17 +86,16 @@ public abstract class GUI extends Application {
 		bTop3webcast.setMaxWidth(300);
 		bCertificates.setMaxWidth(300);
 		bUser.setMaxWidth(300);
+
 		this.scene = new Scene(gridPane, 500, 500);
 		this.stage.setScene(this.scene);
+		this.stage.show();
 
 		// Button functions
 		// bUser
 		bUser.setOnAction((event) -> {
 			user.sceneUser();
+			System.out.println("Test");
 		});
 	}
-
-
-
-
 }

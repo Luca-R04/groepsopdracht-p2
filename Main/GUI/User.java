@@ -9,6 +9,8 @@ import java.util.Map;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -21,7 +23,56 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class User extends GUI {
+public class User {
+	private Database db = new Database(); 
+	private final Group root;
+	private GUI gui = new GUI();
+
+	public User() {
+			// Creating all the buttons
+			Button bCreate = new Button("Create a user");
+			Button bRead = new Button("View users");
+			Button bUpdate = new Button("Update users");
+			// Button bDelete = new Button("Delete users");
+	
+			// New Gridpane
+			GridPane gridPane = new GridPane();
+	
+			// Specifies coordinates for the buttons
+			gridPane.add(bCreate, 0, 1);
+			gridPane.add(bRead, 1, 1);
+	
+			gridPane.add(bUpdate, 0, 2);
+			// gridPane.add(bDelete, 1, 2);
+	
+			// Styling
+			gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+			gridPane.setVgap(10);
+			gridPane.setHgap(10);
+	
+			// Button functions
+			bCreate.setOnAction((action) -> {
+				sceneUserCreate();
+			});
+	
+			bRead.setOnAction((action) -> {
+				sceneUserRead();
+			});
+	
+			bUpdate.setOnAction((action) -> {
+				sceneUserUpdate();
+			});
+	
+			// bDelete.setOnAction((action) -> {
+			// sceneUserDelete();
+			// });
+	
+			root = new Group(gridPane);
+	}
+
+	public Parent getView() {
+		return root;
+	}
 
 	// Method for the user to fill in data.
 	public void sceneUserCreate() {
@@ -143,8 +194,11 @@ public class User extends GUI {
 			}
 		});
 
-		this.scene = new Scene(gridPane, 500, 700);
-		this.stage.setScene(this.scene);
+		// this.scene = new Scene(gridPane, 500, 700);
+		// this.stage.setScene(this.scene);
+		// Scene scene = new Scene(gridPane, 500, 700);
+		// super.setScene(scene);
+		// super.getStage().setScene(scene);
 	}
 
 	// Method to see a overview of the users
@@ -183,8 +237,11 @@ public class User extends GUI {
 			count++;
 		}
 
-		this.scene = new Scene(gridPane, 500, 500);
-		this.stage.setScene(this.scene);
+		// this.scene = new Scene(gridPane, 500, 500);
+		// this.stage.setScene(this.scene);
+		// Scene scene = new Scene(gridPane, 500, 700);
+		// super.setScene(scene);
+		// super.getStage().setScene(scene);
 	}
 
 	// Method for altering a user
@@ -306,8 +363,8 @@ public class User extends GUI {
 			}
 		});
 
-		this.scene = new Scene(gridPane, 600, 700);
-		this.stage.setScene(this.scene);
+		// this.scene = new Scene(gridPane, 600, 700);
+		// this.stage.setScene(this.scene);
 	}
 
 	// Method that gives options for the user to navigate through the CRUD system
@@ -351,8 +408,10 @@ public class User extends GUI {
 		// });
 
 		// Change the scene
-		this.scene = new Scene(gridPane, 500, 500);
-		this.stage.setScene(this.scene);
+		// GUI.scene = new Scene(gridPane, 500, 500);
+		// this.stage.setScene(this.scene);
+		// Scene scene = new Scene(gridPane, 500, 700);
+		// super.setScene(scene);
+		// super.getStage().setScene(scene);
 	}
-
 }
