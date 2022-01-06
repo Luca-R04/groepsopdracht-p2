@@ -10,6 +10,7 @@ import Main.ContentItem.Webcast;
 import Main.ContentItem.Course.ContactPerson;
 import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Module;
+import Main.User.Registration;
 import Main.User.User;
 
 public class Database {
@@ -502,6 +503,57 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             String SQL = "UPDATE Module SET CourseID = " + courseId + "WHERE Title = '" + m.getTitle() + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+    }
+
+    public void createRegistration(Registration r) {
+        int courseId = 0; 
+        int courseTakerId = 0;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Id FROM Course WHERE Name = '" + r.getCourse().getName() + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            while(rs.next()) {
+                courseId = rs.getInt("Id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT CourseTakerID FROM User WHERE Name = '" + r.getCourseTaker().getName() + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            while(rs.next()) {
+                courseId = rs.getInt("Id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO Registration VALUES ('" + courseTakerId + "','" + courseId + "','" + r.getDate() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);

@@ -31,6 +31,8 @@ public class User {
     }
 
     public void update(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
+        db.updateUser(this, email, name, birthDate, gender, address, residence, country, isCourseTaker, isStaff); 
+
         this.email = email;
         this.name = name;
         this.birthDate = birthDate;
@@ -40,8 +42,6 @@ public class User {
         this.country = country;
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
-
-        db.updateUser(this, this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff); 
     }
 
     public void delete() {
@@ -49,38 +49,38 @@ public class User {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Date getBirthDate() {
-        return birthDate;
+        return this.birthDate;
     }
 
     public String getGender() {
-        return gender;
+        return this.gender;
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public String getResidence() {
-        return residence;
+        return this.residence;
     }
 
     public String getCountry() {
-        return country;
+        return this.country;
     }
 
     public String getIsCourseTaker() {
-        return isCourseTaker;
+        return this.isCourseTaker;
     }
 
     public String getIsStaff() {
-        return isStaff;
+        return this.isStaff;
     }
 }
