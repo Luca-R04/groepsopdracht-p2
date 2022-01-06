@@ -21,13 +21,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import Main.GUI.User;
+import Main.GUI.UserGUI;
 
 public class GUI extends Application {
 	public Stage stage;
 	public Scene scene;
 	public Database db = new Database();
-	public User user = new User();
+	public UserGUI user = new UserGUI();
 
 	@Override
 	public void start(Stage stage) {

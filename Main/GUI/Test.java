@@ -12,7 +12,7 @@ public class Test extends Application {
   private Stage stage;
   private Scene scene;
   private Database db = new Database();
-  private User user = new User();
+  private UserGUI user = new UserGUI();
 
   @Override
   public void start(Stage stage) {

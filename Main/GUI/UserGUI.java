@@ -2,6 +2,7 @@ package Main.GUI;
 
 import Main.Database.Database;
 import Main.GUI.GUI;
+import Main.User.User;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,12 +25,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class User extends GUI {
+public class UserGUI extends GUI {
 	private Database db = new Database();
 	// private final Group root;
 	public Scene scene;
 
-	public User() {
+	public UserGUI() {
 		// Creating all the buttons
 		Button bCreate = new Button("Create a user");
 		Button bRead = new Button("View users");
@@ -185,9 +186,7 @@ public class User extends GUI {
 				}
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-
-				db.createUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(),
-						residence.getText(), country.getText(), isCourseTaker, isStaff);
+				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
 			}
 		});
 
@@ -350,8 +349,7 @@ public class User extends GUI {
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
 
-				db.updateUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(),
-						residence.getText(), country.getText(), isCourseTaker, isStaff);
+				db.updateUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
 			}
 		});
 
