@@ -1,6 +1,7 @@
 package Main.GUI;
 
 import Main.Database.Database;
+import Main.GUI.GUI;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class User {
+public class User extends GUI {
 	private Database db = new Database();
 	// private final Group root;
 	public Scene scene;
@@ -63,18 +64,12 @@ public class User {
 			sceneUserUpdate();
 		});
 
-		// bDelete.setOnAction((action) -> {
-		// sceneUserDelete();
-		// });
-
 		this.scene = new Scene(gridPane, 500, 700);
-		
-		// root = new Group(gridPane);
 	}
 
-	// public Parent getView() {
-	// 	return root;
-	// }
+	public Scene getScene() {
+		return scene;
+	}
 
 	// Method for the user to fill in data.
 	public void sceneUserCreate() {
@@ -197,7 +192,7 @@ public class User {
 		});
 
 		this.scene = new Scene(gridPane, 500, 700);
-		
+		super.updateScene(scene);
 		// Scene scene = new Scene(gridPane, 500, 700);
 	}
 
@@ -407,9 +402,5 @@ public class User {
 		// Change the scene
 		// GUI.scene = new Scene(gridPane, 500, 500);
 		// this.stage.setScene(this.scene);
-	}
-
-	public Scene getScene(){
-		return scene;
 	}
 }
