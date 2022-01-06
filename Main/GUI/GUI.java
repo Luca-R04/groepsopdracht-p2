@@ -27,7 +27,7 @@ public class GUI extends Application {
 	public Stage stage;
 	public Scene scene;
 	public Database db = new Database();
-	private User user = new User();
+	public User user = new User();
 
 	@Override
 	public void start(Stage stage) {
@@ -94,8 +94,9 @@ public class GUI extends Application {
 		// Button functions
 		// bUser
 		bUser.setOnAction((event) -> {
-			user.sceneUser();
-			System.out.println("Test");
+			this.stage.setScene(user.getScene());
 		});
 	}
+
+
 }
