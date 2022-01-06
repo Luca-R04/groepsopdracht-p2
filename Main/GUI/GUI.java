@@ -34,7 +34,8 @@ public class GUI extends Application {
 		this.stage = stage;
 
 		// Changes the title of the window.
-		this.stage.setTitle("Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
+		this.stage.setTitle(
+				"Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
 
 		this.stage.setScene(scene);
 
@@ -98,5 +99,8 @@ public class GUI extends Application {
 		});
 	}
 
+	public void updateScene(Scene userScene) {
+		this.stage.setScene(userScene);
+	}
 
 }
