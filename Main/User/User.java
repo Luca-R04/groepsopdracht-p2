@@ -27,7 +27,7 @@ public class User {
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
 
-        db.createUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff);
+        db.createUser(this);
     }
 
     public void update(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
@@ -41,6 +41,46 @@ public class User {
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
 
-        db.updateUser(this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff); 
+        db.updateUser(this, this.email, this.name, this.birthDate, this.gender, this.address, this.residence, this.country, this.isCourseTaker, this.isStaff); 
+    }
+
+    public void delete() {
+        db.deleteUser(this);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getResidence() {
+        return residence;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getIsCourseTaker() {
+        return isCourseTaker;
+    }
+
+    public String getIsStaff() {
+        return isStaff;
     }
 }

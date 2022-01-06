@@ -10,6 +10,7 @@ import Main.ContentItem.Webcast;
 import Main.ContentItem.Course.ContactPerson;
 import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Module;
+import Main.User.User;
 
 public class Database {
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
@@ -35,14 +36,33 @@ public class Database {
     }
 
     // Creates a user inside the database 
-    public void createUser(String email, String name, Date birthDate, String gender, String address, String residence,
-            String country, String isCourseTaker, String isStaff) {
+    public void createUser(User u) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO [User] VALUES ('" + email + "','" + name + "','" + birthDate + "','" + gender + "','" 
-            + address + "','" + residence + "','" + country + "'," + isCourseTaker + "," + isStaff + ")";
+            System.out.println(u.getIsCourseTaker());
+            System.out.println(u.getIsStaff());
+
+            Integer courseTakerId = null; 
+            Integer staffId = null; 
+
+            if (u.getIsCourseTaker() != null) {
+                courseTakerId = Integer.valueOf(u.getIsCourseTaker());
+            }
+
+            if (u.getIsStaff() != null) {
+                staffId = Integer.valueOf(u.getIsStaff()); 
+            }
+
+            if (staffId != null) {
+                staffId = this.createStaff();
+            } else {
+                courseTakerId = this.createCourseTaker();
+            }
+
+            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','" 
+            + u.getAddress() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + "," + staffId + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -85,12 +105,12 @@ public class Database {
         return users;
     }
 
-    public void deleteUser(String email) {
+    public void deleteUser(User u) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
+            String SQL = "DELETE FROM [User] WHERE (Email = '" + u.getEmail() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -101,16 +121,15 @@ public class Database {
         }
     }
 
-    public void updateUser(String email, String name, Date birthDate, String gender, String address, String residence,
+    public void updateUser(User u, String email, String name, Date birthDate, String gender, String address, String residence,
             String country, String isCourseTaker, String isStaff) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            // Stel een SQL query samen.
             String SQL = "UPDATE [User] SET Email = '" + email + "', Name = '" + name + "', DateOfBirth = '" + birthDate + "', Gender = '" + gender + "', Address = '"
                     + address + "', Residence = '" + residence + "', Country = '" + country + "', CourseTakerID = "
-                    + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + email + "'";
+                    + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + u.getEmail() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -119,6 +138,72 @@ public class Database {
         } finally {
             excecuteFinally();
         }
+    }
+
+    public Integer createStaff() {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO Staff DEFAULT VALUES";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int id = 0; 
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT TOP 1 * FROM Staff ORDER BY Id DESC";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            if (rs.next()) {
+                id = rs.getInt("Id"); 
+            }
+            return id; 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public Integer createCourseTaker() {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO CourseTaker DEFAULT VALUES";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int id = 0; 
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT TOP 1 * FROM CourseTaker ORDER BY Id DESC";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            if (rs.next()) {
+                id = rs.getInt("Id"); 
+            }
+            return id; 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null; 
     }
 
     public void createContentItem(Date publicationDate, String status, Integer webcastID, Integer courseID) {
