@@ -24,10 +24,10 @@ import javafx.stage.Stage;
 import Main.GUI.UserGUI;
 
 public class GUI extends Application {
-	public Stage stage;
+	public static Stage stage;
 	public Scene scene;
 	public Database db = new Database();
-	public UserGUI user = new UserGUI();
+	public static UserGUI user = new UserGUI();
 
 	@Override
 	public void start(Stage stage) {
@@ -99,8 +99,8 @@ public class GUI extends Application {
 		});
 	}
 
-	public void updateScene(Scene userScene) {
-		this.stage.setScene(userScene);
+	public static void updateScene() {
+		stage.setScene(user.getScene());
 	}
 
 }

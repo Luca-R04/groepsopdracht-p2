@@ -1,18 +1,14 @@
 package Main.GUI;
 
 import Main.Database.Database;
-import Main.GUI.GUI;
 import Main.User.User;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -23,9 +19,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
-public class UserGUI extends GUI {
+public class UserGUI {
 	private Database db = new Database();
 	// private final Group root;
 	public Scene scene;
@@ -54,7 +49,9 @@ public class UserGUI extends GUI {
 
 		// Button functions
 		bCreate.setOnAction((action) -> {
+			GUI u = new GUI();
 			sceneUserCreate();
+			u.updateScene();
 		});
 
 		bRead.setOnAction((action) -> {
@@ -69,7 +66,7 @@ public class UserGUI extends GUI {
 	}
 
 	public Scene getScene() {
-		return scene;
+		return this.scene;
 	}
 
 	// Method for the user to fill in data.
@@ -190,8 +187,8 @@ public class UserGUI extends GUI {
 			}
 		});
 
+		
 		this.scene = new Scene(gridPane, 500, 700);
-		super.updateScene(scene);
 		// Scene scene = new Scene(gridPane, 500, 700);
 	}
 
@@ -219,7 +216,7 @@ public class UserGUI extends GUI {
 			userLayer.getChildren().add(delete);
 
 			delete.setOnAction((event) -> {
-				db.deleteUser(key);
+				// db.deleteUser(key);
 				sceneUserRead();
 			});
 
@@ -349,7 +346,7 @@ public class UserGUI extends GUI {
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
 
-				db.updateUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				// db.updateUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
 			}
 		});
 
