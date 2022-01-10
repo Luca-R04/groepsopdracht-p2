@@ -49,9 +49,8 @@ public class UserGUI {
 
 		// Button functions
 		bCreate.setOnAction((action) -> {
-			GUI u = new GUI();
 			sceneUserCreate();
-			u.updateScene();
+			GUI.updateScene(this.scene);
 		});
 
 		bRead.setOnAction((action) -> {

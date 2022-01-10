@@ -99,8 +99,8 @@ public class GUI extends Application {
 		});
 	}
 
-	public static void updateScene() {
-		stage.setScene(user.getScene());
+	public static void updateScene(Scene userScene) {
+		stage.setScene(userScene);
 	}
 
 }
