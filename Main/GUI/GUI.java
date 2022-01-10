@@ -31,19 +31,18 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		this.stage = stage;
+		GUI.stage = stage;
 
 		// Changes the title of the window.
-		this.stage.setTitle(
-				"Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
+		GUI.stage.setTitle("Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
 
-		this.stage.setScene(scene);
+		GUI.stage.setScene(scene);
 
 		// Changes the scene using the startScene method
 		startScene();
 
 		// Displays the stage element
-		this.stage.show();
+		GUI.stage.show();
 	}
 
 	// Method sets up the start screen with buttons to navigate
@@ -89,13 +88,13 @@ public class GUI extends Application {
 		bUser.setMaxWidth(300);
 
 		this.scene = new Scene(gridPane, 500, 500);
-		this.stage.setScene(this.scene);
-		this.stage.show();
+		GUI.stage.setScene(this.scene);
+		GUI.stage.show();
 
 		// Button functions
 		// bUser
 		bUser.setOnAction((event) -> {
-			this.stage.setScene(user.getScene());
+			GUI.stage.setScene(user.getScene());
 		});
 	}
 

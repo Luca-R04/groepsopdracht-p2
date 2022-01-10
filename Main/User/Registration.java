@@ -6,9 +6,9 @@ import Main.ContentItem.Course.Course;
 import Main.Database.Database;
 
 public class Registration {
-    private User courseTaker; 
-    private Course course; 
-    private Date date; 
+  private User courseTaker; 
+  private Course course; 
+  private Date date; 
 	private Database db = new Database();
 
 	public Registration(User courseTaker, Course course, Date date) {

@@ -45,7 +45,7 @@ public class User {
     }
 
     public void delete() {
-        db.deleteUser(this);
+        db.deleteUser(this.email);
     }
 
     public String getEmail() {

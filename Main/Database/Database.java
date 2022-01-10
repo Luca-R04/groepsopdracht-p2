@@ -42,9 +42,6 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            System.out.println(u.getIsCourseTaker());
-            System.out.println(u.getIsStaff());
-
             Integer courseTakerId = null; 
             Integer staffId = null; 
 
@@ -106,12 +103,12 @@ public class Database {
         return users;
     }
 
-    public void deleteUser(User u) {
+    public void deleteUser(String email) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "DELETE FROM [User] WHERE (Email = '" + u.getEmail() + "')";
+            String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);

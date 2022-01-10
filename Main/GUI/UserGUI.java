@@ -22,7 +22,6 @@ import javafx.scene.layout.HBox;
 
 public class UserGUI {
 	private Database db = new Database();
-	// private final Group root;
 	public Scene scene;
 
 	public UserGUI() {
@@ -30,7 +29,6 @@ public class UserGUI {
 		Button bCreate = new Button("Create a user");
 		Button bRead = new Button("View users");
 		Button bUpdate = new Button("Update users");
-		// Button bDelete = new Button("Delete users");
 
 		// New Gridpane
 		GridPane gridPane = new GridPane();
@@ -38,9 +36,7 @@ public class UserGUI {
 		// Specifies coordinates for the buttons
 		gridPane.add(bCreate, 0, 1);
 		gridPane.add(bRead, 1, 1);
-
 		gridPane.add(bUpdate, 0, 2);
-		// gridPane.add(bDelete, 1, 2);
 
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -55,15 +51,18 @@ public class UserGUI {
 
 		bRead.setOnAction((action) -> {
 			sceneUserRead();
+			GUI.updateScene(this.scene);
 		});
 
 		bUpdate.setOnAction((action) -> {
 			sceneUserUpdate();
+			GUI.updateScene(this.scene);
 		});
 
 		this.scene = new Scene(gridPane, 500, 700);
 	}
 
+	// Method to return current scene
 	public Scene getScene() {
 		return this.scene;
 	}
@@ -96,9 +95,7 @@ public class UserGUI {
 		TextField residence = new TextField();
 
 		// comboBox
-		ObservableList<String> options = FXCollections.observableArrayList(
-				"Yes",
-				"No");
+		ObservableList<String> options = FXCollections.observableArrayList("Yes", "No");
 
 		ComboBox<String> course = new ComboBox<>(options);
 		ComboBox<String> staff = new ComboBox<>(options);
@@ -171,6 +168,7 @@ public class UserGUI {
 				error = true;
 			}
 
+			// Checks if there occured an error, if not create new user in database
 			if (!error) {
 				String isCourseTaker = null;
 				String isStaff = null;
@@ -186,9 +184,7 @@ public class UserGUI {
 			}
 		});
 
-		
 		this.scene = new Scene(gridPane, 500, 700);
-		// Scene scene = new Scene(gridPane, 500, 700);
 	}
 
 	// Method to see a overview of the users
@@ -215,8 +211,9 @@ public class UserGUI {
 			userLayer.getChildren().add(delete);
 
 			delete.setOnAction((event) -> {
-				// db.deleteUser(key);
+				db.deleteUser(key);
 				sceneUserRead();
+				GUI.updateScene(this.scene);
 			});
 
 			update.setOnAction((event) -> {
@@ -227,8 +224,7 @@ public class UserGUI {
 			count++;
 		}
 
-		// this.scene = new Scene(gridPane, 500, 500);
-		// this.stage.setScene(this.scene);
+		this.scene = new Scene(gridPane, 500, 500);
 	}
 
 	// Method for altering a user
@@ -258,9 +254,7 @@ public class UserGUI {
 		TextField residence = new TextField();
 
 		// comboBox
-		ObservableList<String> options = FXCollections.observableArrayList(
-				"Yes",
-				"No");
+		ObservableList<String> options = FXCollections.observableArrayList("Yes", "No");
 
 		ComboBox<String> course = new ComboBox<>(options);
 		ComboBox<String> staff = new ComboBox<>(options);
@@ -333,6 +327,7 @@ public class UserGUI {
 				error = true;
 			}
 
+			// Checks if there occured an error, if not update the specified user 
 			if (!error) {
 				String isCourseTaker = null;
 				String isStaff = null;
@@ -343,14 +338,14 @@ public class UserGUI {
 					isCourseTaker = "1";
 				}
 
+				// Werkt nog niet 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-
-				// db.updateUser(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				u.update(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
 			}
 		});
 
-		// this.scene = new Scene(gridPane, 600, 700);
-		// this.stage.setScene(this.scene);
+		this.scene = new Scene(gridPane, 600, 700);
 	}
 
 	// Method that gives options for the user to navigate through the CRUD system
@@ -359,7 +354,6 @@ public class UserGUI {
 		Button bCreate = new Button("Create a user");
 		Button bRead = new Button("View users");
 		Button bUpdate = new Button("Update users");
-		// Button bDelete = new Button("Delete users");
 
 		// New Gridpane
 		GridPane gridPane = new GridPane();
@@ -367,9 +361,7 @@ public class UserGUI {
 		// Specifies coordinates for the buttons
 		gridPane.add(bCreate, 0, 1);
 		gridPane.add(bRead, 1, 1);
-
 		gridPane.add(bUpdate, 0, 2);
-		// gridPane.add(bDelete, 1, 2);
 
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -389,12 +381,7 @@ public class UserGUI {
 			sceneUserUpdate();
 		});
 
-		// bDelete.setOnAction((action) -> {
-		// sceneUserDelete();
-		// });
-
 		// Change the scene
-		// GUI.scene = new Scene(gridPane, 500, 500);
-		// this.stage.setScene(this.scene);
+		this.scene = new Scene(gridPane, 500, 500);
 	}
 }
