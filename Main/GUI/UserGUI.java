@@ -245,7 +245,8 @@ public class UserGUI {
 		Label lStaff = new Label("Staff: ");
 
 		// Text fields
-		TextField email = new TextField();
+		ComboBox<String> userEmails = new ComboBox<>();
+		userEmails.setItems(db.getUserEmails());
 		TextField name = new TextField();
 		DatePicker birthdate = new DatePicker();
 		TextField gender = new TextField();
@@ -261,7 +262,7 @@ public class UserGUI {
 
 		// Coordinates for the elements
 		gridPane.add(lEmail, 0, 1);
-		gridPane.add(email, 1, 1);
+		gridPane.add(userEmails, 1, 1);
 
 		gridPane.add(lName, 0, 2);
 		gridPane.add(name, 1, 2);
@@ -299,7 +300,7 @@ public class UserGUI {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (email.getText().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty()
+			if (userEmails.getSelectionModel().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty()
 					|| address.getText().isEmpty() || residence.getText().isEmpty()) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
@@ -340,8 +341,8 @@ public class UserGUI {
 
 				// Werkt nog niet 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
-				u.update(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				u.update(name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
 			}
 		});
 

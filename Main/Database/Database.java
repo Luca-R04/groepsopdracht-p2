@@ -12,6 +12,8 @@ import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Module;
 import Main.User.Registration;
 import Main.User.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Database {
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
@@ -31,26 +33,38 @@ public class Database {
     }
 
     public void excecuteFinally() {
-        if (rs != null) try { rs.close(); } catch (Exception e) {}
-        if (stmt != null) try { stmt.close(); } catch (Exception e) {}
-        if (con != null) try { con.close(); } catch (Exception e) {}
+        if (rs != null)
+            try {
+                rs.close();
+            } catch (Exception e) {
+            }
+        if (stmt != null)
+            try {
+                stmt.close();
+            } catch (Exception e) {
+            }
+        if (con != null)
+            try {
+                con.close();
+            } catch (Exception e) {
+            }
     }
 
-    // Creates a user inside the database 
+    // Creates a user inside the database
     public void createUser(User u) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            Integer courseTakerId = null; 
-            Integer staffId = null; 
+            Integer courseTakerId = null;
+            Integer staffId = null;
 
             if (u.getIsCourseTaker() != null) {
                 courseTakerId = Integer.valueOf(u.getIsCourseTaker());
             }
 
             if (u.getIsStaff() != null) {
-                staffId = Integer.valueOf(u.getIsStaff()); 
+                staffId = Integer.valueOf(u.getIsStaff());
             }
 
             if (staffId != null) {
@@ -59,8 +73,10 @@ public class Database {
                 courseTakerId = this.createCourseTaker();
             }
 
-            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','" 
-            + u.getAddress() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + "," + staffId + ")";
+            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getName() + "','" + u.getBirthDate()
+                    + "','" + u.getGender() + "','"
+                    + u.getAddress() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + ","
+                    + staffId + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -71,7 +87,7 @@ public class Database {
         }
     }
 
-    // Retrieve all users and put them in a HashMap with the Email as key  
+    // Retrieve all users and put them in a HashMap with the Email as key
     public Map<String, ArrayList<String>> getAllUsers() {
         Map<String, ArrayList<String>> users = new HashMap<>();
 
@@ -103,6 +119,32 @@ public class Database {
         return users;
     }
 
+    public ObservableList<String> getUserEmails() {
+        ObservableList<String> userEmails = FXCollections.observableArrayList();
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Email FROM [User]";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                userEmails.add(rs.getString("Email"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return userEmails;
+    }
+
     public void deleteUser(String email) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -119,13 +161,15 @@ public class Database {
         }
     }
 
-    public void updateUser(User u, String email, String name, Date birthDate, String gender, String address, String residence,
+    public void updateUser(User u, String email, String name, Date birthDate, String gender, String address,
+            String residence,
             String country, String isCourseTaker, String isStaff) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE [User] SET Email = '" + email + "', Name = '" + name + "', DateOfBirth = '" + birthDate + "', Gender = '" + gender + "', Address = '"
+            String SQL = "UPDATE [User] SET Name = '" + name + "', DateOfBirth = '" + birthDate
+                    + "', Gender = '" + gender + "', Address = '"
                     + address + "', Residence = '" + residence + "', Country = '" + country + "', CourseTakerID = "
                     + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + u.getEmail() + "'";
             stmt = con.createStatement();
@@ -151,7 +195,7 @@ public class Database {
             e.printStackTrace();
         }
 
-        int id = 0; 
+        int id = 0;
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -161,9 +205,9 @@ public class Database {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             if (rs.next()) {
-                id = rs.getInt("Id"); 
+                id = rs.getInt("Id");
             }
-            return id; 
+            return id;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -184,7 +228,7 @@ public class Database {
             e.printStackTrace();
         }
 
-        int id = 0; 
+        int id = 0;
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -194,14 +238,14 @@ public class Database {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             if (rs.next()) {
-                id = rs.getInt("Id"); 
+                id = rs.getInt("Id");
             }
-            return id; 
+            return id;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null; 
+        return null;
     }
 
     public void createContentItem(Date publicationDate, String status, Integer webcastID, Integer courseID) {
@@ -209,7 +253,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID  + "," + courseID + ")";
+            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID + ","
+                    + courseID + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -225,7 +270,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Course VALUES ('" + c.getName() + "','" + c.getTopic() + "','" + c.getText() + "','" + c.getLevel() + "'," + c.getPercentageViewed() + "," + null + ")";
+            String SQL = "INSERT INTO Course VALUES ('" + c.getName() + "','" + c.getTopic() + "','" + c.getText()
+                    + "','" + c.getLevel() + "'," + c.getPercentageViewed() + "," + null + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -235,7 +281,7 @@ public class Database {
             excecuteFinally();
         }
 
-        int id = 0; 
+        int id = 0;
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -245,7 +291,7 @@ public class Database {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             if (rs.next()) {
-                id = rs.getInt("Id"); 
+                id = rs.getInt("Id");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -272,13 +318,16 @@ public class Database {
         }
     }
 
-    public void updateCourse(Course c, Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
+    public void updateCourse(Course c, Date publicationDate, String status, String name, String topic, String text,
+            String level, int percentageViewed) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "UPDATE Course SET Name = '" + name + "', Topic = '" + topic + "', Text = '" + text + "', Lvl = '" + level + "', PercentageViewed = " + percentageViewed + "WHERE Name = '" + c.getName() + "'";
+            String SQL = "UPDATE Course SET Name = '" + name + "', Topic = '" + topic + "', Text = '" + text
+                    + "', Lvl = '" + level + "', PercentageViewed = " + percentageViewed + "WHERE Name = '"
+                    + c.getName() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -294,8 +343,9 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Webcast VALUES ('" + w.getTitle() + "','" + w.getURL() + "','" + w.getDescription() + "','" + w.getDuration() + "','" 
-            + w.getSpeaker().getName() + "','" + w.getSpeaker().getOrganisation() + "')";
+            String SQL = "INSERT INTO Webcast VALUES ('" + w.getTitle() + "','" + w.getURL() + "','"
+                    + w.getDescription() + "','" + w.getDuration() + "','"
+                    + w.getSpeaker().getName() + "','" + w.getSpeaker().getOrganisation() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -305,7 +355,7 @@ public class Database {
             excecuteFinally();
         }
 
-        int id = 0; 
+        int id = 0;
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -315,7 +365,7 @@ public class Database {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             if (rs.next()) {
-                id = rs.getInt("Id"); 
+                id = rs.getInt("Id");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -342,12 +392,16 @@ public class Database {
         }
     }
 
-    public void updateWebcast(Webcast w, Date publicationDate, String status, String title, String URL, int duration, String description, Speaker speaker) {
+    public void updateWebcast(Webcast w, Date publicationDate, String status, String title, String URL, int duration,
+            String description, Speaker speaker) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE Webcast SET Title = '" + title + "', URL = '" + URL + "', Description = '" + description + "', Duration = '" + duration + "', SpeakerName = '" + speaker.getName() + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + w.getTitle() + "' AND URL = '" + w.getURL() + "'";
+            String SQL = "UPDATE Webcast SET Title = '" + title + "', URL = '" + URL + "', Description = '"
+                    + description + "', Duration = '" + duration + "', SpeakerName = '" + speaker.getName()
+                    + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + w.getTitle()
+                    + "' AND URL = '" + w.getURL() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -380,7 +434,8 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "UPDATE ContactPerson SET Email = '" + email + "', Name = '" + name + "'WHERE Email = '" + c.getEmail() + "'";
+            String SQL = "UPDATE ContactPerson SET Email = '" + email + "', Name = '" + name + "'WHERE Email = '"
+                    + c.getEmail() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -412,7 +467,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Module VALUES ('" + m.getTitle() + "','" + m.getVersion() + "','" + m.getSerialNumber() + "','" + m.getDescription() + "'," + 1 + "," + 3 + ")";
+            String SQL = "INSERT INTO Module VALUES ('" + m.getTitle() + "','" + m.getVersion() + "','"
+                    + m.getSerialNumber() + "','" + m.getDescription() + "'," + 1 + "," + 3 + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -429,7 +485,9 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "UPDATE Module SET Title = '" + title + "', Version = '" + version + "', SerialNumber = '" + serialNumber + "', Description = '" + description + "'WHERE Title = '" + m.getTitle() + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
+            String SQL = "UPDATE Module SET Title = '" + title + "', Version = '" + version + "', SerialNumber = '"
+                    + serialNumber + "', Description = '" + description + "'WHERE Title = '" + m.getTitle()
+                    + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -441,7 +499,7 @@ public class Database {
     }
 
     public void addModuleToContactPerson(ContactPerson c, Module m) {
-        int contactPersonId = 0; 
+        int contactPersonId = 0;
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -450,7 +508,7 @@ public class Database {
             String SQL = "SELECT Id FROM ContactPerson WHERE Email = '" + c.getEmail() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
-            while(rs.next()) {
+            while (rs.next()) {
                 contactPersonId = rs.getInt("Id");
             }
 
@@ -464,7 +522,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE Module SET ContactPersonID = " + contactPersonId + "WHERE Title = '" + m.getTitle() + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
+            String SQL = "UPDATE Module SET ContactPersonID = " + contactPersonId + "WHERE Title = '" + m.getTitle()
+                    + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -476,7 +535,7 @@ public class Database {
     }
 
     public void addModuleToCourse(Course c, Module m) {
-        int courseId = 0; 
+        int courseId = 0;
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -485,7 +544,7 @@ public class Database {
             String SQL = "SELECT Id FROM Course WHERE Name = '" + c.getName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
-            while(rs.next()) {
+            while (rs.next()) {
                 courseId = rs.getInt("Id");
             }
 
@@ -499,7 +558,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE Module SET CourseID = " + courseId + "WHERE Title = '" + m.getTitle() + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
+            String SQL = "UPDATE Module SET CourseID = " + courseId + "WHERE Title = '" + m.getTitle()
+                    + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -511,7 +571,7 @@ public class Database {
     }
 
     public void createRegistration(Registration r) {
-        int courseId = 0; 
+        int courseId = 0;
         int courseTakerId = 0;
 
         try {
@@ -521,7 +581,7 @@ public class Database {
             String SQL = "SELECT Id FROM Course WHERE Name = '" + r.getCourse().getName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
-            while(rs.next()) {
+            while (rs.next()) {
                 courseId = rs.getInt("Id");
             }
         } catch (Exception e) {
@@ -537,7 +597,7 @@ public class Database {
             String SQL = "SELECT CourseTakerID FROM User WHERE Name = '" + r.getCourseTaker().getName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
-            while(rs.next()) {
+            while (rs.next()) {
                 courseId = rs.getInt("Id");
             }
         } catch (Exception e) {
@@ -550,7 +610,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Registration VALUES ('" + courseTakerId + "','" + courseId + "','" + r.getDate() + "')";
+            String SQL = "INSERT INTO Registration VALUES ('" + courseTakerId + "','" + courseId + "','" + r.getDate()
+                    + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);

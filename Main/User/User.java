@@ -30,10 +30,9 @@ public class User {
         db.createUser(this);
     }
 
-    public void update(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
+    public void update(String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
         db.updateUser(this, email, name, birthDate, gender, address, residence, country, isCourseTaker, isStaff); 
 
-        this.email = email;
         this.name = name;
         this.birthDate = birthDate;
         this.gender = gender;
