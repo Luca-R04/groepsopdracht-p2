@@ -11,18 +11,20 @@ public class User {
     private String gender;
     private String address;
     private String residence;
+    private String postalCode;
     private String country;
     private String isCourseTaker;
     private String isStaff;
     private Database db = new Database();
 
-    public User(String email, String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
+    public User(String email, String name, Date birthDate, String gender, String address, String postalCode, String residence, String country, String isCourseTaker, String isStaff) {
         this.email = email;
         this.name = name;
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
         this.residence = residence;
+        this.postalCode = postalCode;
         this.country = country;
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
@@ -32,8 +34,8 @@ public class User {
         db.createUser(this);
     }
 
-    public void update(String name, Date birthDate, String gender, String address, String residence, String country) {
-        db.updateUser(this, email, name, birthDate, gender, address, residence, country); 
+    public void update(String name, Date birthDate, String gender, String address, String postalCode, String residence, String country) {
+        db.updateUser(this, email, name, birthDate, gender, address, postalCode ,residence, country); 
 
         this.name = name;
         this.birthDate = birthDate;
@@ -66,6 +68,10 @@ public class User {
 
     public String getAddress() {
         return this.address;
+    }
+
+    public String getPostal(){
+        return this.postalCode;
     }
 
     public String getResidence() {
