@@ -160,17 +160,14 @@ public class Database {
         }
     }
 
-    public void updateUser(User u, String email, String name, Date birthDate, String gender, String address,
-            String residence,
-            String country, String isCourseTaker, String isStaff) {
+    public void updateUser(User user, String email, String name, Date birthDate, String gender, String address, String residence, String country) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
             String SQL = "UPDATE [User] SET Name = '" + name + "', DateOfBirth = '" + birthDate
                     + "', Gender = '" + gender + "', Address = '"
-                    + address + "', Residence = '" + residence + "', Country = '" + country + "', CourseTakerID = "
-                    + isCourseTaker + ", StaffID = " + isStaff + "WHERE Email = '" + u.getEmail() + "'";
+                    + address + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '" + user.getEmail() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
