@@ -43,7 +43,7 @@ public class Course extends ContentItem {
     }
 
     public void delete() {
-        db.deleteCourse(this);
+        db.deleteCourse(this.name);
     }
 
     public String getName() {

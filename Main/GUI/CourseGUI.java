@@ -157,6 +157,9 @@ public class CourseGUI {
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
 
 				Course c = new Course(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
+
+				sceneCourseCreate();
+				GUI.updateScene(this.scene);
 			}
 		});
 
@@ -166,37 +169,31 @@ public class CourseGUI {
 	// Method to see a overview of the users
 	public void sceneCourseRead() {
 		GridPane gridPane = new GridPane();
-		Map<String, ArrayList<String>> courses = db.getAllUsers();
+		Map<String, ArrayList<String>> courses = db.getAllCourses();
 		int count = 0;
 
 		for (String key : courses.keySet()) {
-			HBox userLayer = new HBox();
+			HBox courseLayer = new HBox();
 
 			Label lEmail = new Label(key);
-			userLayer.getChildren().add(lEmail);
+			courseLayer.getChildren().add(lEmail);
 
-			for (int i = 0; i < users.get(key).size(); i++) {
-				Label data = new Label(users.get(key).get(i));
-				userLayer.getChildren().add(data);
-				userLayer.setSpacing(10);
+			for (int i = 0; i < courses.get(key).size(); i++) {
+				Label data = new Label(courses.get(key).get(i));
+				courseLayer.getChildren().add(data);
+				courseLayer.setSpacing(10);
 			}
 
-			Button update = new Button("Update");
 			Button delete = new Button("Delete");
-			userLayer.getChildren().add(update);
-			userLayer.getChildren().add(delete);
+			courseLayer.getChildren().add(delete);
 
 			delete.setOnAction((event) -> {
-				db.deleteUser(key);
+				db.deleteCourse(key);
 				sceneCourseRead();
 				GUI.updateScene(this.scene);
 			});
 
-			update.setOnAction((event) -> {
-				sceneCourseUpdate();
-			});
-
-			gridPane.add(userLayer, 0, count);
+			gridPane.add(courseLayer, 0, count);
 			count++;
 		}
 
