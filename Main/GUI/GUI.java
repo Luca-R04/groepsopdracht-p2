@@ -73,7 +73,7 @@ public class GUI extends Application {
 		bCertificates.setMaxWidth(300);
 		bUser.setMaxWidth(300);
 
-		this.scene = new Scene(gridPane, 500, 500);
+		this.scene = new Scene(gridPane, 600, 500);
 		GUI.stage.setScene(this.scene);
 		GUI.stage.show();
 

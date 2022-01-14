@@ -175,11 +175,11 @@ public class CourseGUI {
 			Label lEmail = new Label(key);
 			userLayer.getChildren().add(lEmail);
 
-			for (int i = 0; i < users.get(key).size(); i++) {
-				Label data = new Label(users.get(key).get(i));
-				userLayer.getChildren().add(data);
-				userLayer.setSpacing(10);
-			}
+			// for (int i = 0; i < users.get(key).size(); i++) {
+			// 	Label data = new Label(users.get(key).get(i));
+			// 	userLayer.getChildren().add(data);
+			// 	userLayer.setSpacing(10);
+			// }
 
 			Button update = new Button("Update");
 			Button delete = new Button("Delete");

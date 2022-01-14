@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -66,7 +67,7 @@ public class UserGUI {
 			GUI.updateScene(this.scene);
 		});
 
-		this.scene = new Scene(gridPane, 500, 700);
+		this.scene = new Scene(gridPane, 600, 500);
 	}
 
 	// Method to return current scene
@@ -123,11 +124,11 @@ public class UserGUI {
 		gridPane.add(lAddress, 0, 5);
 		gridPane.add(address, 1, 5);
 
-		gridPane.add(lCountry, 0, 6);
-		gridPane.add(country, 1, 6);
+		gridPane.add(lResidence, 0, 6);
+		gridPane.add(residence, 1, 6);
 
-		gridPane.add(lResidence, 0, 7);
-		gridPane.add(residence, 1, 7);
+		gridPane.add(lCountry, 0, 7);
+		gridPane.add(country, 1, 7);
 
 		gridPane.add(lCourse, 0, 8);
 		gridPane.add(course, 1, 8);
@@ -193,7 +194,7 @@ public class UserGUI {
 			}
 		});
 
-		this.scene = new Scene(gridPane, 500, 700);
+		this.scene = new Scene(gridPane, 550, 700);
 	}
 
 	// Method to see a overview of the users
@@ -214,9 +215,7 @@ public class UserGUI {
 				userLayer.setSpacing(10);
 			}
 
-			Button update = new Button("Update");
 			Button delete = new Button("Delete");
-			userLayer.getChildren().add(update);
 			userLayer.getChildren().add(delete);
 
 			delete.setOnAction((event) -> {
@@ -225,15 +224,11 @@ public class UserGUI {
 				GUI.updateScene(this.scene);
 			});
 
-			update.setOnAction((event) -> {
-				sceneUserUpdate();
-			});
-
 			gridPane.add(userLayer, 0, count);
 			count++;
 		}
 
-		this.scene = new Scene(gridPane, 500, 500);
+		this.scene = new Scene(gridPane, 800, 500);
 	}
 
 	// Method for altering a user
