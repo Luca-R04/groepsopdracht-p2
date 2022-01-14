@@ -77,7 +77,7 @@ public class Database {
 
             String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getName() + "','" + u.getBirthDate()
                     + "','" + u.getGender() + "','"
-                    + u.getAddress() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + ","
+                    + u.getAddress() + "','" + u.getPostal() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + ","
                     + staffId + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
@@ -160,14 +160,13 @@ public class Database {
         }
     }
 
-    public void updateUser(User user, String email, String name, Date birthDate, String gender, String address, String residence, String country) {
+    public void updateUser(User user, String email, String name, Date birthDate, String gender, String address, String postalCode, String residence, String country) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
             String SQL = "UPDATE [User] SET Name = '" + name + "', DateOfBirth = '" + birthDate
-                    + "', Gender = '" + gender + "', Address = '"
-                    + address + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '" + user.getEmail() + "'";
+                    + "', Gender = '" + gender + "', Address = '" + address + "', PostalCode = '" + postalCode + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '" + user.getEmail() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);

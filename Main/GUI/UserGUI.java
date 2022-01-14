@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 public class UserGUI {
 	private Database db = new Database();
@@ -83,6 +84,7 @@ public class UserGUI {
 		Label lBirthdate = new Label("Birthdate: ");
 		Label lGender = new Label("Gender: ");
 		Label lAddress = new Label("Address:");
+		Label lPostal = new Label("Postal code:");
 		Label lCountry = new Label("Country:");
 		Label lResidence = new Label("Residence: ");
 		Label lCourse = new Label("Course taker: ");
@@ -94,6 +96,7 @@ public class UserGUI {
 		DatePicker birthdate = new DatePicker();
 		TextField gender = new TextField();
 		TextField address = new TextField();
+		TextField postal = new TextField();
 		TextField country = new TextField();
 		TextField residence = new TextField();
 
@@ -119,19 +122,22 @@ public class UserGUI {
 		gridPane.add(lAddress, 0, 5);
 		gridPane.add(address, 1, 5);
 
-		gridPane.add(lResidence, 0, 6);
-		gridPane.add(residence, 1, 6);
+		gridPane.add(lPostal, 0, 6);
+		gridPane.add(postal, 1, 6);
 
-		gridPane.add(lCountry, 0, 7);
-		gridPane.add(country, 1, 7);
+		gridPane.add(lResidence, 0, 7);
+		gridPane.add(residence, 1, 7);
 
-		gridPane.add(lCourse, 0, 8);
-		gridPane.add(course, 1, 8);
+		gridPane.add(lCountry, 0, 8);
+		gridPane.add(country, 1, 8);
 
-		gridPane.add(lStaff, 0, 9);
-		gridPane.add(staff, 1, 9);
+		gridPane.add(lCourse, 0, 9);
+		gridPane.add(course, 1, 9);
 
-		gridPane.add(bSubmit, 1, 10);
+		gridPane.add(lStaff, 0, 10);
+		gridPane.add(staff, 1, 10);
+
+		gridPane.add(bSubmit, 1, 11);
 
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -183,13 +189,13 @@ public class UserGUI {
 				}
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(),
+				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), postal.getText(),
 						residence.getText(), country.getText(), isCourseTaker, isStaff);
 						u.insert();
 			}
 		});
 
-		this.scene = new Scene(gridPane, 550, 700);
+		this.scene = new Scene(gridPane, 600, 750);
 	}
 
 	// Method to see a overview of the users
@@ -238,6 +244,7 @@ public class UserGUI {
 		Label lBirthdate = new Label("Birthdate: ");
 		Label lGender = new Label("Gender: ");
 		Label lAddress = new Label("Address:");
+		Label lPostal = new Label("Postal code");
 		Label lCountry = new Label("Country:");
 		Label lResidence = new Label("Residence: ");
 
@@ -248,6 +255,7 @@ public class UserGUI {
 		DatePicker birthdate = new DatePicker();
 		TextField gender = new TextField();
 		TextField address = new TextField();
+		TextField postal = new TextField();
 		TextField country = new TextField();
 		TextField residence = new TextField();
 
@@ -273,8 +281,10 @@ public class UserGUI {
 					} else if (i == 3) {
 						address.setText(labelValue);
 					} else if (i == 4) {
-						residence.setText(labelValue);
+						postal.setText(labelValue);
 					} else if (i == 5) {
+						residence.setText(labelValue);
+					} else if (i == 6) {
 						country.setText(labelValue);
 					}
 				}
@@ -297,13 +307,16 @@ public class UserGUI {
 		gridPane.add(lAddress, 0, 5);
 		gridPane.add(address, 1, 5);
 
-		gridPane.add(lResidence, 0, 6);
-		gridPane.add(residence, 1, 6);
+		gridPane.add(lPostal, 0, 6);
+		gridPane.add(postal, 1, 6);
 
-		gridPane.add(lCountry, 0, 7);
-		gridPane.add(country, 1, 7);
+		gridPane.add(lResidence, 0, 7);
+		gridPane.add(residence, 1, 7);
 
-		gridPane.add(bSubmit, 1, 10);
+		gridPane.add(lCountry, 0, 8);
+		gridPane.add(country, 1, 8);
+
+		gridPane.add(bSubmit, 1, 9);
 
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -339,9 +352,9 @@ public class UserGUI {
 				String isStaff = null;
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getText(), address.getText(),
+				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getText(), address.getText(), postal.getText(),
 						residence.getText(), country.getText(), isCourseTaker, isStaff);
-				u.update(name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(),
+				u.update(name.getText(), sqlDate, gender.getText(), address.getText(), postal.getText(), residence.getText(),
 						country.getText());
 			}
 		});
