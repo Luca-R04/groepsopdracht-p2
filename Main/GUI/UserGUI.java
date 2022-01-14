@@ -1,10 +1,15 @@
 package Main.GUI;
 
+import Main.ContentItem.Course.Course;
 import Main.Database.Database;
+import Main.User.CourseTaker;
 import Main.User.User;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 import javafx.collections.FXCollections;
@@ -19,6 +24,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 public class UserGUI {
 	private Database db = new Database();
@@ -180,7 +187,8 @@ public class UserGUI {
 				}
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(),
+						residence.getText(), country.getText(), isCourseTaker, isStaff);
 			}
 		});
 
@@ -260,6 +268,46 @@ public class UserGUI {
 		ComboBox<String> course = new ComboBox<>(options);
 		ComboBox<String> staff = new ComboBox<>(options);
 
+		userEmails.valueProperty().addListener((obs, oldItem, newItem) -> {
+			name.textProperty().unbind();
+			if (newItem == null) {
+				name.setText("");
+			} else {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				Map<String, ArrayList<String>> users = db.getAllUsers();
+				ArrayList<String> data = users.get(userEmails.getValue());
+
+				for (int i = 0; i < data.size(); i++) {
+					String labelValue = data.get(i);
+
+					if (i == 0) {
+						name.setText(labelValue);
+					} else if (i == 1) {
+						LocalDate date = LocalDate.parse(labelValue, formatter);
+						birthdate.setValue(date);
+					} else if (i == 2) {
+						gender.setText(labelValue);
+					} else if (i == 3) {
+						address.setText(labelValue);
+					} else if (i == 4) {
+						country.setText(labelValue);
+					} else if (i == 5) {
+						residence.setText(labelValue);
+					} else if (i == 6) {
+						if (labelValue == null) {
+							course.setValue("No");
+							staff.setValue("Yes");
+						} else {
+							course.setValue("Yes");
+							staff.setValue("No");
+						}
+					}
+				}
+			}
+		});
+
+
+
 		// Coordinates for the elements
 		gridPane.add(lEmail, 0, 1);
 		gridPane.add(userEmails, 1, 1);
@@ -328,7 +376,7 @@ public class UserGUI {
 				error = true;
 			}
 
-			// Checks if there occured an error, if not update the specified user 
+			// Checks if there occured an error, if not update the specified user
 			if (!error) {
 				String isCourseTaker = null;
 				String isStaff = null;
@@ -339,10 +387,12 @@ public class UserGUI {
 					isCourseTaker = "1";
 				}
 
-				// Werkt nog niet 
+				// Werkt nog niet
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
-				u.update(name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getText(), address.getText(),
+						residence.getText(), country.getText(), isCourseTaker, isStaff);
+				u.update(name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(),
+						country.getText(), isCourseTaker, isStaff);
 			}
 		});
 
