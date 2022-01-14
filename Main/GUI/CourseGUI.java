@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -155,7 +156,8 @@ public class CourseGUI {
 			if (!error) {
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
 
-				Course c = new Course(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
+				Course course = new Course(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
+				course.insert();
 
 				sceneCourseCreate();
 				GUI.updateScene(this.scene);
@@ -203,10 +205,10 @@ public class CourseGUI {
 	public void sceneCourseUpdate() {
 		GridPane gridPane = new GridPane();
 
-		// Buttons
 		Button bSubmit = new Button("Update");
 
-		// Labels;
+		ComboBox<String> courseNames = new ComboBox<>();
+		courseNames.setItems(db.getCourseNames());
 		Label lName = new Label("Name: ");
 		Label lTopic = new Label("Topic: ");
 		Label lText = new Label("Text: ");
@@ -215,13 +217,11 @@ public class CourseGUI {
 		Label lModule = new Label("Modules: "); 
 		Label lStatus = new Label("Status: "); 
 
-		// Text fields
 		TextField name = new TextField();
 		TextField topic = new TextField();
 		TextField text = new TextField();
 		DatePicker publicationDate = new DatePicker();
 
-		// ComboBoxes
 		ObservableList<Status> statuses = FXCollections.observableArrayList(Status.class.getEnumConstants());
 		ComboBox<Status> status = new ComboBox<>(statuses);
 
@@ -231,36 +231,36 @@ public class CourseGUI {
 		ObservableList<String> modules = FXCollections.observableArrayList(db.getAllModules());
 		ComboBox<String> module = new ComboBox<>(modules);
 
-		// Coordinates for the elements
-		gridPane.add(lName, 0, 1);
-		gridPane.add(name, 1, 1);
+		// gridPane.add(lName, 0, 1);
+		gridPane.add(courseNames, 0, 1);
 
-		gridPane.add(lTopic, 0, 2);
-		gridPane.add(topic, 1, 2);
+		gridPane.add(lName, 0, 2);
+		gridPane.add(name, 1, 2);
 
-		gridPane.add(lText, 0, 3);
-		gridPane.add(text, 1, 3);
+		gridPane.add(lTopic, 0, 3);
+		gridPane.add(topic, 1, 3);
 
-		gridPane.add(lPublicationDate, 0, 4);
-		gridPane.add(publicationDate, 1, 4);
+		gridPane.add(lText, 0, 4);
+		gridPane.add(text, 1, 4);
 
-		gridPane.add(lLevel, 0, 5);
-		gridPane.add(level, 1, 5);
+		gridPane.add(lPublicationDate, 0, 5);
+		gridPane.add(publicationDate, 1, 5);
 
-		gridPane.add(lModule, 0, 6);
-		gridPane.add(module, 1, 6);
+		gridPane.add(lLevel, 0, 6);
+		gridPane.add(level, 1, 6);
 
-		gridPane.add(lStatus, 0, 7);
-		gridPane.add(status, 1, 7);
+		gridPane.add(lModule, 0, 7);
+		gridPane.add(module, 1, 7);
+
+		gridPane.add(lStatus, 0, 8);
+		gridPane.add(status, 1, 8);
 
 		gridPane.add(bSubmit, 1, 10);
 
-		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
 		gridPane.setVgap(10);
 		gridPane.setHgap(10);
 
-		// Functions
 		bSubmit.setOnAction((action) -> {
 			boolean error = false;
 
@@ -282,21 +282,14 @@ public class CourseGUI {
 
 			// Checks if there occured an error, if not update the specified course 
 			if (!error) {
-				String isCourseTaker = null;
-				String isStaff = null;
-
-				// if (staff.getValue().equals("Yes")) {
-				// 	isStaff = "1";
-				// } else {
-				// 	isCourseTaker = "1";
-				// }
-
-				// Date sqlDate = Date.valueOf(birthdate.getValue());
-				// User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
-				// u.update(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				Date sqlDate = Date.valueOf(publicationDate.getValue());
+				Course course = new Course(sqlDate, status.getValue(), courseNames.getValue(), topic.getText(), text.getText(), level.getValue());
+				course.update(sqlDate, status.getValue(), courseNames.getValue(), topic.getText(), text.getText(), level.getValue(), 0);
 			}
 		});
 
-		this.scene = new Scene(gridPane, 600, 700);
+		gridPane.setAlignment(Pos.CENTER);
+
+		this.scene = new Scene(gridPane, 700, 700);
 	}
 }

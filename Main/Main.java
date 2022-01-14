@@ -39,10 +39,10 @@ public class Main {
         // Webcast w = new Webcast(date, "not done", "Webcast 3", "https://www.google.com", 100, "Toon", "Test webcast", s);
         // w.update(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
 
-        Course s = new Course(date, Status.ACTIVE, "Course 46", "https://www.google.com", "Test course", Level.BEGINNER);
-        ContactPerson john = new ContactPerson("testjohn@gmail.com", "John");
+        // Course s = new Course(date, Status.ACTIVE, "Course 46", "https://www.google.com", "Test course", Level.BEGINNER);
+        // ContactPerson john = new ContactPerson("testjohn@gmail.com", "John");
 
-        Module m1 = new Module("Programming 4", "1", 1234555, "Module about programming", john, s);
+        // Module m1 = new Module("Programming 4", "1", 1234555, "Module about programming", john, s);
         // Module m2 = new Module("Programming 2", "1", 1234555, "Module about programming", john, s);
         // Module m3 = new Module("Programming 3", "1", 1234555, "Module about programming", john, s);
         // Module m4 = new Module("Programming 4", "1", 1234555, "Module about programming", john, s);
@@ -50,7 +50,7 @@ public class Main {
         // System.out.println(s.getLevel());
         // s.addModule(m);
         
-        // Application.launch(GUI.class);
+        Application.launch(GUI.class);
 
 
         // while(true) {

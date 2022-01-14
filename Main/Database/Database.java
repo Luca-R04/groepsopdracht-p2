@@ -344,7 +344,30 @@ public class Database {
         return courses;
     }
 
-    public void updateCourse(Course c, Date publicationDate, String status, String name, String topic, String text,
+    public ObservableList<String> getCourseNames() {
+        ObservableList<String> courseNames = FXCollections.observableArrayList();
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Name FROM Course";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                courseNames.add(rs.getString("Name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return courseNames;
+    }
+
+    public void updateCourse(Course c, Date publicationDate, Status status, String name, String topic, String text,
             Level level, int percentageViewed) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

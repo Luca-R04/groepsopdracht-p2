@@ -11,6 +11,8 @@ public class Course extends ContentItem {
     private String text; 
     private Level level; 
     private int percentageViewed; 
+    private Date publicationDate;
+    private Status status; 
     private ArrayList<Module> modules; 
     private Database db = new Database();
 
@@ -21,8 +23,12 @@ public class Course extends ContentItem {
         this.topic = topic; 
         this.text = text; 
         this.level = level; 
+        this.publicationDate = publicationDate;
+        this.status = status; 
         this.modules = new ArrayList<>();
+    }
 
+    public void insert() {
         db.createCourse(publicationDate, status, this); 
     }
 
@@ -32,7 +38,7 @@ public class Course extends ContentItem {
         db.addModuleToCourse(this, module);
     }
 
-    public void update(Date publicationDate, String status, String name, String topic, String text, Level level, int percentageViewed) {
+    public void update(Date publicationDate, Status status, String name, String topic, String text, Level level, int percentageViewed) {
         db.updateCourse(this, publicationDate, status, name, topic, text, level, percentageViewed); 
 
         this.name = name;
