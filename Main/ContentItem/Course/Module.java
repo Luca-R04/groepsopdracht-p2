@@ -7,13 +7,17 @@ public class Module {
     private String version; 
     private int serialNumber; 
     private String description; 
+    private ContactPerson contactPerson;
+    private Course course;
     private Database db = new Database();
 
-    public Module(String title, String version, int serialNumber, String description) {
+    public Module(String title, String version, int serialNumber, String description, ContactPerson contactPerson, Course course) {
         this.title = title;
         this.version = version;
         this.serialNumber = serialNumber;
         this.description = description;
+        this.contactPerson = contactPerson;
+        this.course = course;
 
         db.createModule(this);
     }
@@ -41,5 +45,13 @@ public class Module {
 
     public String getDescription() {
         return this.description;
+    }
+
+    public ContactPerson getContactPerson() {
+        return this.contactPerson;
+    }
+
+    public Course getCourse() {
+        return this.course;
     }
 }
