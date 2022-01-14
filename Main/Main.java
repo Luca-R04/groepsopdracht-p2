@@ -10,7 +10,9 @@ import Main.ContentItem.Speaker;
 import Main.ContentItem.Webcast;
 import Main.ContentItem.Course.ContactPerson;
 import Main.ContentItem.Course.Module;
+import Main.ContentItem.Course.Status;
 import Main.ContentItem.Course.Course;
+import Main.ContentItem.Course.Level;
 import Main.Database.Database;
 import Main.User.User;
 import Main.GUI.GUI;
@@ -39,7 +41,9 @@ public class Main {
         // w.update(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
 
         // Module m = new Module("Programming 3", "2", 1234555, "Module about programming");
-        // Course s = new Course(date, "not done", "Course 3", "https://www.google.com", "Test course", "Kees");
+        // Course s = new Course(date, Status.ACTIVE, "Course 8", "https://www.google.com", "Test course", Level.BEGINNER);
+
+        // System.out.println(s.getLevel());
         // s.addModule(m);
         
         Application.launch(GUI.class);

@@ -28,6 +28,7 @@ public class GUI extends Application {
 	public Scene scene;
 	public Database db = new Database();
 	public static UserGUI user = new UserGUI();
+	public static CourseGUI course = new CourseGUI();
 
 	@Override
 	public void start(Stage stage) {
@@ -96,10 +97,13 @@ public class GUI extends Application {
 		bUser.setOnAction((event) -> {
 			GUI.stage.setScene(user.getScene());
 		});
+
+		bCourse.setOnAction((event) -> {
+			GUI.stage.setScene(course.getScene());
+		});
 	}
 
 	public static void updateScene(Scene userScene) {
 		stage.setScene(userScene);
 	}
-
 }
