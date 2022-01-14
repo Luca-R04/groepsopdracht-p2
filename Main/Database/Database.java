@@ -439,12 +439,12 @@ public class Database {
         }
     }
 
-    public void createContactPerson(ContactPerson c) {
+    public void createContactPerson(ContactPerson contactPerson) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO ContactPerson VALUES ('" + c.getEmail() + "','" + c.getName() + "')";
+            String SQL = "INSERT INTO ContactPerson VALUES ('" + contactPerson.getEmail() + "','" + contactPerson.getName() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -489,13 +489,46 @@ public class Database {
         }
     }
 
-    public void createModule(Module m) {
+    public void createModule(Module module) {
+        int courseId = 0;
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Module VALUES ('" + m.getTitle() + "','" + m.getVersion() + "','"
-                    + m.getSerialNumber() + "','" + m.getDescription() + "'," + 1 + "," + 3 + ")";
+            String SQL = "SELECT Id FROM Course WHERE Name = '" + module.getCourse().getName() + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                courseId = rs.getInt("Id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int contactPersonId = 0;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Id FROM ContactPerson WHERE Email = '" + module.getContactPerson().getEmail() + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            while (rs.next()) {
+                contactPersonId = rs.getInt("Id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO Module VALUES ('" + module.getTitle() + "','" + module.getVersion() + "','"
+                    + module.getSerialNumber() + "','" + module.getDescription() + "'," + contactPersonId + "," + courseId + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
