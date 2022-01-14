@@ -9,12 +9,12 @@ public class Course extends ContentItem {
     private String name; 
     private String topic; 
     private String text; 
-    private String level; 
+    private Level level; 
     private int percentageViewed; 
     private ArrayList<Module> modules; 
     private Database db = new Database();
 
-    public Course(Date publicationDate, String status, String name, String topic, String text, String level) {        
+    public Course(Date publicationDate, Status status, String name, String topic, String text, Level level) {        
         super(publicationDate, status); 
 
         this.name = name; 
@@ -32,7 +32,7 @@ public class Course extends ContentItem {
         db.addModuleToCourse(this, module);
     }
 
-    public void update(Date publicationDate, String status, String name, String topic, String text, String level, int percentageViewed) {
+    public void update(Date publicationDate, String status, String name, String topic, String text, Level level, int percentageViewed) {
         db.updateCourse(this, publicationDate, status, name, topic, text, level, percentageViewed); 
 
         this.name = name;
@@ -58,7 +58,7 @@ public class Course extends ContentItem {
         return this.text;
     }
 
-    public String getLevel() {
+    public Level getLevel() {
         return this.level;
     }
 

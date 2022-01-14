@@ -2,6 +2,7 @@ package Main.ContentItem;
 
 import java.sql.Date;
 
+import Main.ContentItem.Course.Status;
 import Main.Database.Database;
 
 public class Webcast extends ContentItem {
@@ -12,7 +13,7 @@ public class Webcast extends ContentItem {
     private Speaker speaker;
     private Database db = new Database(); 
 
-    public Webcast(Date publicationDate, String status, String title, String URL, int duration, String description, Speaker speaker) {
+    public Webcast(Date publicationDate, Status status, String title, String URL, int duration, String description, Speaker speaker) {
         super(publicationDate, status);
 
         this.title = title;
@@ -24,7 +25,7 @@ public class Webcast extends ContentItem {
         db.createWebcast(publicationDate, status, this);
     }
 
-    public void update(Date publicationDate, String status, String title, String URL, int duration, String description, Speaker speaker) {
+    public void update(Date publicationDate, Status status, String title, String URL, int duration, String description, Speaker speaker) {
         db.updateWebcast(this, publicationDate, status, title, URL, duration, description, speaker);
 
         this.title = title;

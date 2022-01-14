@@ -9,7 +9,9 @@ import Main.ContentItem.Speaker;
 import Main.ContentItem.Webcast;
 import Main.ContentItem.Course.ContactPerson;
 import Main.ContentItem.Course.Course;
+import Main.ContentItem.Course.Level;
 import Main.ContentItem.Course.Module;
+import Main.ContentItem.Course.Status;
 import Main.User.Registration;
 import Main.User.User;
 import javafx.collections.FXCollections;
@@ -248,7 +250,7 @@ public class Database {
         return null;
     }
 
-    public void createContentItem(Date publicationDate, String status, Integer webcastID, Integer courseID) {
+    public void createContentItem(Date publicationDate, Status status, Integer webcastID, Integer courseID) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -265,7 +267,7 @@ public class Database {
         }
     }
 
-    public void createCourse(Date publicationDate, String status, Course c) {
+    public void createCourse(Date publicationDate, Status status, Course c) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -319,7 +321,7 @@ public class Database {
     }
 
     public void updateCourse(Course c, Date publicationDate, String status, String name, String topic, String text,
-            String level, int percentageViewed) {
+            Level level, int percentageViewed) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -338,7 +340,7 @@ public class Database {
         }
     }
 
-    public void createWebcast(Date publicationDate, String status, Webcast w) {
+    public void createWebcast(Date publicationDate, Status status, Webcast w) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -392,7 +394,7 @@ public class Database {
         }
     }
 
-    public void updateWebcast(Webcast w, Date publicationDate, String status, String title, String URL, int duration,
+    public void updateWebcast(Webcast w, Date publicationDate, Status status, String title, String URL, int duration,
             String description, Speaker speaker) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -477,6 +479,30 @@ public class Database {
         } finally {
             excecuteFinally();
         }
+    }
+
+    public ArrayList<String> getAllModules() {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Module";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            ArrayList<String> modules = new ArrayList<>();
+
+            while (rs.next()) {
+                modules.add(rs.getString("Title"));
+            }
+
+            return modules;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return null;
     }
 
     public void updateModule(Module m, String title, String version, int serialNumber, String description) {
