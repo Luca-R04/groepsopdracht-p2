@@ -132,9 +132,6 @@ public class Database {
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
 
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnCount = rsmd.getColumnCount();
-
             while (rs.next()) {
                 userEmails.add(rs.getString("Email"));
             }
@@ -301,12 +298,12 @@ public class Database {
         this.createContentItem(publicationDate, status, null, id);
     }
 
-    public void deleteCourse(Course c) {
+    public void deleteCourse(String name) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "DELETE FROM Course WHERE Name = '" + c.getName() + "'";
+            String SQL = "DELETE FROM Course WHERE Name = '" + name + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);
@@ -315,6 +312,37 @@ public class Database {
         } finally {
             excecuteFinally();
         }
+    }
+
+    public Map<String, ArrayList<String>> getAllCourses() {
+        Map<String, ArrayList<String>> courses = new HashMap<>();
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Course";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                ArrayList<String> courseData = new ArrayList<>();
+                for (int i = 2; i < columnCount + 1; i++) {
+                    courseData.add(rs.getString(i));
+                }
+
+                courses.put(rs.getString(1), courseData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return courses;
     }
 
     public void updateCourse(Course c, Date publicationDate, String status, String name, String topic, String text,
