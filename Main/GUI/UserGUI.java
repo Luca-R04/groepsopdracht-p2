@@ -1,15 +1,12 @@
 package Main.GUI;
 
-import Main.ContentItem.Course.Course;
 import Main.Database.Database;
-import Main.User.CourseTaker;
 import Main.User.User;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 
 import javafx.collections.FXCollections;
@@ -24,8 +21,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class UserGUI {
 	private Database db = new Database();

@@ -16,7 +16,6 @@ import Main.ContentItem.Course.Level;
 import Main.Database.Database;
 import Main.User.User;
 import Main.GUI.GUI;
-import Main.GUI.Test;
 
 public class Main {
     public static void main(String[] args) {
