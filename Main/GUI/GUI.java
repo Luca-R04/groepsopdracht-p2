@@ -2,33 +2,18 @@ package Main.GUI;
 
 import Main.Database.Database;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Map;
-
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import Main.GUI.UserGUI;
 
 public class GUI extends Application {
 	public static Stage stage;
 	public Scene scene;
 	public Database db = new Database();
 	public static UserGUI user = new UserGUI();
-	public static CourseGUI course = new CourseGUI();
 
 	@Override
 	public void start(Stage stage) {
@@ -97,13 +82,10 @@ public class GUI extends Application {
 		bUser.setOnAction((event) -> {
 			GUI.stage.setScene(user.getScene());
 		});
-
-		bCourse.setOnAction((event) -> {
-			GUI.stage.setScene(course.getScene());
-		});
 	}
 
 	public static void updateScene(Scene userScene) {
 		stage.setScene(userScene);
 	}
+
 }

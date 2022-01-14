@@ -26,12 +26,14 @@ public class User {
         this.country = country;
         this.isCourseTaker = isCourseTaker;
         this.isStaff = isStaff;
+    }
 
+    public void insert() {
         db.createUser(this);
     }
 
-    public void update(String name, Date birthDate, String gender, String address, String residence, String country, String isCourseTaker, String isStaff) {
-        db.updateUser(this, email, name, birthDate, gender, address, residence, country, isCourseTaker, isStaff); 
+    public void update(String name, Date birthDate, String gender, String address, String residence, String country) {
+        db.updateUser(this, email, name, birthDate, gender, address, residence, country); 
 
         this.name = name;
         this.birthDate = birthDate;
@@ -39,8 +41,7 @@ public class User {
         this.address = address;
         this.residence = residence;
         this.country = country;
-        this.isCourseTaker = isCourseTaker;
-        this.isStaff = isStaff;
+ 
     }
 
     public void delete() {

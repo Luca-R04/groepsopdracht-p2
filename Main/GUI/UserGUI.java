@@ -189,6 +189,7 @@ public class UserGUI {
 				Date sqlDate = Date.valueOf(birthdate.getValue());
 				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(),
 						residence.getText(), country.getText(), isCourseTaker, isStaff);
+						u.insert();
 			}
 		});
 
@@ -249,8 +250,6 @@ public class UserGUI {
 		Label lAddress = new Label("Address:");
 		Label lCountry = new Label("Country:");
 		Label lResidence = new Label("Residence: ");
-		Label lCourse = new Label("Course taker: ");
-		Label lStaff = new Label("Staff: ");
 
 		// Text fields
 		ComboBox<String> userEmails = new ComboBox<>();
@@ -261,12 +260,6 @@ public class UserGUI {
 		TextField address = new TextField();
 		TextField country = new TextField();
 		TextField residence = new TextField();
-
-		// comboBox
-		ObservableList<String> options = FXCollections.observableArrayList("Yes", "No");
-
-		ComboBox<String> course = new ComboBox<>(options);
-		ComboBox<String> staff = new ComboBox<>(options);
 
 		userEmails.valueProperty().addListener((obs, oldItem, newItem) -> {
 			name.textProperty().unbind();
@@ -290,23 +283,13 @@ public class UserGUI {
 					} else if (i == 3) {
 						address.setText(labelValue);
 					} else if (i == 4) {
-						country.setText(labelValue);
-					} else if (i == 5) {
 						residence.setText(labelValue);
-					} else if (i == 6) {
-						if (labelValue == null) {
-							course.setValue("No");
-							staff.setValue("Yes");
-						} else {
-							course.setValue("Yes");
-							staff.setValue("No");
-						}
+					} else if (i == 5) {
+						country.setText(labelValue);
 					}
 				}
 			}
 		});
-
-
 
 		// Coordinates for the elements
 		gridPane.add(lEmail, 0, 1);
@@ -324,17 +307,11 @@ public class UserGUI {
 		gridPane.add(lAddress, 0, 5);
 		gridPane.add(address, 1, 5);
 
-		gridPane.add(lCountry, 0, 6);
-		gridPane.add(country, 1, 6);
+		gridPane.add(lResidence, 0, 6);
+		gridPane.add(residence, 1, 6);
 
-		gridPane.add(lResidence, 0, 7);
-		gridPane.add(residence, 1, 7);
-
-		gridPane.add(lCourse, 0, 8);
-		gridPane.add(course, 1, 8);
-
-		gridPane.add(lStaff, 0, 9);
-		gridPane.add(staff, 1, 9);
+		gridPane.add(lCountry, 0, 7);
+		gridPane.add(country, 1, 7);
 
 		gridPane.add(bSubmit, 1, 10);
 
@@ -366,33 +343,16 @@ public class UserGUI {
 				error = true;
 			}
 
-			// Checks if they picked either staff or user, cant be staff and user
-			if ((course.getValue() == "Yes" && staff.getValue() == "Yes")
-					|| (course.getValue() == "No" && staff.getValue() == "No")) {
-				Alert errorAlert = new Alert(AlertType.ERROR);
-				errorAlert.setHeaderText("Input not valid");
-				errorAlert.setContentText("You have to pick Staff or User");
-				errorAlert.showAndWait();
-				error = true;
-			}
-
 			// Checks if there occured an error, if not update the specified user
 			if (!error) {
 				String isCourseTaker = null;
 				String isStaff = null;
 
-				if (staff.getValue().equals("Yes")) {
-					isStaff = "1";
-				} else {
-					isCourseTaker = "1";
-				}
-
-				// Werkt nog niet
 				Date sqlDate = Date.valueOf(birthdate.getValue());
 				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getText(), address.getText(),
 						residence.getText(), country.getText(), isCourseTaker, isStaff);
 				u.update(name.getText(), sqlDate, gender.getText(), address.getText(), residence.getText(),
-						country.getText(), isCourseTaker, isStaff);
+						country.getText());
 			}
 		});
 
