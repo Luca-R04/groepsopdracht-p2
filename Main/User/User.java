@@ -8,7 +8,7 @@ public class User {
     private String email;
     private String name;
     private Date birthDate;
-    private String gender;
+    private Gender gender;
     private String address;
     private String residence;
     private String postalCode;
@@ -17,7 +17,7 @@ public class User {
     private String isStaff;
     private Database db = new Database();
 
-    public User(String email, String name, Date birthDate, String gender, String address, String postalCode, String residence, String country, String isCourseTaker, String isStaff) {
+    public User(String email, String name, Date birthDate, Gender gender, String address, String postalCode, String residence, String country, String isCourseTaker, String isStaff) {
         this.email = email;
         this.name = name;
         this.birthDate = birthDate;
@@ -34,7 +34,7 @@ public class User {
         db.createUser(this);
     }
 
-    public void update(String name, Date birthDate, String gender, String address, String postalCode, String residence, String country) {
+    public void update(String name, Date birthDate, Gender gender, String address, String postalCode, String residence, String country) {
         db.updateUser(this, email, name, birthDate, gender, address, postalCode ,residence, country); 
 
         this.name = name;
@@ -62,7 +62,7 @@ public class User {
         return this.birthDate;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return this.gender;
     }
 

@@ -1,6 +1,7 @@
 package Main.GUI;
 
 import Main.Database.Database;
+import Main.User.Gender;
 import Main.User.User;
 
 import java.sql.Date;
@@ -11,7 +12,6 @@ import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.HPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -22,7 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 
 public class UserGUI {
 	private Database db = new Database();
@@ -94,7 +93,6 @@ public class UserGUI {
 		TextField email = new TextField();
 		TextField name = new TextField();
 		DatePicker birthdate = new DatePicker();
-		TextField gender = new TextField();
 		TextField address = new TextField();
 		TextField postal = new TextField();
 		TextField country = new TextField();
@@ -105,6 +103,9 @@ public class UserGUI {
 
 		ComboBox<String> course = new ComboBox<>(options);
 		ComboBox<String> staff = new ComboBox<>(options);
+
+		ObservableList<Gender> genders = FXCollections.observableArrayList(Gender.class.getEnumConstants());
+		ComboBox<Gender> gender = new ComboBox<>(genders);
 
 		// Coordinates for the elements
 		gridPane.add(lEmail, 0, 1);
@@ -149,8 +150,7 @@ public class UserGUI {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (email.getText().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty()
-					|| address.getText().isEmpty() || residence.getText().isEmpty()) {
+			if (email.getText().isEmpty() || name.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Fill in all the fields");
@@ -159,10 +159,10 @@ public class UserGUI {
 			}
 
 			// Checks if a date is picked
-			if (birthdate.getValue() == null) {
+			if (birthdate.getValue() == null || gender.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
-				errorAlert.setContentText("Pick a date");
+				errorAlert.setContentText("Make a choice in every combobox!");
 				errorAlert.showAndWait();
 				error = true;
 			}
@@ -189,9 +189,8 @@ public class UserGUI {
 				}
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(email.getText(), name.getText(), sqlDate, gender.getText(), address.getText(), postal.getText(),
-						residence.getText(), country.getText(), isCourseTaker, isStaff);
-						u.insert();
+				User u = new User(email.getText(), name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				u.insert();
 			}
 		});
 
@@ -253,11 +252,13 @@ public class UserGUI {
 		userEmails.setItems(db.getUserEmails());
 		TextField name = new TextField();
 		DatePicker birthdate = new DatePicker();
-		TextField gender = new TextField();
 		TextField address = new TextField();
 		TextField postal = new TextField();
 		TextField country = new TextField();
 		TextField residence = new TextField();
+
+		ObservableList<Gender> genders = FXCollections.observableArrayList(Gender.class.getEnumConstants());
+		ComboBox<Gender> gender = new ComboBox<>(genders);
 
 		userEmails.valueProperty().addListener((obs, oldItem, newItem) -> {
 			name.textProperty().unbind();
@@ -277,7 +278,7 @@ public class UserGUI {
 						LocalDate date = LocalDate.parse(labelValue, formatter);
 						birthdate.setValue(date);
 					} else if (i == 2) {
-						gender.setText(labelValue);
+						gender.setValue(Gender.valueOf(labelValue));
 					} else if (i == 3) {
 						address.setText(labelValue);
 					} else if (i == 4) {
@@ -328,8 +329,7 @@ public class UserGUI {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (userEmails.getSelectionModel().isEmpty() || name.getText().isEmpty() || gender.getText().isEmpty()
-					|| address.getText().isEmpty() || residence.getText().isEmpty()) {
+			if (userEmails.getSelectionModel().isEmpty() || name.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Fill in all the fields");
@@ -338,10 +338,10 @@ public class UserGUI {
 			}
 
 			// Checks if a date is picked
-			if (birthdate.getValue() == null) {
+			if (birthdate.getValue() == null || gender.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
-				errorAlert.setContentText("Pick a date");
+				errorAlert.setContentText("Make a choice in every combobox!");
 				errorAlert.showAndWait();
 				error = true;
 			}
@@ -352,10 +352,15 @@ public class UserGUI {
 				String isStaff = null;
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getText(), address.getText(), postal.getText(),
-						residence.getText(), country.getText(), isCourseTaker, isStaff);
-				u.update(name.getText(), sqlDate, gender.getText(), address.getText(), postal.getText(), residence.getText(),
-						country.getText());
+				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				u.update(name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText());
+
+				sceneUserRead();
+				GUI.updateScene(this.scene);
+
+				Alert errorAlert = new Alert(AlertType.CONFIRMATION);
+				errorAlert.setHeaderText("Course Taker successfully updated!");
+				errorAlert.showAndWait();
 			}
 		});
 
