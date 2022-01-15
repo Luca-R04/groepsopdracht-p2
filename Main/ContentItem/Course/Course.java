@@ -10,7 +10,6 @@ public class Course extends ContentItem {
     private String topic; 
     private String text; 
     private Level level; 
-    private int percentageViewed; 
     private Date publicationDate;
     private Status status; 
     private ArrayList<Module> modules; 
@@ -38,14 +37,13 @@ public class Course extends ContentItem {
         db.addModuleToCourse(this, module);
     }
 
-    public void update(Date publicationDate, Status status, String name, String topic, String text, Level level, int percentageViewed) {
-        db.updateCourse(this, publicationDate, status, name, topic, text, level, percentageViewed); 
+    public void update(Date publicationDate, Status status, String name, String topic, String text, Level level) {
+        db.updateCourse(this, publicationDate, status, name, topic, text, level); 
 
         this.name = name;
         this.topic = topic;
         this.text = text;
         this.level = level;
-        this.percentageViewed = percentageViewed;
     }
 
     public void delete() {
@@ -66,9 +64,5 @@ public class Course extends ContentItem {
 
     public Level getLevel() {
         return this.level;
-    }
-
-    public int getPercentageViewed() {
-        return this.percentageViewed;
     }
 }

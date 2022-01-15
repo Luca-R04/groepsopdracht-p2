@@ -284,7 +284,7 @@ public class CourseGUI {
 			if (!error) {
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
 				Course course = new Course(sqlDate, status.getValue(), courseNames.getValue(), topic.getText(), text.getText(), level.getValue());
-				course.update(sqlDate, status.getValue(), courseNames.getValue(), topic.getText(), text.getText(), level.getValue(), 0);
+				course.update(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
 			}
 		});
 
