@@ -114,6 +114,38 @@ public class Database {
         return users;
     }
 
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<>();
+
+        try {
+            String SQL = "SELECT * FROM [User]";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                String email = rs.getString("Email");
+                String name = rs.getString("Name");
+                Date birthDate = rs.getDate("DateOfBirth");
+                Gender gender = Gender.valueOf(rs.getString("Gender"));
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("PostalCode");
+                String residence = rs.getString("Residence");
+                String country = rs.getString("Country");
+                String isCourseTaker = rs.getString("CourseTakerID");
+                String isStaff = rs.getString("StaffID");
+
+                User user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+                users.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return users;
+    }
+
     public ObservableList<String> getUserEmails() {
         ObservableList<String> userEmails = FXCollections.observableArrayList();
 
@@ -154,8 +186,7 @@ public class Database {
                 String isCourseTaker = rs.getString("CourseTakerID");
                 String isStaff = rs.getString("StaffID");
 
-                user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker,
-                        isStaff);
+                user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -269,8 +300,6 @@ public class Database {
             boolean result = stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
 
         int id = 0;
@@ -284,8 +313,6 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
 
         this.createContentItem(publicationDate, status, null, id);
@@ -376,8 +403,7 @@ public class Database {
         return course;
     }
 
-    public void updateCourse(Course c, Date publicationDate, Status status, String name, String topic, String text,
-            Level level) {
+    public void updateCourse(Course c, Date publicationDate, Status status, String name, String topic, String text, Level level) {
         try {
             String SQL = "UPDATE Course SET Name = '" + name + "', Topic = '" + topic + "', Text = '" + text
                     + "', Lvl = '" + level + "'WHERE Name = '"
@@ -391,35 +417,53 @@ public class Database {
         }
     }
 
-    public void createWebcast(Date publicationDate, Status status, Webcast w) {
+    public void createWebcast(Date publicationDate, Status status, Webcast webcast) {
+        int speakerId = 0;
+
         try {
-            String SQL = "INSERT INTO Webcast VALUES ('" + w.getTitle() + "','" + w.getURL() + "','"
-                    + w.getDescription() + "','" + w.getDuration() + "','"
-                    + w.getSpeaker().getName() + "','" + w.getSpeaker().getOrganisation() + "')";
+            String SQL = "SELECT * FROM Speaker WHERE Name = '" + webcast.getSpeaker().getName() + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            if (rs.next()) {
+                speakerId = rs.getInt("SpeakerID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int webcastId = 0;
+
+        try {
+            String SQL = "INSERT INTO Webcast VALUES ('" + webcast.getTitle() + "','" + webcast.getURL() + "','"
+                    + webcast.getDescription() + "','" + webcast.getDuration() + "','" + speakerId + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
-
-        int id = 0;
 
         try {
             String SQL = "SELECT TOP 1 * FROM Webcast ORDER BY WebcastID DESC";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             if (rs.next()) {
-                id = rs.getInt("WebcastID");
+                webcastId = rs.getInt("WebcastID");
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
 
-        this.createContentItem(publicationDate, status, id, null);
+        this.createContentItem(publicationDate, status, webcastId, null);
+    }
+
+    public void createSpeaker(Speaker speaker) {
+        try {
+            String SQL = "INSERT INTO Speaker VALUES ('" + speaker.getName() + "','" + speaker.getOrganisation() + "')";
+            stmt = con.createStatement();
+            boolean result = stmt.execute(SQL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteWebcast(Webcast w) {
@@ -593,7 +637,6 @@ public class Database {
             while (rs.next()) {
                 contactPersonId = rs.getInt("ContactPersonID");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
