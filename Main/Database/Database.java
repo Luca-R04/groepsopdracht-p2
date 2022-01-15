@@ -26,7 +26,8 @@ public class Database {
 
     public Database() {
         try {
-
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
