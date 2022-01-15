@@ -267,6 +267,7 @@ public class UserGUI {
 		ObservableList<Gender> genders = FXCollections.observableArrayList(Gender.class.getEnumConstants());
 		ComboBox<Gender> gender = new ComboBox<>(genders);
 
+		//When a user is selected from the comboBox the method will display it's data
 		userEmails.valueProperty().addListener((obs, oldItem, newItem) -> {
 			name.textProperty().unbind();
 			if (newItem == null) {
@@ -276,6 +277,7 @@ public class UserGUI {
 				Map<String, ArrayList<String>> users = db.getAllUsers();
 				ArrayList<String> data = users.get(userEmails.getValue());
 
+				//Puts the data into the correct textField
 				for (int i = 0; i < data.size(); i++) {
 					String labelValue = data.get(i);
 
