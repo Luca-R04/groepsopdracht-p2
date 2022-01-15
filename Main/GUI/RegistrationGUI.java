@@ -194,101 +194,86 @@ public class RegistrationGUI {
 	// }
 
 	// Method for altering a Registration
-	// public void sceneRegistrationUpdate() {
-	// 	GridPane gridPane = new GridPane();
+	public void sceneRegistrationUpdate() {
+		GridPane gridPane = new GridPane();
 
-	// 	Button bSubmit = new Button("Update");
+		// Buttons
+		Button bUpdate = new Button("Update");
 
-	// 	ComboBox<String> RegistrationNames = new ComboBox<>();
-	// 	RegistrationNames.setItems(db.getRegistrationNames());
-	// 	Label lName = new Label("Name: ");
-	// 	Label lTopic = new Label("Topic: ");
-	// 	Label lText = new Label("Text: ");
-	// 	Label lPublicationDate = new Label("Publication Date: ");
-	// 	Label lLevel = new Label("Level: ");
-	// 	Label lModule = new Label("Modules: "); 
-	// 	Label lStatus = new Label("Status: "); 
+		// Labels;
+		Label lCourseTaker = new Label("Course Taker: ");
+		Label lCourse = new Label("Course: ");
+		Label lDate = new Label("Date: ");
+	
+  	// ComboBoxes
+    Map<String, ArrayList<String>> users = db.getAllUsers();
+    ArrayList<String> courseTakerNames = new ArrayList<String>();
 
-	// 	TextField name = new TextField();
-	// 	TextField topic = new TextField();
-	// 	TextField text = new TextField();
-	// 	DatePicker publicationDate = new DatePicker();
+    for (String key : users.keySet()) {
+      courseTakerNames.add(key);
+    }
 
-	// 	ObservableList<Status> statuses = FXCollections.observableArrayList(Status.class.getEnumConstants());
-	// 	ComboBox<Status> status = new ComboBox<>(statuses);
+		ObservableList<String> courseTakers = FXCollections.observableArrayList(courseTakerNames);
+		ComboBox<String> courseTaker = new ComboBox<>(courseTakers);
 
-	// 	ObservableList<Level> levels = FXCollections.observableArrayList(Level.class.getEnumConstants());
-	// 	ComboBox<Level> level = new ComboBox<>(levels);
+		Map<String, ArrayList<String>> courses = db.getAllCourses();
+		ArrayList<String> courseNames = new ArrayList<String>();
 
-	// 	ObservableList<String> modules = FXCollections.observableArrayList(db.getAllModules());
-	// 	ComboBox<String> module = new ComboBox<>(modules);
+    for (String key : courses.keySet()) {
+      courseNames.add(key);
+    }
 
-	// 	// gridPane.add(lName, 0, 1);
-	// 	gridPane.add(RegistrationNames, 0, 1);
+		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);
+		ComboBox<String> course = new ComboBox<>(courseNameOptions);
 
-	// 	gridPane.add(lName, 0, 2);
-	// 	gridPane.add(name, 1, 2);
+    DatePicker publicationDate = new DatePicker();
 
-	// 	gridPane.add(lTopic, 0, 3);
-	// 	gridPane.add(topic, 1, 3);
+		// Coordinates for the elements
+		gridPane.add(lCourseTaker, 0, 1);
+		gridPane.add(courseTaker, 1, 1);
 
-	// 	gridPane.add(lText, 0, 4);
-	// 	gridPane.add(text, 1, 4);
+		gridPane.add(lCourse, 0, 2);
+		gridPane.add(course, 1, 2);
 
-	// 	gridPane.add(lPublicationDate, 0, 5);
-	// 	gridPane.add(publicationDate, 1, 5);
+		gridPane.add(lDate, 0, 3);
+		gridPane.add(publicationDate, 1, 3);
 
-	// 	gridPane.add(lLevel, 0, 6);
-	// 	gridPane.add(level, 1, 6);
+		gridPane.add(bUpdate, 1, 10);
 
-	// 	gridPane.add(lModule, 0, 7);
-	// 	gridPane.add(module, 1, 7);
+		// Styling
+		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+		gridPane.setVgap(10);
+		gridPane.setHgap(10);
 
-	// 	gridPane.add(lStatus, 0, 8);
-	// 	gridPane.add(status, 1, 8);
+		// Functions
+		bUpdate.setOnAction((action) -> {
+			boolean error = false;
 
-	// 	gridPane.add(bSubmit, 1, 10);
+			// Checks if all the fields are filled in
+			if (courseTaker.getValue() == null || course.getValue() == null || publicationDate.getValue() == null) {
+				Alert errorAlert = new Alert(AlertType.ERROR);
+				errorAlert.setHeaderText("Input not valid");
+				errorAlert.setContentText("Make a choice in every combobox!");
+				errorAlert.showAndWait();
+				error = true;
+			}
 
-	// 	gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
-	// 	gridPane.setVgap(10);
-	// 	gridPane.setHgap(10);
+			// Checks if there occured an error, if not create new Registration in database
+			if (!error) {
+				Date sqlDate = Date.valueOf(publicationDate.getValue());
 
-	// 	bSubmit.setOnAction((action) -> {
-	// 		boolean error = false;
+				Registration registration = new Registration(db.getSpecificUser(courseTaker.getValue()), db.getSpecificCourse(course.getValue()), sqlDate);
+				registration.insert();
 
-	// 		if (name.getText().isEmpty() || topic.getText().isEmpty() || topic.getText().isEmpty() || level.getValue() == null) {
-	// 			Alert errorAlert = new Alert(AlertType.ERROR);
-	// 			errorAlert.setHeaderText("Input not valid");
-	// 			errorAlert.setContentText("Fill in all the fields");
-	// 			errorAlert.showAndWait();
-	// 			error = true;
-	// 		}
+				sceneRegistrationCreate();
+				GUI.updateScene(this.scene);
 
-	// 		if (publicationDate.getValue() == null || module.getValue() == null || status.getValue() == null) {
-	// 			Alert errorAlert = new Alert(AlertType.ERROR);
-	// 			errorAlert.setHeaderText("Input not valid");
-	// 			errorAlert.setContentText("Make a choice in every combobox!");
-	// 			errorAlert.showAndWait();
-	// 			error = true;
-	// 		}
+				Alert errorAlert = new Alert(AlertType.CONFIRMATION);
+				errorAlert.setHeaderText("Registration successfully created!");
+				errorAlert.showAndWait();
+			}
+		});
 
-	// 		// Checks if there occured an error, if not update the specified Registration 
-	// 		if (!error) {
-	// 			Date sqlDate = Date.valueOf(publicationDate.getValue());
-	// 			Registration Registration = new Registration(sqlDate, status.getValue(), RegistrationNames.getValue(), topic.getText(), text.getText(), level.getValue());
-	// 			Registration.update(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
-
-	// 			sceneRegistrationUpdate();
-	// 			GUI.updateScene(this.scene);
-
-	// 			Alert errorAlert = new Alert(AlertType.CONFIRMATION);
-	// 			errorAlert.setHeaderText("Registration successfully updated!");
-	// 			errorAlert.showAndWait();
-	// 		}
-	// 	});
-
-	// 	gridPane.setAlignment(Pos.CENTER);
-
-	// 	this.scene = new Scene(gridPane, 700, 700);
-	// }
+		this.scene = new Scene(gridPane, 700, 700);
+	}
 }

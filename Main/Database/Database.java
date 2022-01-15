@@ -378,29 +378,6 @@ public class Database {
         return courses;
     }
 
-    public ObservableList<String> getCourseNames() {
-        ObservableList<String> courseNames = FXCollections.observableArrayList();
-        
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            String SQL = "SELECT Name FROM Course";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-
-            while (rs.next()) {
-                courseNames.add(rs.getString("Name"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        return courseNames;
-    }
-
     public Course getSpecificCourse(String name) {
         Course course = null;
         Integer courseId = null; 
@@ -661,7 +638,49 @@ public class Database {
         }
     }
 
-    public ArrayList<String> getAllModules() {
+    public ArrayList<Module> getAllModules() {
+        ArrayList<Module> modules = new ArrayList<>();
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Module JOIN ContactPerson ON Module.ContactPersonID = ContactPerson.ContactPersonID JOIN Course ON Module.CourseID = Course.CourseID JOIN ContentItem ON Course.CourseID = ContentItem.CourseID";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+            
+            while (rs.next()) {
+                String moduleTitle = rs.getString("Title");
+                int moduleVersion = rs.getInt("Version");
+                int moduleSerialNumber = rs.getInt("SerialNumber");
+                String moduleDescription = rs.getString("Description");
+                
+                String contactPersonName = rs.getString("Name");
+                String contactPersonEmail = rs.getString("Email");
+                ContactPerson contactPerson = new ContactPerson(contactPersonName, contactPersonEmail);
+
+                Date coursePublicationDate = rs.getDate("PublicationDate");
+                Status courseStatus = Status.valueOf(rs.getString("Status"));
+                String courseName = rs.getString("Name");
+                String courseTopic = rs.getString("Topic");
+                String courseText = rs.getString("Text"); 
+                Level courseLevel = Level.valueOf(rs.getString("Lvl"));
+                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText, courseLevel);
+
+                Module module = new Module(moduleTitle, moduleVersion, moduleSerialNumber, moduleDescription, contactPerson, course);
+                modules.add(module);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return modules;
+    }
+
+    public Module getSpecificModule() {
+        Module module = null;
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -669,13 +688,11 @@ public class Database {
             String SQL = "SELECT * FROM Module";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
-            ArrayList<String> modules = new ArrayList<>();
 
             while (rs.next()) {
-                modules.add(rs.getString("Title"));
+
             }
 
-            return modules;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -685,13 +702,13 @@ public class Database {
         return null;
     }
 
-    public void updateModule(Module m, String title, String version, int serialNumber, String description) {
+    public void updateModule(Module m, String title, int version, int serialNumber, String description) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
             // Stel een SQL query samen.
-            String SQL = "UPDATE Module SET Title = '" + title + "', Version = '" + version + "', SerialNumber = '"
+            String SQL = "UPDATE Module SET Title = '" + title + "', Version = " + version + ", SerialNumber = '"
                     + serialNumber + "', Description = '" + description + "'WHERE Title = '" + m.getTitle()
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();

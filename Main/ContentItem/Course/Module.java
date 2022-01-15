@@ -4,14 +4,14 @@ import Main.Database.Database;
 
 public class Module {
     private String title; 
-    private String version; 
+    private int version; 
     private int serialNumber; 
     private String description; 
     private ContactPerson contactPerson;
     private Course course;
     private Database db = new Database();
 
-    public Module(String title, String version, int serialNumber, String description, ContactPerson contactPerson, Course course) {
+    public Module(String title, int version, int serialNumber, String description, ContactPerson contactPerson, Course course) {
         this.title = title;
         this.version = version;
         this.serialNumber = serialNumber;
@@ -24,7 +24,7 @@ public class Module {
         db.createModule(this);
     }
 
-    public void update(String title, String version, int serialNumber, String description) {
+    public void update(String title, int version, int serialNumber, String description) {
         db.updateModule(this, title, version, serialNumber, description);
 
         this.title = title;
@@ -37,7 +37,7 @@ public class Module {
         return this.title; 
     }
 
-    public String getVersion() {
+    public int getVersion() {
         return this.version;
     }
 
@@ -55,5 +55,9 @@ public class Module {
 
     public Course getCourse() {
         return this.course;
+    }
+
+    public String toString() {
+        return this.title;
     }
 }

@@ -3,6 +3,7 @@ package Main.GUI;
 import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
 import Main.ContentItem.Course.Status;
+import Main.ContentItem.Course.Module;
 import Main.Database.Database;
 
 import java.sql.Date;
@@ -99,8 +100,8 @@ public class CourseGUI {
 		ObservableList<Level> levels = FXCollections.observableArrayList(Level.class.getEnumConstants());
 		ComboBox<Level> level = new ComboBox<>(levels);
 
-		ObservableList<String> modules = FXCollections.observableArrayList(db.getAllModules());
-		ComboBox<String> module = new ComboBox<>(modules);
+		ObservableList<Module> modules = FXCollections.observableArrayList(db.getAllModules());
+		ComboBox<Module> module = new ComboBox<>(modules);
 
 		// Coordinates for the elements
 		gridPane.add(lName, 0, 1);
@@ -159,6 +160,9 @@ public class CourseGUI {
 				Course course = new Course(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
 				course.insert();
 
+				// Module m = new Module();
+				// course.addModule(module);
+				
 				sceneCourseCreate();
 				GUI.updateScene(this.scene);
 
@@ -211,8 +215,16 @@ public class CourseGUI {
 
 		Button bSubmit = new Button("Update");
 
-		ComboBox<String> courseNames = new ComboBox<>();
-		courseNames.setItems(db.getCourseNames());
+		Map<String, ArrayList<String>> courses = db.getAllCourses();
+		ArrayList<String> courseNames = new ArrayList<>();
+
+    for (String key : courses.keySet()) {
+      courseNames.add(key);
+    }
+		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);
+
+		ComboBox<String> courseName = new ComboBox<>();
+		courseName.setItems(courseNameOptions);
 		Label lName = new Label("Name: ");
 		Label lTopic = new Label("Topic: ");
 		Label lText = new Label("Text: ");
@@ -232,11 +244,11 @@ public class CourseGUI {
 		ObservableList<Level> levels = FXCollections.observableArrayList(Level.class.getEnumConstants());
 		ComboBox<Level> level = new ComboBox<>(levels);
 
-		ObservableList<String> modules = FXCollections.observableArrayList(db.getAllModules());
-		ComboBox<String> module = new ComboBox<>(modules);
+		ObservableList<Module> modules = FXCollections.observableArrayList(db.getAllModules());
+		ComboBox<Module> module = new ComboBox<>(modules);
 
 		// gridPane.add(lName, 0, 1);
-		gridPane.add(courseNames, 0, 1);
+		gridPane.add(courseName, 0, 1);
 
 		gridPane.add(lName, 0, 2);
 		gridPane.add(name, 1, 2);
@@ -287,7 +299,7 @@ public class CourseGUI {
 			// Checks if there occured an error, if not update the specified course 
 			if (!error) {
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
-				Course course = new Course(sqlDate, status.getValue(), courseNames.getValue(), topic.getText(), text.getText(), level.getValue());
+				Course course = new Course(sqlDate, status.getValue(), courseName.getValue(), topic.getText(), text.getText(), level.getValue());
 				course.update(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
 
 				sceneCourseUpdate();
