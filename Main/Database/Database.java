@@ -329,20 +329,37 @@ public class Database {
             e.printStackTrace();
         }
 
+        int id = this.getTopId("Course", "CourseID");
+
+        // try {
+        //     String SQL = "SELECT TOP 1 * FROM Course ORDER BY CourseID DESC";
+        //     stmt = con.createStatement();
+        //     rs = stmt.executeQuery(SQL);
+        //     if (rs.next()) {
+        //         id = rs.getInt("CourseID");
+        //     }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+
+        this.createContentItem(publicationDate, status, null, id);
+    }
+
+    public int getTopId(String table, String idName) {
         int id = 0;
 
         try {
-            String SQL = "SELECT TOP 1 * FROM Course ORDER BY CourseID DESC";
+            String SQL = "SELECT TOP 1 * FROM " + table + " ORDER BY "+ idName +" DESC";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             if (rs.next()) {
-                id = rs.getInt("CourseID");
+                id = rs.getInt(idName);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        this.createContentItem(publicationDate, status, null, id);
+        return id;
     }
 
     public void deleteCourse(String name) {

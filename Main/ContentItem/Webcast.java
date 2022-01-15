@@ -28,7 +28,7 @@ public class Webcast extends ContentItem {
     }
 
     public void insert() {
-        db.createWebcast(publicationDate, status, this);
+        // db.createWebcast(publicationDate, status, this);
     }
 
     public void update(Date publicationDate, Status status, String title, String URL, int duration, String description, Speaker speaker) {

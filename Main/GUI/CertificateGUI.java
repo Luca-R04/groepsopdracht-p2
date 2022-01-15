@@ -69,9 +69,18 @@ public class CertificateGUI {
 		Label lStaff = new Label("Staff name: ");
 		Label lCourse = new Label("Course: ");
 
+        Map<String, ArrayList<String>> users = db.getAllUsers();
+		ArrayList<String> userEmails = new ArrayList<>();
+
+        for (String key : users.keySet()) {
+            userEmails.add(key);
+        }
+
+		ObservableList<String> userEmailOptions = FXCollections.observableArrayList(userEmails);
+
 		// Text fields
-		ComboBox<String> userEmails = new ComboBox<>();
-		userEmails.setItems(db.getUserEmails());
+		ComboBox<String> userEmail = new ComboBox<>();
+		userEmail.setItems(userEmailOptions);
         ComboBox<String> userCertificates = new ComboBox<>();
 		Label certificateID = new Label();
 		Label rating = new Label();
@@ -79,11 +88,11 @@ public class CertificateGUI {
 		Label course = new Label();
 
 		//When a user is selected from the comboBox the method will display it's certificates
-		userEmails.valueProperty().addListener((obs, oldItem, newItem) -> {
+		userEmail.valueProperty().addListener((obs, oldItem, newItem) -> {
 			if (newItem == null) {
 				certificateID.setText("");
 			} else {
-                userCertificates.setItems(db.getCertificates(db.getCourseTakerID(userEmails.getValue())));
+                userCertificates.setItems(db.getCertificates(db.getCourseTakerID(userEmail.getValue())));
 			}
 		});
 
@@ -102,7 +111,7 @@ public class CertificateGUI {
 
 		// Coordinates for the elements
 		gridPane.add(lUser, 0, 1);
-		gridPane.add(userEmails, 1, 1);
+		gridPane.add(userEmail, 1, 1);
 
 		gridPane.add(lCertificates, 0, 2);
 		gridPane.add(userCertificates, 1, 2);

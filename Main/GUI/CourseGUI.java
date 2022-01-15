@@ -100,8 +100,9 @@ public class CourseGUI {
 		ObservableList<Level> levels = FXCollections.observableArrayList(Level.class.getEnumConstants());
 		ComboBox<Level> level = new ComboBox<>(levels);
 
-		ObservableList<Module> modules = FXCollections.observableArrayList(db.getAllModules());
-		ComboBox<Module> module = new ComboBox<>(modules);
+		ArrayList<Module> modules = db.getAllModules();
+		ComboBox<Module> module = new ComboBox<>();
+		module.getItems().addAll(modules);
 
 		// Coordinates for the elements
 		gridPane.add(lName, 0, 1);
@@ -221,6 +222,7 @@ public class CourseGUI {
     for (String key : courses.keySet()) {
       courseNames.add(key);
     }
+
 		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);
 
 		ComboBox<String> courseName = new ComboBox<>();
