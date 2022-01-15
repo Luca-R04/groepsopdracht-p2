@@ -15,7 +15,9 @@ public class Registration {
 		this.courseTaker = courseTaker;
 		this.course = course;
 		this.date = date;
+	}
 
+	public void insert() {
 		db.createRegistration(this);
 	}
 

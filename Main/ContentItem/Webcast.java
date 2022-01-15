@@ -11,6 +11,8 @@ public class Webcast extends ContentItem {
     private int duration; 
     private String description; 
     private Speaker speaker;
+    private Date publicationDate;
+    private Status status;
     private Database db = new Database(); 
 
     public Webcast(Date publicationDate, Status status, String title, String URL, int duration, String description, Speaker speaker) {
@@ -21,7 +23,11 @@ public class Webcast extends ContentItem {
         this.duration = duration;
         this.description = description;
         this.speaker = speaker;
+        this.publicationDate = publicationDate;
+        this.status = status;
+    }
 
+    public void insert() {
         db.createWebcast(publicationDate, status, this);
     }
 

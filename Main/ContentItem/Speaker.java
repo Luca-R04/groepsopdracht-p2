@@ -2,10 +2,13 @@ package Main.ContentItem;
 
 import java.util.ArrayList;
 
+import Main.Database.Database;
+
 public class Speaker {
     private String organisation;
     private String name;
     private ArrayList<Webcast> webcasts; 
+    private Database db = new Database();
 
     public Speaker(String organisation, String name) {
         this.organisation = organisation;
@@ -13,6 +16,10 @@ public class Speaker {
 
         this.webcasts = new ArrayList<>();
     }
+
+    // public void insert() {
+    //     db.createSpeaker(this);
+    // }
 
     public void addWebcast(Webcast webcast) {
         this.webcasts.add(webcast);

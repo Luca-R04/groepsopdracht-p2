@@ -460,6 +460,22 @@ public class Database {
         }
     }
 
+    // public void createSpeaker(Speaker speaker) {
+    //     try {
+    //         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    //         con = DriverManager.getConnection(connectionUrl);
+
+    //         String SQL = "INSERT INTO Speaker VALUES ('" + speaker.getName() + "','" + speaker.getOrganisation() + "')";
+    //         stmt = con.createStatement();
+    //         boolean result = stmt.execute(SQL);
+    //         System.out.println(result);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         excecuteFinally();
+    //     }
+    // }
+
     public void createContactPerson(ContactPerson contactPerson) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
