@@ -81,7 +81,6 @@ public class Database {
                     + staffId + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -111,6 +110,38 @@ public class Database {
                 }
 
                 users.put(rs.getString(1), userData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return users;
+    }
+
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<>();
+
+        try {
+            String SQL = "SELECT * FROM [User]";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                String email = rs.getString("Email");
+                String name = rs.getString("Name");
+                Date birthDate = rs.getDate("DateOfBirth");
+                Gender gender = Gender.valueOf(rs.getString("Gender"));
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("PostalCode");
+                String residence = rs.getString("Residence");
+                String country = rs.getString("Country");
+                String isCourseTaker = rs.getString("CourseTakerID");
+                String isStaff = rs.getString("StaffID");
+
+                User user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+                users.add(user);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -191,8 +222,7 @@ public class Database {
                 String isCourseTaker = rs.getString("CourseTakerID");
                 String isStaff = rs.getString("StaffID");
 
-                user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker,
-                        isStaff);
+                user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -211,7 +241,6 @@ public class Database {
             String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -231,7 +260,6 @@ public class Database {
                     + user.getEmail() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -247,7 +275,6 @@ public class Database {
             String SQL = "INSERT INTO Staff DEFAULT VALUES";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -277,7 +304,6 @@ public class Database {
             String SQL = "INSERT INTO CourseTaker DEFAULT VALUES";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -309,7 +335,6 @@ public class Database {
                     + courseID + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -326,11 +351,8 @@ public class Database {
                     + "','" + c.getLevel() + "'," + null + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
 
         int id = 0;
@@ -344,8 +366,6 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
 
         this.createContentItem(publicationDate, status, null, id);
@@ -359,7 +379,6 @@ public class Database {
             String SQL = "DELETE FROM Course WHERE Name = '" + name + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -446,8 +465,7 @@ public class Database {
         return course;
     }
 
-    public void updateCourse(Course c, Date publicationDate, Status status, String name, String topic, String text,
-            Level level) {
+    public void updateCourse(Course c, Date publicationDate, Status status, String name, String topic, String text, Level level) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -457,7 +475,6 @@ public class Database {
                     + c.getName() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -465,42 +482,62 @@ public class Database {
         }
     }
 
-    public void createWebcast(Date publicationDate, Status status, Webcast w) {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
+    // public void createWebcast(Date publicationDate, Status status, Webcast webcast) {
+    //     int speakerId = 0;
 
-            String SQL = "INSERT INTO Webcast VALUES ('" + w.getTitle() + "','" + w.getURL() + "','"
-                    + w.getDescription() + "','" + w.getDuration() + "','"
-                    + w.getSpeaker().getName() + "','" + w.getSpeaker().getOrganisation() + "')";
+    //     try {
+    //         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    //         con = DriverManager.getConnection(connectionUrl);
+
+    //         String SQL = "INSERT INTO Webcast VALUES ('" + w.getTitle() + "','" + w.getURL() + "','"
+    //                 + w.getDescription() + "','" + w.getDuration() + "','"
+    //                 + w.getSpeaker().getName() + "','" + w.getSpeaker().getOrganisation() + "')";
+    //         String SQL = "SELECT * FROM Speaker WHERE Name = '" + webcast.getSpeaker().getName() + "'";
+    //         stmt = con.createStatement();
+    //         rs = stmt.executeQuery(SQL);
+    //         if (rs.next()) {
+    //             speakerId = rs.getInt("SpeakerID");
+    //         }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+
+    //     int webcastId = 0;
+
+    //     try {
+    //         String SQL = "INSERT INTO Webcast VALUES ('" + webcast.getTitle() + "','" + webcast.getURL() + "','"
+    //                 + webcast.getDescription() + "','" + webcast.getDuration() + "','" + speakerId + "')";
+    //         stmt = con.createStatement();
+    //         boolean result = stmt.execute(SQL);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+
+    //     try {
+    //         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    //         con = DriverManager.getConnection(connectionUrl);
+            
+    //         String SQL = "SELECT TOP 1 * FROM Webcast ORDER BY WebcastID DESC";
+    //         stmt = con.createStatement();
+    //         rs = stmt.executeQuery(SQL);
+    //         if (rs.next()) {
+    //             webcastId = rs.getInt("WebcastID");
+    //         }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+
+    //     this.createContentItem(publicationDate, status, webcastId, null);
+    // }
+
+    public void createSpeaker(Speaker speaker) {
+        try {
+            String SQL = "INSERT INTO Speaker VALUES ('" + speaker.getName() + "','" + speaker.getOrganisation() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
-
-        int id = 0;
-
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-            
-            String SQL = "SELECT TOP 1 * FROM Webcast ORDER BY WebcastID DESC";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-            if (rs.next()) {
-                id = rs.getInt("WebcastID");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        this.createContentItem(publicationDate, status, id, null);
     }
 
     public void deleteWebcast(Webcast w) {
@@ -511,7 +548,6 @@ public class Database {
             String SQL = "DELETE FROM Webcast WHERE Title = '" + w.getTitle() + "' AND URL = '" + w.getURL() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -531,7 +567,6 @@ public class Database {
                     + "' AND URL = '" + w.getURL() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -548,7 +583,6 @@ public class Database {
                     + contactPerson.getName() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -565,7 +599,6 @@ public class Database {
                     + c.getEmail() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -581,7 +614,6 @@ public class Database {
             String SQL = "DELETE FROM ContactPerson WHERE Email = '" + c.getEmail() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -627,7 +659,6 @@ public class Database {
                     + courseId + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -687,7 +718,6 @@ public class Database {
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -708,7 +738,6 @@ public class Database {
             while (rs.next()) {
                 contactPersonId = rs.getInt("ContactPersonID");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -720,7 +749,6 @@ public class Database {
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -756,7 +784,6 @@ public class Database {
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -809,7 +836,6 @@ public class Database {
                     + registration.getDate() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -817,14 +843,14 @@ public class Database {
         }
     }
 
-    public Map<String, ArrayList<String>> getCertificates() {
-        Map<String, ArrayList<String>> certificates = new HashMap<>();
+    public ObservableList<String> getCertificates(int userID) {
+        ObservableList<String> certificateData = FXCollections.observableArrayList();
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "SELECT * FROM Certificate";
+            String SQL = "SELECT CertificateID FROM Certificate WHERE CoursetakerID = " + userID + "";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
 
@@ -832,12 +858,10 @@ public class Database {
             int columnCount = rsmd.getColumnCount();
 
             while (rs.next()) {
-                ArrayList<String> certificateData = new ArrayList<>();
-                for (int i = 2; i < columnCount + 1; i++) {
+                
+                for (int i = 1; i < columnCount + 1; i++) {
                     certificateData.add(rs.getString(i));
                 }
-
-                certificates.put(rs.getString(1), certificateData);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -845,6 +869,35 @@ public class Database {
             excecuteFinally();
         }
 
-        return certificates;
+        return certificateData;
+    }
+
+    public ArrayList<String> getCertificateData(String certificateID) {
+        ArrayList<String> certificateData = new ArrayList<>();
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Certificate WHERE CertificateID = " + Integer.valueOf(certificateID) + "";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                
+                for (int i = 1; i < columnCount + 1; i++) {
+                    certificateData.add(rs.getString(i));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return certificateData;
     }
 }
