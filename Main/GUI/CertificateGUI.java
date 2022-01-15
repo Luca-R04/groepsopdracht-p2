@@ -99,6 +99,10 @@ public class CertificateGUI {
         userCertificates.valueProperty().addListener((obs, oldItem, newItem) -> {
 			if (newItem == null) {
 				certificateID.setText("");
+                rating.setText("");
+                staff.setText("");
+                course.setText("");
+                
 			} else {
                 ArrayList<String> certificateDataList = db.getCertificateData(userCertificates.getValue());
 
