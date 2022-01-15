@@ -77,7 +77,7 @@ public class Database {
             String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','"
                     + u.getAddress() + "','" + u.getPostal() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + "," + staffId + ")";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -214,7 +214,7 @@ public class Database {
             
             String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -233,7 +233,7 @@ public class Database {
                     + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '"
                     + user.getEmail() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -248,7 +248,7 @@ public class Database {
 
             String SQL = "INSERT INTO Staff DEFAULT VALUES";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -277,7 +277,7 @@ public class Database {
 
             String SQL = "INSERT INTO CourseTaker DEFAULT VALUES";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -308,7 +308,7 @@ public class Database {
             String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID + ","
                     + courseID + ")";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -324,7 +324,7 @@ public class Database {
             String SQL = "INSERT INTO Course VALUES ('" + c.getName() + "','" + c.getTopic() + "','" + c.getText()
                     + "','" + c.getLevel() + "'," + null + ")";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -369,7 +369,7 @@ public class Database {
 
             String SQL = "DELETE FROM Course WHERE Name = '" + name + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -465,7 +465,7 @@ public class Database {
                     + "', Lvl = '" + level + "'WHERE Name = '"
                     + c.getName() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -499,7 +499,7 @@ public class Database {
     //         String SQL = "INSERT INTO Webcast VALUES ('" + webcast.getTitle() + "','" + webcast.getURL() + "','"
     //                 + webcast.getDescription() + "','" + webcast.getDuration() + "','" + speakerId + "')";
     //         stmt = con.createStatement();
-    //         boolean result = stmt.execute(SQL);
+    //         stmt.execute(SQL);
     //     } catch (Exception e) {
     //         e.printStackTrace();
     //     }
@@ -525,7 +525,7 @@ public class Database {
         try {
             String SQL = "INSERT INTO Speaker VALUES ('" + speaker.getName() + "','" + speaker.getOrganisation() + "')";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -538,7 +538,7 @@ public class Database {
 
             String SQL = "DELETE FROM Webcast WHERE Title = '" + w.getTitle() + "' AND URL = '" + w.getURL() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -557,7 +557,7 @@ public class Database {
                     + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + w.getTitle()
                     + "' AND URL = '" + w.getURL() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -573,7 +573,7 @@ public class Database {
             String SQL = "INSERT INTO ContactPerson VALUES ('" + contactPerson.getEmail() + "','"
                     + contactPerson.getName() + "')";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -589,7 +589,7 @@ public class Database {
             String SQL = "UPDATE ContactPerson SET Email = '" + email + "', Name = '" + name + "'WHERE Email = '"
                     + c.getEmail() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -604,7 +604,7 @@ public class Database {
 
             String SQL = "DELETE FROM ContactPerson WHERE Email = '" + c.getEmail() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -649,7 +649,7 @@ public class Database {
                     + module.getSerialNumber() + "','" + module.getDescription() + "'," + contactPersonId + ","
                     + courseId + ")";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -708,7 +708,7 @@ public class Database {
                     + serialNumber + "', Description = '" + description + "'WHERE Title = '" + m.getTitle()
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -739,7 +739,7 @@ public class Database {
             String SQL = "UPDATE Module SET ContactPersonID = " + contactPersonId + "WHERE Title = '" + m.getTitle()
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -774,7 +774,7 @@ public class Database {
             String SQL = "UPDATE Module SET CourseID = " + courseId + "WHERE Title = '" + m.getTitle()
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -826,7 +826,7 @@ public class Database {
             String SQL = "INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'"
                     + registration.getDate() + "')";
             stmt = con.createStatement();
-            boolean result = stmt.execute(SQL);
+            stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
