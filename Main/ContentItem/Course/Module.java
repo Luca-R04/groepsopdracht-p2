@@ -18,7 +18,9 @@ public class Module {
         this.description = description;
         this.contactPerson = contactPerson;
         this.course = course;
+    }
 
+    public void insert() {
         db.createModule(this);
     }
 

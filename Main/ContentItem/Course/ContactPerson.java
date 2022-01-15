@@ -15,7 +15,9 @@ public class ContactPerson {
         this.name = name;
 
         this.modules = new ArrayList<>();
+    }
 
+    public void insert() {
         db.createContactPerson(this);
     }
 
