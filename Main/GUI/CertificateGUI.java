@@ -1,6 +1,7 @@
 package Main.GUI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import Main.Database.Database;
@@ -65,41 +66,37 @@ public class CertificateGUI {
         Label lCertificates = new Label("Certificate: ");
 		Label lCertificateID = new Label("ID: ");
         Label lRating = new Label("Rating: ");
-		Label lStaff = new Label("StaffName: ");
+		Label lStaff = new Label("Staff name: ");
 		Label lCourse = new Label("Course: ");
 
 		// Text fields
 		ComboBox<String> userEmails = new ComboBox<>();
 		userEmails.setItems(db.getUserEmails());
         ComboBox<String> userCertificates = new ComboBox<>();
-		userEmails.setItems(db.getUserEmails());
 		Label certificateID = new Label();
 		Label rating = new Label();
         Label staff = new Label();
 		Label course = new Label();
 
-		//When a user is selected from the comboBox the method will display it's data
+		//When a user is selected from the comboBox the method will display it's certificates
 		userEmails.valueProperty().addListener((obs, oldItem, newItem) -> {
 			if (newItem == null) {
 				certificateID.setText("");
 			} else {
-				Map<String, ArrayList<String>> certificates = db.getCertificates();
-				ArrayList<String> data = certificates.get(userEmails.getValue());
+                userCertificates.setItems(db.getCertificates(db.getCourseTakerID(userEmails.getValue())));
+			}
+		});
 
-				//Puts the data into the correct textField
-				for (int i = 0; i < data.size(); i++) {
-					String labelValue = data.get(i);
+        userCertificates.valueProperty().addListener((obs, oldItem, newItem) -> {
+			if (newItem == null) {
+				certificateID.setText("");
+			} else {
+                ArrayList<String> certificateDataList = db.getCertificateData(userCertificates.getValue());
 
-					if (i == 0) {
-						certificateID.setText(labelValue);
-					} else if (i == 1) {
-						rating.setText(labelValue);
-					} else if (i == 2) {
-						rating.setText(labelValue);
-					} else if (i == 3) {
-						course.setText(labelValue);
-					}
-				}
+                certificateID.setText(certificateDataList.get(0));
+                rating.setText(certificateDataList.get(1));
+                staff.setText(certificateDataList.get(2));
+                course.setText(certificateDataList.get(3));
 			}
 		});
 
@@ -116,8 +113,11 @@ public class CertificateGUI {
 		gridPane.add(lRating, 0, 4);
 		gridPane.add(rating, 1, 4);
 
-        gridPane.add(lCourse, 0, 5);
-		gridPane.add(course, 1, 5);
+		gridPane.add(lStaff, 0, 5);
+		gridPane.add(staff, 1, 5);
+
+        gridPane.add(lCourse, 0, 6);
+		gridPane.add(course, 1, 6);
 
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");

@@ -28,10 +28,10 @@ public class Main {
 
         // Application.launch(GUI.class);
 
-        Speaker s = new Speaker("Kees", "AH");
-        s.insert();
-        Webcast w = new Webcast(date, Status.ACTIVE, "Webcast 3", "https://www.google.com", 100, "Test webcast", s);
-        w.insert();
+        // Speaker s = new Speaker("Kees", "AH");
+        // s.insert();
+        // Webcast w = new Webcast(date, Status.ACTIVE, "Webcast 3", "https://www.google.com", 100, "Test webcast", s);
+        // w.insert();
 
         // Course s1 = new Course(date, Status.ARCHIVED, "Course 5", "https://www.google.com", "Test course 1", Level.BEGINNER);
         // Course s2 = new Course(date, Status.ACTIVE, "Course 2", "https://www.google.com", "Test course 2", Level.ADVANCED);
@@ -53,6 +53,6 @@ public class Main {
         // m3.insert();
         // m4.insert();
 
-        // Application.launch(GUI.class);        
+        Application.launch(GUI.class);        
     }
 }
