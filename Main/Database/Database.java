@@ -329,11 +329,11 @@ public class Database {
 
             while (rs.next()) {
                 ArrayList<String> courseData = new ArrayList<>();
-                for (int i = 2; i < columnCount + 1; i++) {
+                for (int i = 3; i < columnCount + 1; i++) {
                     courseData.add(rs.getString(i));
                 }
 
-                courses.put(rs.getString(1), courseData);
+                courses.put(rs.getString(2), courseData);
             }
         } catch (Exception e) {
             e.printStackTrace();

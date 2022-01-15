@@ -167,7 +167,7 @@ public class CourseGUI {
 		this.scene = new Scene(gridPane, 700, 700);
 	}
 
-	// Method to see a overview of all the courses
+	// Method to see an overview of all the courses
 	public void sceneCourseRead() {
 		GridPane gridPane = new GridPane();
 		Map<String, ArrayList<String>> courses = db.getAllCourses();
@@ -285,6 +285,13 @@ public class CourseGUI {
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
 				Course course = new Course(sqlDate, status.getValue(), courseNames.getValue(), topic.getText(), text.getText(), level.getValue());
 				course.update(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
+
+				sceneCourseUpdate();
+				GUI.updateScene(this.scene);
+
+				Alert errorAlert = new Alert(AlertType.CONFIRMATION);
+				errorAlert.setHeaderText("Course successfully updated!");
+				errorAlert.showAndWait();
 			}
 		});
 

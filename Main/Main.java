@@ -34,20 +34,31 @@ public class Main {
         // System.out.println(users.get("johndoe@gmail.com"));
         
         // Application.launch(GUI.class);
-        // Speaker s = new Speaker("Google", "Christian"); 
 
         // Webcast w = new Webcast(date, "not done", "Webcast 3", "https://www.google.com", 100, "Toon", "Test webcast", s);
         // w.update(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
 
-        // Course s = new Course(date, Status.ACTIVE, "Course 46", "https://www.google.com", "Test course", Level.BEGINNER);
+        // Course s1 = new Course(date, Status.ARCHIVED, "Course 1", "https://www.google.com", "Test course 1", Level.BEGINNER);
+        // Course s2 = new Course(date, Status.ACTIVE, "Course 2", "https://www.google.com", "Test course 2", Level.ADVANCED);
+        // Course s3 = new Course(date, Status.CONCEPT, "Course 3", "https://www.google.com", "Test course 3", Level.EXPERT);
+
+        // s1.insert();
+        // s2.insert();
+        // s3.insert();
+
+
         // ContactPerson john = new ContactPerson("testjohn@gmail.com", "John");
 
-        // Module m1 = new Module("Programming 4", "1", 1234555, "Module about programming", john, s);
-        // Module m2 = new Module("Programming 2", "1", 1234555, "Module about programming", john, s);
-        // Module m3 = new Module("Programming 3", "1", 1234555, "Module about programming", john, s);
-        // Module m4 = new Module("Programming 4", "1", 1234555, "Module about programming", john, s);
+        // Module m1 = new Module("Programming 1", "1", 1234555, "Module about programming", john, s1);
+        // Module m2 = new Module("Programming 2", "1", 1234555, "Module about programming", john, s1);
+        // Module m3 = new Module("Programming 3", "1", 1234555, "Module about programming", john, s1);
+        // Module m4 = new Module("Programming 4", "1", 1234555, "Module about programming", john, s1);
 
-        // System.out.println(s.getLevel());
+        // m1.insert();
+        // m2.insert();
+        // m3.insert();
+        // m4.insert();
+
         // s.addModule(m);
         
         Application.launch(GUI.class);
