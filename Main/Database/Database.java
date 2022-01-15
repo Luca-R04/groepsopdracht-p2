@@ -12,6 +12,7 @@ import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
 import Main.ContentItem.Course.Module;
 import Main.ContentItem.Course.Status;
+import Main.User.Gender;
 import Main.User.Registration;
 import Main.User.User;
 import javafx.collections.FXCollections;
@@ -144,6 +145,39 @@ public class Database {
         return userEmails;
     }
 
+    public User getSpecificUser(String email) {
+        User user = null;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM [User] WHERE email = '" + email + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                String name = rs.getString("Name");
+                Date birthDate = rs.getDate("DateOfBirth");
+                Gender gender = Gender.valueOf(rs.getString("Gender"));
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("PostalCode");
+                String residence = rs.getString("Residence");
+                String country = rs.getString("Country"); 
+                String isCourseTaker = rs.getString("CourseTakerID");
+                String isStaff = rs.getString("StaffID");
+
+                user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return user;
+    }
+
     public void deleteUser(String email) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -160,7 +194,7 @@ public class Database {
         }
     }
 
-    public void updateUser(User user, String email, String name, Date birthDate, String gender, String address, String postalCode, String residence, String country) {
+    public void updateUser(User user, String email, String name, Date birthDate, Gender gender, String address, String postalCode, String residence, String country) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -365,6 +399,57 @@ public class Database {
         }
 
         return courseNames;
+    }
+
+    public Course getSpecificCourse(String name) {
+        Course course = null;
+        Integer courseId = null; 
+
+        String topic = null;
+        String text = null;
+        Level level = null;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Course WHERE Name = '" + name + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                courseId = rs.getInt("CourseID");
+                topic = rs.getString("Topic");
+                text = rs.getString("Text");
+                level = Level.valueOf(rs.getString("Lvl"));               
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM ContentItem WHERE CourseID = '" + courseId + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                Date publicationDate = rs.getDate("PublicationDate");
+                Status status = Status.valueOf(rs.getString("Status"));
+                
+                course = new Course(publicationDate, status, name, topic, text, level);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return course;
     }
 
     public void updateCourse(Course c, Date publicationDate, Status status, String name, String topic, String text, Level level) {
@@ -731,7 +816,7 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Registration VALUES ('" + courseTakerId + "','" + courseId + "','" + registration.getDate() + "')";
+            String SQL = "INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'" + registration.getDate() + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
             System.out.println(result);

@@ -14,6 +14,7 @@ public class GUI extends Application {
 	public Database db = new Database();
 	public static UserGUI user = new UserGUI();
 	public static CourseGUI course = new CourseGUI();
+	public static RegistrationGUI registration = new RegistrationGUI();
 
 	@Override
 	public void start(Stage stage) {
@@ -35,7 +36,7 @@ public class GUI extends Application {
 	public void startScene() {
 		// Creates all the buttons
 		Button bCourse = new Button("Courses");
-		Button bEnroledCourse = new Button("Your enroled courses");
+		Button bRegistrations = new Button("Registrations");
 		Button bTop3course = new Button("Top 3 courses");
 		Button bWebcast = new Button("Webcasts");
 		Button bEnroledWebcast = new Button("Your enroled Webcasts");
@@ -48,7 +49,7 @@ public class GUI extends Application {
 
 		// Specifies coordinates for the buttons
 		gridPane.add(bCourse, 0, 1);
-		gridPane.add(bEnroledCourse, 1, 1);
+		gridPane.add(bRegistrations, 1, 1);
 
 		gridPane.add(bWebcast, 0, 2);
 		gridPane.add(bEnroledWebcast, 1, 2);
@@ -65,7 +66,7 @@ public class GUI extends Application {
 		gridPane.setHgap(10);
 
 		bCourse.setMaxWidth(300);
-		bEnroledCourse.setMaxWidth(300);
+		bRegistrations.setMaxWidth(300);
 		bTop3course.setMaxWidth(300);
 		bWebcast.setMaxWidth(300);
 		bEnroledWebcast.setMaxWidth(300);
@@ -85,6 +86,10 @@ public class GUI extends Application {
 
 		bCourse.setOnAction((event) -> {
 			GUI.stage.setScene(course.getScene());
+		});
+
+		bRegistrations.setOnAction((event) -> {
+			GUI.stage.setScene(registration.getScene());
 		});
 	}
 
