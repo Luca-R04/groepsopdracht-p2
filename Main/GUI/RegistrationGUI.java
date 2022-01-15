@@ -105,8 +105,15 @@ public class RegistrationGUI {
 		ObservableList<String> courseTakers = FXCollections.observableArrayList(courseTakerNames);
 		ComboBox<String> courseTaker = new ComboBox<>(courseTakers);
 
-		ObservableList<String> courses = FXCollections.observableArrayList(db.getCourseNames());
-		ComboBox<String> course = new ComboBox<>(courses);
+		Map<String, ArrayList<String>> courses = db.getAllUsers();
+    ArrayList<String> courseTitles = new ArrayList<>();
+
+    for (String key : courses.keySet()) {
+      courseTitles.add(key);
+    }
+
+		ObservableList<String> courseTitleOptions = FXCollections.observableArrayList(courseTitles);
+		ComboBox<String> course = new ComboBox<>(courseTitleOptions);
 
     DatePicker publicationDate = new DatePicker();
 
