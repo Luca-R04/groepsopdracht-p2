@@ -30,8 +30,6 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            excecuteFinally();
         }
     }
 
