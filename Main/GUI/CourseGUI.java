@@ -160,8 +160,8 @@ public class CourseGUI {
 				Course course = new Course(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
 				course.insert();
 
-				// Module m = new Module();
-				// course.addModule(module);
+				Module m = new Module(module.getValue().getTitle(), module.getValue().getVersion(), module.getValue().getSerialNumber(), module.getValue().getDescription(), module.getValue().getContactPerson(), module.getValue().getCourse());
+				course.addModule(m);
 				
 				sceneCourseCreate();
 				GUI.updateScene(this.scene);

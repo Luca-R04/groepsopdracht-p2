@@ -60,13 +60,13 @@ public class Main {
 
         // s.addModule(m);
 
-        ArrayList<Module> modules = db.getAllModules();
+        // ArrayList<Module> modules = db.getAllModules();
 
-        for(Module m : modules) {
-            System.out.println(m.getTitle());
-        }
+        // for(Module m : modules) {
+        //     System.out.println(m.getTitle());
+        // }
         
-        // Application.launch(GUI.class);
+        Application.launch(GUI.class);
 
         // while(true) {
         //     Scanner s = new Scanner(System.in);
