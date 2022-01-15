@@ -253,9 +253,18 @@ public class UserGUI {
 		Label lCountry = new Label("Country:");
 		Label lResidence = new Label("Residence: ");
 
+		Map<String, ArrayList<String>> users = db.getAllUsers();
+		ArrayList<String> userEmails = new ArrayList<>();
+
+    for (String key : users.keySet()) {
+      userEmails.add(key);
+    }
+
+		ObservableList<String> userEmailOptions = FXCollections.observableArrayList(userEmails);
+
 		// Text fields
-		ComboBox<String> userEmails = new ComboBox<>();
-		userEmails.setItems(db.getUserEmails());
+		ComboBox<String> userEmail = new ComboBox<>();
+		userEmail.setItems(userEmailOptions);
 		TextField email = new TextField();
 		TextField name = new TextField();
 		DatePicker birthdate = new DatePicker();
@@ -268,20 +277,19 @@ public class UserGUI {
 		ComboBox<Gender> gender = new ComboBox<>(genders);
 
 		//When a user is selected from the comboBox the method will display it's data
-		userEmails.valueProperty().addListener((obs, oldItem, newItem) -> {
+		userEmail.valueProperty().addListener((obs, oldItem, newItem) -> {
 			name.textProperty().unbind();
 			if (newItem == null) {
 				name.setText("");
 			} else {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				Map<String, ArrayList<String>> users = db.getAllUsers();
-				ArrayList<String> data = users.get(userEmails.getValue());
+				ArrayList<String> data = users.get(userEmail.getValue());
 
 				//Puts the data into the correct textField
 				for (int i = 0; i < data.size(); i++) {
 					String labelValue = data.get(i);
 
-					email.setText(userEmails.getValue());
+					email.setText(userEmail.getValue());
 
 					if (i == 0) {
 						name.setText(labelValue);
@@ -305,7 +313,7 @@ public class UserGUI {
 
 		// Coordinates for the elements
 		gridPane.add(lUser, 0, 1);
-		gridPane.add(userEmails, 1, 1);
+		gridPane.add(userEmail, 1, 1);
 
 		gridPane.add(lEmail, 0, 2);
 		gridPane.add(email, 1, 2);
@@ -352,7 +360,7 @@ public class UserGUI {
 			}
 
 			// Checks if a date is picked
-			if (birthdate.getValue() == null || gender.getValue() == null || userEmails.getValue() == null) {
+			if (birthdate.getValue() == null || gender.getValue() == null || userEmail.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Make a choice in every combobox!");
@@ -366,7 +374,7 @@ public class UserGUI {
 				String isStaff = null;
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				User u = new User(userEmail.getValue(), name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
 				u.update(email.getText(), name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText());
 
 				sceneUserRead();

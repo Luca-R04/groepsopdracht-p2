@@ -74,11 +74,8 @@ public class Database {
                 courseTakerId = this.createCourseTaker();
             }
 
-            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getName() + "','" + u.getBirthDate()
-                    + "','" + u.getGender() + "','"
-                    + u.getAddress() + "','" + u.getPostal() + "','" + u.getResidence() + "','" + u.getCountry() + "',"
-                    + courseTakerId + ","
-                    + staffId + ")";
+            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','"
+                    + u.getAddress() + "','" + u.getPostal() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + "," + staffId + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
         } catch (Exception e) {
@@ -150,29 +147,6 @@ public class Database {
         }
 
         return users;
-    }
-
-    public ObservableList<String> getUserEmails() {
-        ObservableList<String> userEmails = FXCollections.observableArrayList();
-
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            String SQL = "SELECT Email FROM [User]";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-
-            while (rs.next()) {
-                userEmails.add(rs.getString("Email"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        return userEmails;
     }
 
     public int getCourseTakerID(String email) {
