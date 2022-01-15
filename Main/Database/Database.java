@@ -48,12 +48,15 @@ public class Database {
             try {
                 con.close();
             } catch (Exception e) {
-        }
+            }
     }
 
     // Creates a user inside the database
     public void createUser(User u) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             Integer courseTakerId = null;
             Integer staffId = null;
 
@@ -91,6 +94,9 @@ public class Database {
         Map<String, ArrayList<String>> users = new HashMap<>();
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT * FROM [User]";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -119,6 +125,8 @@ public class Database {
         ObservableList<String> userEmails = FXCollections.observableArrayList();
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
 
             String SQL = "SELECT Email FROM [User]";
             stmt = con.createStatement();
@@ -136,10 +144,38 @@ public class Database {
         return userEmails;
     }
 
+    public int getCourseTakerID(String email) {
+        int userID = 1;
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "Select CoursetakerID from [User] where Email = '" + email + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+            userID = rs.getInt("CoursetakerID");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return userID;
+    }
+
     public User getSpecificUser(String email) {
         User user = null;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            
             String SQL = "SELECT * FROM [User] WHERE email = '" + email + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -169,6 +205,9 @@ public class Database {
 
     public void deleteUser(String email) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            
             String SQL = "DELETE FROM [User] WHERE (Email = '" + email + "')";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
@@ -183,6 +222,9 @@ public class Database {
     public void updateUser(User user, String email, String name, Date birthDate, Gender gender, String address,
             String postalCode, String residence, String country) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "UPDATE [User] SET Name = '" + name + "', DateOfBirth = '" + birthDate
                     + "', Gender = '" + gender + "', Address = '" + address + "', PostalCode = '" + postalCode
                     + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '"
@@ -199,6 +241,9 @@ public class Database {
 
     public Integer createStaff() {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "INSERT INTO Staff DEFAULT VALUES";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
@@ -226,6 +271,8 @@ public class Database {
 
     public Integer createCourseTaker() {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
 
             String SQL = "INSERT INTO CourseTaker DEFAULT VALUES";
             stmt = con.createStatement();
@@ -238,7 +285,7 @@ public class Database {
         int id = 0;
 
         try {
-
+            
             String SQL = "SELECT TOP 1 * FROM CourseTaker ORDER BY CourseTakerID DESC";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -255,6 +302,9 @@ public class Database {
 
     public void createContentItem(Date publicationDate, Status status, Integer webcastID, Integer courseID) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID + ","
                     + courseID + ")";
             stmt = con.createStatement();
@@ -269,6 +319,9 @@ public class Database {
 
     public void createCourse(Date publicationDate, Status status, Course c) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "INSERT INTO Course VALUES ('" + c.getName() + "','" + c.getTopic() + "','" + c.getText()
                     + "','" + c.getLevel() + "'," + null + ")";
             stmt = con.createStatement();
@@ -300,6 +353,9 @@ public class Database {
 
     public void deleteCourse(String name) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "DELETE FROM Course WHERE Name = '" + name + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
@@ -315,6 +371,9 @@ public class Database {
         Map<String, ArrayList<String>> courses = new HashMap<>();
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT * FROM Course";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -348,6 +407,9 @@ public class Database {
         Level level = null;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT * FROM Course WHERE Name = '" + name + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -387,6 +449,9 @@ public class Database {
     public void updateCourse(Course c, Date publicationDate, Status status, String name, String topic, String text,
             Level level) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "UPDATE Course SET Name = '" + name + "', Topic = '" + topic + "', Text = '" + text
                     + "', Lvl = '" + level + "'WHERE Name = '"
                     + c.getName() + "'";
@@ -402,6 +467,9 @@ public class Database {
 
     public void createWebcast(Date publicationDate, Status status, Webcast w) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "INSERT INTO Webcast VALUES ('" + w.getTitle() + "','" + w.getURL() + "','"
                     + w.getDescription() + "','" + w.getDuration() + "','"
                     + w.getSpeaker().getName() + "','" + w.getSpeaker().getOrganisation() + "')";
@@ -417,6 +485,9 @@ public class Database {
         int id = 0;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            
             String SQL = "SELECT TOP 1 * FROM Webcast ORDER BY WebcastID DESC";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -434,6 +505,9 @@ public class Database {
 
     public void deleteWebcast(Webcast w) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "DELETE FROM Webcast WHERE Title = '" + w.getTitle() + "' AND URL = '" + w.getURL() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
@@ -448,6 +522,9 @@ public class Database {
     public void updateWebcast(Webcast w, Date publicationDate, Status status, String title, String URL, int duration,
             String description, Speaker speaker) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "UPDATE Webcast SET Title = '" + title + "', URL = '" + URL + "', Description = '"
                     + description + "', Duration = '" + duration + "', SpeakerName = '" + speaker.getName()
                     + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + w.getTitle()
@@ -464,6 +541,9 @@ public class Database {
 
     public void createContactPerson(ContactPerson contactPerson) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "INSERT INTO ContactPerson VALUES ('" + contactPerson.getEmail() + "','"
                     + contactPerson.getName() + "')";
             stmt = con.createStatement();
@@ -478,6 +558,9 @@ public class Database {
 
     public void updateContactPerson(ContactPerson c, String email, String name) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "UPDATE ContactPerson SET Email = '" + email + "', Name = '" + name + "'WHERE Email = '"
                     + c.getEmail() + "'";
             stmt = con.createStatement();
@@ -492,6 +575,9 @@ public class Database {
 
     public void deleteContactPerson(ContactPerson c) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "DELETE FROM ContactPerson WHERE Email = '" + c.getEmail() + "'";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
@@ -507,6 +593,9 @@ public class Database {
         int courseId = 0;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT CourseID FROM Course WHERE Name = '" + module.getCourse().getName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -550,6 +639,9 @@ public class Database {
         ArrayList<Module> modules = new ArrayList<>();
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT * FROM Module JOIN ContactPerson ON Module.ContactPersonID = ContactPerson.ContactPersonID JOIN Course ON Module.CourseID = Course.CourseID JOIN ContentItem ON Course.CourseID = ContentItem.CourseID";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -587,6 +679,9 @@ public class Database {
 
     public void updateModule(Module m, String title, int version, int serialNumber, String description) {
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "UPDATE Module SET Title = '" + title + "', Version = " + version + ", SerialNumber = '"
                     + serialNumber + "', Description = '" + description + "'WHERE Title = '" + m.getTitle()
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
@@ -604,6 +699,9 @@ public class Database {
         int contactPersonId = 0;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT ContactPersonID FROM ContactPerson WHERE Email = '" + c.getEmail() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -634,6 +732,9 @@ public class Database {
         int courseId = 0;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT CourseID FROM Course WHERE Name = '" + c.getName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -648,6 +749,9 @@ public class Database {
         }
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "UPDATE Module SET CourseID = " + courseId + "WHERE Title = '" + m.getTitle()
                     + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'";
             stmt = con.createStatement();
@@ -665,6 +769,9 @@ public class Database {
         int courseTakerId = 0;
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT CourseID FROM Course WHERE Name = '" + registration.getCourse().getName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -678,6 +785,9 @@ public class Database {
         }
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT CourseTakerID FROM [User] WHERE Name = '" + registration.getCourseTaker().getName()
                     + "'";
             stmt = con.createStatement();
@@ -692,6 +802,9 @@ public class Database {
         }
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'"
                     + registration.getDate() + "')";
             stmt = con.createStatement();
@@ -702,5 +815,36 @@ public class Database {
         } finally {
             excecuteFinally();
         }
+    }
+
+    public Map<String, ArrayList<String>> getCertificates() {
+        Map<String, ArrayList<String>> certificates = new HashMap<>();
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Certificate";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+
+            while (rs.next()) {
+                ArrayList<String> certificateData = new ArrayList<>();
+                for (int i = 2; i < columnCount + 1; i++) {
+                    certificateData.add(rs.getString(i));
+                }
+
+                certificates.put(rs.getString(1), certificateData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return certificates;
     }
 }
