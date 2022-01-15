@@ -161,6 +161,10 @@ public class CourseGUI {
 
 				sceneCourseCreate();
 				GUI.updateScene(this.scene);
+
+				Alert errorAlert = new Alert(AlertType.CONFIRMATION);
+				errorAlert.setHeaderText("Course successfully created!");
+				errorAlert.showAndWait();
 			}
 		});
 
