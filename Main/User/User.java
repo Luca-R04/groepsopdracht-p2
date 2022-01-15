@@ -34,7 +34,7 @@ public class User {
         db.createUser(this);
     }
 
-    public void update(String name, Date birthDate, Gender gender, String address, String postalCode, String residence, String country) {
+    public void update(String email, String name, Date birthDate, Gender gender, String address, String postalCode, String residence, String country) {
         db.updateUser(this, email, name, birthDate, gender, address, postalCode ,residence, country); 
 
         this.name = name;
@@ -43,7 +43,6 @@ public class User {
         this.address = address;
         this.residence = residence;
         this.country = country;
- 
     }
 
     public void delete() {

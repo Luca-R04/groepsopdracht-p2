@@ -201,22 +201,27 @@ public class UserGUI {
 	public void sceneUserRead() {
 		GridPane gridPane = new GridPane();
 		Map<String, ArrayList<String>> users = db.getAllUsers();
-		int count = 0;
+		int count = 1;
+
+		HBox dataType = new HBox();
+		dataType.getChildren().addAll(new Label("Email"), new Label("Name"), new Label("Birthdate"), new Label("Gender"), new Label("Address"), new Label("Postal Code"), new Label("Residence"), new Label("Country"));
+		dataType.setSpacing(15);
+		gridPane.add(dataType, 0, 0); 
 
 		for (String key : users.keySet()) {
-			HBox userLayer = new HBox();
+			HBox userData = new HBox();
 
 			Label lEmail = new Label(key);
-			userLayer.getChildren().add(lEmail);
+			userData.getChildren().add(lEmail);
 
 			for (int i = 0; i < users.get(key).size(); i++) {
 				Label data = new Label(users.get(key).get(i));
-				userLayer.getChildren().add(data);
-				userLayer.setSpacing(10);
+				userData.getChildren().add(data);
+				userData.setSpacing(10);
 			}
 
 			Button delete = new Button("Delete");
-			userLayer.getChildren().add(delete);
+			userData.getChildren().add(delete);
 
 			delete.setOnAction((event) -> {
 				db.deleteUser(key);
@@ -224,7 +229,7 @@ public class UserGUI {
 				GUI.updateScene(this.scene);
 			});
 
-			gridPane.add(userLayer, 0, count);
+			gridPane.add(userData, 0, count);
 			count++;
 		}
 
@@ -235,9 +240,10 @@ public class UserGUI {
 	public void sceneUserUpdate() {
 		GridPane gridPane = new GridPane();
 
-		Button bSubmit = new Button("Submit");
+		Button bUpdate = new Button("Update");
 
 		// Labels;
+		Label lUser = new Label("User: ");
 		Label lEmail = new Label("Email: ");
 		Label lName = new Label("Name: ");
 		Label lBirthdate = new Label("Birthdate: ");
@@ -250,6 +256,7 @@ public class UserGUI {
 		// Text fields
 		ComboBox<String> userEmails = new ComboBox<>();
 		userEmails.setItems(db.getUserEmails());
+		TextField email = new TextField();
 		TextField name = new TextField();
 		DatePicker birthdate = new DatePicker();
 		TextField address = new TextField();
@@ -272,6 +279,8 @@ public class UserGUI {
 				for (int i = 0; i < data.size(); i++) {
 					String labelValue = data.get(i);
 
+					email.setText(userEmails.getValue());
+
 					if (i == 0) {
 						name.setText(labelValue);
 					} else if (i == 1) {
@@ -293,31 +302,34 @@ public class UserGUI {
 		});
 
 		// Coordinates for the elements
-		gridPane.add(lEmail, 0, 1);
+		gridPane.add(lUser, 0, 1);
 		gridPane.add(userEmails, 1, 1);
 
-		gridPane.add(lName, 0, 2);
-		gridPane.add(name, 1, 2);
+		gridPane.add(lEmail, 0, 2);
+		gridPane.add(email, 1, 2);
 
-		gridPane.add(lBirthdate, 0, 3);
-		gridPane.add(birthdate, 1, 3);
+		gridPane.add(lName, 0, 3);
+		gridPane.add(name, 1, 3);
 
-		gridPane.add(lGender, 0, 4);
-		gridPane.add(gender, 1, 4);
+		gridPane.add(lBirthdate, 0, 4);
+		gridPane.add(birthdate, 1, 4);
 
-		gridPane.add(lAddress, 0, 5);
-		gridPane.add(address, 1, 5);
+		gridPane.add(lGender, 0, 5);
+		gridPane.add(gender, 1, 5);
 
-		gridPane.add(lPostal, 0, 6);
-		gridPane.add(postal, 1, 6);
+		gridPane.add(lAddress, 0, 6);
+		gridPane.add(address, 1, 6);
 
-		gridPane.add(lResidence, 0, 7);
-		gridPane.add(residence, 1, 7);
+		gridPane.add(lPostal, 0, 7);
+		gridPane.add(postal, 1, 7);
 
-		gridPane.add(lCountry, 0, 8);
-		gridPane.add(country, 1, 8);
+		gridPane.add(lResidence, 0, 8);
+		gridPane.add(residence, 1, 8);
 
-		gridPane.add(bSubmit, 1, 9);
+		gridPane.add(lCountry, 0, 9);
+		gridPane.add(country, 1, 9);
+
+		gridPane.add(bUpdate, 1, 10);
 
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -325,11 +337,11 @@ public class UserGUI {
 		gridPane.setHgap(10);
 
 		// Functions
-		bSubmit.setOnAction((action) -> {
+		bUpdate.setOnAction((action) -> {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (userEmails.getSelectionModel().isEmpty() || name.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
+			if (email.getText().isEmpty() || name.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Fill in all the fields");
@@ -338,7 +350,7 @@ public class UserGUI {
 			}
 
 			// Checks if a date is picked
-			if (birthdate.getValue() == null || gender.getValue() == null) {
+			if (birthdate.getValue() == null || gender.getValue() == null || userEmails.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Make a choice in every combobox!");
@@ -353,18 +365,18 @@ public class UserGUI {
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
 				User u = new User(userEmails.getValue(), name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
-				u.update(name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText());
+				u.update(email.getText(), name.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText());
 
 				sceneUserRead();
 				GUI.updateScene(this.scene);
 
 				Alert errorAlert = new Alert(AlertType.CONFIRMATION);
-				errorAlert.setHeaderText("Course Taker successfully updated!");
+				errorAlert.setHeaderText("User successfully updated!");
 				errorAlert.showAndWait();
 			}
 		});
 
-		this.scene = new Scene(gridPane, 600, 700);
+		this.scene = new Scene(gridPane, 700, 700);
 	}
 
 	// Method that gives options for the user to navigate through the CRUD system

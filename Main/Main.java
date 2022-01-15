@@ -46,7 +46,6 @@ public class Main {
         // s2.insert();
         // s3.insert();
 
-
         // ContactPerson john = new ContactPerson("testjohn@gmail.com", "John");
 
         // Module m1 = new Module("Programming 1", "1", 1234555, "Module about programming", john, s1);
@@ -62,7 +61,6 @@ public class Main {
         // s.addModule(m);
         
         Application.launch(GUI.class);
-
 
         // while(true) {
         //     Scanner s = new Scanner(System.in);

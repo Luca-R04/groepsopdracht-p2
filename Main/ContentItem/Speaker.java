@@ -2,13 +2,13 @@ package Main.ContentItem;
 
 import java.util.ArrayList;
 
-import Main.Database.Database;
+// import Main.Database.Database;
 
 public class Speaker {
     private String organisation;
     private String name;
     private ArrayList<Webcast> webcasts; 
-    private Database db = new Database();
+    // private Database db = new Database();
 
     public Speaker(String organisation, String name) {
         this.organisation = organisation;
