@@ -18,7 +18,7 @@ public class ContactPerson {
     }
 
     public void insert() {
-        db.createContactPerson(this);
+        // db.createContactPerson(this);
     }
 
     public void addModule(Module module) {
@@ -28,14 +28,14 @@ public class ContactPerson {
     }
 
     public void update(String email, String name) {
-        db.updateContactPerson(this, email, name);
+        // db.updateContactPerson(this, email, name);
 
         this.email = email;
         this.name = name;
     }
 
     public void delete() {
-        db.deleteContactPerson(this);
+        // db.deleteContactPerson(this);
     }
 
     public String getEmail() {

@@ -32,7 +32,7 @@ public class Webcast extends ContentItem {
     }
 
     public void update(Date publicationDate, Status status, String title, String URL, int duration, String description, Speaker speaker) {
-        db.updateWebcast(this, publicationDate, status, title, URL, duration, description, speaker);
+        // db.updateWebcast(this, publicationDate, status, title, URL, duration, description, speaker);
 
         this.title = title;
         this.URL = URL;
@@ -42,7 +42,7 @@ public class Webcast extends ContentItem {
     }
 
     public void delete() {
-        db.deleteWebcast(this);
+        // db.deleteWebcast(this);
     }
 
     public String getTitle() {

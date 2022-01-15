@@ -523,96 +523,96 @@ public class Database {
     //     this.createContentItem(publicationDate, status, webcastId, null);
     // }
 
-    public void createSpeaker(Speaker speaker) {
-        try {
-            String SQL = "INSERT INTO Speaker VALUES ('" + speaker.getName() + "','" + speaker.getOrganisation() + "')";
-            stmt = con.createStatement();
-            stmt.execute(SQL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    // public void createSpeaker(Speaker speaker) {
+    //     try {
+    //         String SQL = "INSERT INTO Speaker VALUES ('" + speaker.getName() + "','" + speaker.getOrganisation() + "')";
+    //         stmt = con.createStatement();
+    //         stmt.execute(SQL);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
-    public void deleteWebcast(Webcast w) {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
+    // public void deleteWebcast(Webcast w) {
+    //     try {
+    //         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    //         con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "DELETE FROM Webcast WHERE Title = '" + w.getTitle() + "' AND URL = '" + w.getURL() + "'";
-            stmt = con.createStatement();
-            stmt.execute(SQL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-    }
+    //         String SQL = "DELETE FROM Webcast WHERE Title = '" + w.getTitle() + "' AND URL = '" + w.getURL() + "'";
+    //         stmt = con.createStatement();
+    //         stmt.execute(SQL);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         excecuteFinally();
+    //     }
+    // }
 
-    public void updateWebcast(Webcast w, Date publicationDate, Status status, String title, String URL, int duration,
-            String description, Speaker speaker) {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
+    // public void updateWebcast(Webcast w, Date publicationDate, Status status, String title, String URL, int duration,
+    //         String description, Speaker speaker) {
+    //     try {
+    //         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    //         con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE Webcast SET Title = '" + title + "', URL = '" + URL + "', Description = '"
-                    + description + "', Duration = '" + duration + "', SpeakerName = '" + speaker.getName()
-                    + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + w.getTitle()
-                    + "' AND URL = '" + w.getURL() + "'";
-            stmt = con.createStatement();
-            stmt.execute(SQL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-    }
+    //         String SQL = "UPDATE Webcast SET Title = '" + title + "', URL = '" + URL + "', Description = '"
+    //                 + description + "', Duration = '" + duration + "', SpeakerName = '" + speaker.getName()
+    //                 + "', SpeakerOrganisation = '" + speaker.getOrganisation() + "'WHERE Title = '" + w.getTitle()
+    //                 + "' AND URL = '" + w.getURL() + "'";
+    //         stmt = con.createStatement();
+    //         stmt.execute(SQL);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         excecuteFinally();
+    //     }
+    // }
 
-    public void createContactPerson(ContactPerson contactPerson) {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
+    // public void createContactPerson(ContactPerson contactPerson) {
+    //     try {
+    //         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    //         con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO ContactPerson VALUES ('" + contactPerson.getEmail() + "','"
-                    + contactPerson.getName() + "')";
-            stmt = con.createStatement();
-            stmt.execute(SQL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-    }
+    //         String SQL = "INSERT INTO ContactPerson VALUES ('" + contactPerson.getEmail() + "','"
+    //                 + contactPerson.getName() + "')";
+    //         stmt = con.createStatement();
+    //         stmt.execute(SQL);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         excecuteFinally();
+    //     }
+    // }
 
-    public void updateContactPerson(ContactPerson c, String email, String name) {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
+    // public void updateContactPerson(ContactPerson c, String email, String name) {
+    //     try {
+    //         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    //         con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE ContactPerson SET Email = '" + email + "', Name = '" + name + "'WHERE Email = '"
-                    + c.getEmail() + "'";
-            stmt = con.createStatement();
-            stmt.execute(SQL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-    }
+    //         String SQL = "UPDATE ContactPerson SET Email = '" + email + "', Name = '" + name + "'WHERE Email = '"
+    //                 + c.getEmail() + "'";
+    //         stmt = con.createStatement();
+    //         stmt.execute(SQL);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         excecuteFinally();
+    //     }
+    // }
 
-    public void deleteContactPerson(ContactPerson c) {
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
+    // public void deleteContactPerson(ContactPerson c) {
+    //     try {
+    //         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    //         con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "DELETE FROM ContactPerson WHERE Email = '" + c.getEmail() + "'";
-            stmt = con.createStatement();
-            stmt.execute(SQL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-    }
+    //         String SQL = "DELETE FROM ContactPerson WHERE Email = '" + c.getEmail() + "'";
+    //         stmt = con.createStatement();
+    //         stmt.execute(SQL);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         excecuteFinally();
+    //     }
+    // }
 
     public void createModule(Module module) {
         int courseId = 0;

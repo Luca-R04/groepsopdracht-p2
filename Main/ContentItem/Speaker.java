@@ -13,7 +13,7 @@ public class Speaker {
     }
 
     public void insert() {
-        db.createSpeaker(this);
+        // db.createSpeaker(this);
     }
 
     public String getOrganisation() {
