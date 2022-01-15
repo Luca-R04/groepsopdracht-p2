@@ -6,7 +6,8 @@ import Main.Database.Database;
 
 public class User {
     private String email;
-    private String name;
+    private String FirstName;
+    private String LastName;
     private Date birthDate;
     private Gender gender;
     private String address;
@@ -17,9 +18,10 @@ public class User {
     private String isStaff;
     private Database db = new Database();
 
-    public User(String email, String name, Date birthDate, Gender gender, String address, String postalCode, String residence, String country, String isCourseTaker, String isStaff) {
+    public User(String email, String FirstName, String LastName,  Date birthDate, Gender gender, String address, String postalCode, String residence, String country, String isCourseTaker, String isStaff) {
         this.email = email;
-        this.name = name;
+        this.FirstName = FirstName;
+        this.LastName = LastName;
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
@@ -34,10 +36,10 @@ public class User {
         db.createUser(this);
     }
 
-    public void update(String email, String name, Date birthDate, Gender gender, String address, String postalCode, String residence, String country) {
-        db.updateUser(this, email, name, birthDate, gender, address, postalCode ,residence, country); 
+    public void update(String email, String FirstName, String LastName,  Date birthDate, Gender gender, String address, String postalCode, String residence, String country) {
+        db.updateUser(this, email, FirstName, LastName, birthDate, gender, address, postalCode ,residence, country); 
 
-        this.name = name;
+        this.FirstName = FirstName;
         this.birthDate = birthDate;
         this.gender = gender;
         this.address = address;
@@ -53,8 +55,12 @@ public class User {
         return this.email;
     }
 
-    public String getName() {
-        return this.name;
+    public String getFirstName() {
+        return this.FirstName;
+    }
+
+    public String getLastName() {
+        return this.LastName;
     }
 
     public Date getBirthDate() {

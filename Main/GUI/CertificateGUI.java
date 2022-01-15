@@ -64,9 +64,9 @@ public class CertificateGUI {
 		// Labels;
 		Label lUser = new Label("User: ");
         Label lCertificates = new Label("Certificate: ");
-		Label lCertificateID = new Label("ID: ");
+		Label lCertificateID = new Label("Certificate ID: ");
         Label lRating = new Label("Rating: ");
-		Label lStaff = new Label("Staff name: ");
+		Label lStaff = new Label("Staff ID: ");
 		Label lCourse = new Label("Course: ");
 
         Map<String, ArrayList<String>> users = db.getAllUsers();

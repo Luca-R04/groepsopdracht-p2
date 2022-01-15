@@ -74,7 +74,7 @@ public class Database {
                 courseTakerId = this.createCourseTaker();
             }
 
-            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','"
+            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getFirstName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','"
                     + u.getAddress() + "','" + u.getPostal() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + "," + staffId + ")";
             stmt = con.createStatement();
             boolean result = stmt.execute(SQL);
@@ -127,7 +127,8 @@ public class Database {
 
             while (rs.next()) {
                 String email = rs.getString("Email");
-                String name = rs.getString("Name");
+                String FirstName = rs.getString("FirstName");
+                String LastName = rs.getString("LastName");
                 Date birthDate = rs.getDate("DateOfBirth");
                 Gender gender = Gender.valueOf(rs.getString("Gender"));
                 String address = rs.getString("Address");
@@ -137,7 +138,7 @@ public class Database {
                 String isCourseTaker = rs.getString("CourseTakerID");
                 String isStaff = rs.getString("StaffID");
 
-                User user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+                User user = new User(email, FirstName, LastName,  birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
                 users.add(user);
             }
         } catch (Exception e) {
@@ -186,7 +187,8 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                String name = rs.getString("Name");
+                String FirstName = rs.getString("FirstName");
+                String LastName = rs.getString("LastName");
                 Date birthDate = rs.getDate("DateOfBirth");
                 Gender gender = Gender.valueOf(rs.getString("Gender"));
                 String address = rs.getString("Address");
@@ -196,7 +198,7 @@ public class Database {
                 String isCourseTaker = rs.getString("CourseTakerID");
                 String isStaff = rs.getString("StaffID");
 
-                user = new User(email, name, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+                user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,13 +224,13 @@ public class Database {
         }
     }
 
-    public void updateUser(User user, String email, String name, Date birthDate, Gender gender, String address,
+    public void updateUser(User user, String email, String FirstName, String LastName, Date birthDate, Gender gender, String address,
             String postalCode, String residence, String country) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE [User] SET Name = '" + name + "', DateOfBirth = '" + birthDate
+            String SQL = "UPDATE [User] SET FirstName = '" + FirstName  +  "', LastName = '" + LastName + "', DateOfBirth = '" + birthDate
                     + "', Gender = '" + gender + "', Address = '" + address + "', PostalCode = '" + postalCode
                     + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '"
                     + user.getEmail() + "'";
@@ -806,7 +808,7 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "SELECT CourseTakerID FROM [User] WHERE Name = '" + registration.getCourseTaker().getName()
+            String SQL = "SELECT CourseTakerID FROM [User] WHERE Name = '" + registration.getCourseTaker().getFirstName()
                     + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
