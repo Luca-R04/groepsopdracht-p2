@@ -1,40 +1,26 @@
 package Main.ContentItem;
 
-import java.util.ArrayList;
-
-// import Main.Database.Database;
+import Main.Database.Database;
 
 public class Speaker {
     private String organisation;
     private String name;
-    private ArrayList<Webcast> webcasts; 
-    // private Database db = new Database();
+    private Database db = new Database();
 
-    public Speaker(String organisation, String name) {
-        this.organisation = organisation;
+    public Speaker(String name, String organisation) {
         this.name = name;
-
-        this.webcasts = new ArrayList<>();
+        this.organisation = organisation;
     }
 
-    // public void insert() {
-    //     db.createSpeaker(this);
-    // }
-
-    public void addWebcast(Webcast webcast) {
-        this.webcasts.add(webcast);
+    public void insert() {
+        db.createSpeaker(this);
     }
 
     public String getOrganisation() {
-        return organisation;
+        return this.organisation;
     }
 
     public String getName() {
-        return name; 
-    }
-
-    public void update(String organisation, String name) {
-        this.organisation = organisation;
-        this.name = name;
+        return this.name; 
     }
 }

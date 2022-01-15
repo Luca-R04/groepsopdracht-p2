@@ -26,19 +26,14 @@ public class Main {
         // User user2 = new User("johndoe2@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
         // User user3 = new User("johndoe3@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
 
-        // db.updateUser("Email@gmail.com", "Kees", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
-        // db.deleteUser("johndoe@gmail.com");
-        // db.deleteUser("johndoe2@gmail.com");
-
-        // HashMap<String, ArrayList<String>> users = db.getAllUsers();
-        // System.out.println(users.get("johndoe@gmail.com"));
-        
         // Application.launch(GUI.class);
 
-        // Webcast w = new Webcast(date, "not done", "Webcast 3", "https://www.google.com", 100, "Toon", "Test webcast", s);
-        // w.update(date, "not done", "Webcast 1", "https://www.google.com", 150, "Toon", "Test webcast", s);
+        Speaker s = new Speaker("Kees", "AH");
+        s.insert();
+        Webcast w = new Webcast(date, Status.ACTIVE, "Webcast 3", "https://www.google.com", 100, "Test webcast", s);
+        w.insert();
 
-        // Course s1 = new Course(date, Status.ARCHIVED, "Course 1", "https://www.google.com", "Test course 1", Level.BEGINNER);
+        // Course s1 = new Course(date, Status.ARCHIVED, "Course 5", "https://www.google.com", "Test course 1", Level.BEGINNER);
         // Course s2 = new Course(date, Status.ACTIVE, "Course 2", "https://www.google.com", "Test course 2", Level.ADVANCED);
         // Course s3 = new Course(date, Status.CONCEPT, "Course 3", "https://www.google.com", "Test course 3", Level.EXPERT);
 
@@ -58,36 +53,6 @@ public class Main {
         // m3.insert();
         // m4.insert();
 
-        // s.addModule(m);
-
-        // ArrayList<Module> modules = db.getAllModules();
-
-        // for(Module m : modules) {
-        //     System.out.println(m.getTitle());
-        // }
-        
-        Application.launch(GUI.class);
-
-        // while(true) {
-        //     Scanner s = new Scanner(System.in);
-        //     String input = s.nextLine();
-
-        //     if(input.equals("update")) {
-        //         System.out.println("Email: ");
-        //         String email = s.nextLine();
-        //         System.out.println("Name: ");
-        //         String name = s.nextLine();
-
-        //         john.update(email, name);
-        //     }
-
-        //     if(input.equals("delete")) {
-        //         john.delete();
-        //     }
-        // }
-
-        // john.addModule(m);
-
-        // System.out.println(db.getAllUsers());            
+        // Application.launch(GUI.class);        
     }
 }
