@@ -448,28 +448,48 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "SELECT * FROM Registration JOIN [User] ON [User].CourseTakerID = Registration.CourseTakerID JOIN Course ON Course.CourseID = Registration.CourseID";
+            String SQL = "SELECT * FROM Registration JOIN [User] ON [User].CourseTakerID = Registration.CourseTakerID JOIN Course ON Course.CourseID = Registration.CourseID JOIN ContentItem ON ContentItem.CourseID = Course.CourseID";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                String userEmail = rs.getString("Email");
-                ArrayList<User> users = this.getUsers();
-                User user = null;
-                for(User u : users) {
-                    if (u.getEmail().equals(userEmail)) {
-                        user = u;
-                    }
-                }
+                String email = rs.getString("Email");
+                String FirstName = rs.getString("FirstName");
+                String LastName = rs.getString("LastName");
+                Date birthDate = rs.getDate("DateOfBirth");
+                Gender gender = Gender.valueOf(rs.getString("Gender"));
+                String address = rs.getString("Address");
+                String postalCode = rs.getString("PostalCode");
+                String residence = rs.getString("Residence");
+                String country = rs.getString("Country");
+                String isCourseTaker = rs.getString("CourseTakerID");
+                String isStaff = rs.getString("StaffID");
+                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
 
+                Date coursePublicationDate = rs.getDate("PublicationDate");
+                Status courseStatus = Status.valueOf(rs.getString("Status"));
                 String courseName = rs.getString("Name");
-                ArrayList<Course> courses = this.getAllCourses();
-                Course course = null;
-                for(Course c : courses) {
-                    if (c.getName().equals(courseName)) {
-                        course = c;
-                    }
-                }
+                String courseTopic = rs.getString("Topic");
+                String courseText = rs.getString("Text");
+                Level courseLevel = Level.valueOf(rs.getString("Lvl"));
+                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText, courseLevel);
+
+                // ArrayList<User> users = this.getUsers();
+                // User user = null;
+                // for(User u : users) {
+                //     if (u.getEmail().equals(userEmail)) {
+                //         user = u;
+                //     }
+                // }
+
+                // String courseName = rs.getString("Name");
+                // ArrayList<Course> courses = this.getAllCourses();
+                // Course course = null;
+                // for(Course c : courses) {
+                //     if (c.getName().equals(courseName)) {
+                //         course = c;
+                //     }
+                // }
 
                 int id = rs.getInt("RegistrationID"); 
                 Date date = rs.getDate("RegistrationDate");

@@ -74,4 +74,8 @@ public class Course {
     public ArrayList<Module> getModules() {
         return this.modules;
     }
+
+    public String toString() {
+        return this.name; 
+    }
 }

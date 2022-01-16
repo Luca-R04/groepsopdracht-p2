@@ -94,4 +94,8 @@ public class User {
     public String getIsStaff() {
         return this.isStaff;
     }
+
+    public String toString() {
+        return this.email;
+    }
 }

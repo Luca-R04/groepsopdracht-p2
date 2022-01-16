@@ -178,7 +178,7 @@ public class RegistrationGUI {
 		TableView<Registration> tableView = new TableView<>();
 
 		TableColumn<Registration, String> column1 = new TableColumn<>("Course Taker Name");
-    column1.setCellValueFactory(new PropertyValueFactory<>("courseTakear"));
+    column1.setCellValueFactory(new PropertyValueFactory<>("courseTaker"));
 
     TableColumn<Registration, String> column2 = new TableColumn<>("Course");
     column2.setCellValueFactory(new PropertyValueFactory<>("course"));
