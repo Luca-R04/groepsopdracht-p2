@@ -760,7 +760,7 @@ public class Database {
 
                 String speakerFirstName = rs.getString("FirstName");
                 String speakerLastName = rs.getString("LastName");
-                String speakerOrganisation = rs.getString("Organistation");
+                String speakerOrganisation = rs.getString("Organisation");
 
                 Speaker speaker = new Speaker(speakerFirstName, speakerLastName, speakerOrganisation);
                 
