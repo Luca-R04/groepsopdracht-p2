@@ -56,6 +56,6 @@ public class Main {
         // m3.insert();
         // m4.insert();
 
-        // Application.launch(GUI.class);
+        Application.launch(GUI.class);
     }
 }

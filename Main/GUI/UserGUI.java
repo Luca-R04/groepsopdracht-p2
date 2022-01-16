@@ -266,14 +266,14 @@ public class UserGUI {
 		Button delete = new Button("Delete");
 
 		delete.setOnAction((event) -> {
-			// db.deleteUser(key);
+			User user = tableView.getSelectionModel().getSelectedItem();
+			user.delete();
 			sceneUserRead();
 			GUI.updateScene(this.scene);
 		});
 
-		// tableView.getItems().add(delete);
-
     VBox vbox = new VBox(tableView);
+		vbox.getChildren().add(delete);
 
 		this.scene = new Scene(vbox, 800, 800);
 	}
@@ -326,34 +326,25 @@ public class UserGUI {
 			if (newItem == null) {
 				FirstName.setText("");
 			} else {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				ArrayList<String> data = users.get(userEmail.getValue());
-
-				// Puts the data into the correct textField
-				for (int i = 0; i < data.size(); i++) {
-					String labelValue = data.get(i);
-
-					email.setText(userEmail.getValue());
-
-					if (i == 0) {
-						FirstName.setText(labelValue);
-					} else if (i == 1) {
-						LastName.setText(labelValue);
-					} else if (i == 2) {
-						LocalDate date = LocalDate.parse(labelValue, formatter);
-						birthdate.setValue(date);
-					} else if (i == 3) {
-						gender.setValue(Gender.valueOf(labelValue));
-					} else if (i == 4) {
-						address.setText(labelValue);
-					} else if (i == 5) {
-						postal.setText(labelValue);
-					} else if (i == 6) {
-						residence.setText(labelValue);
-					} else if (i == 7) {
-						country.setText(labelValue);
+				User currentUser = null;
+				for (User user : users) {
+					if (user.getEmail().equals(userEmail.getValue())) {
+						currentUser = user;
 					}
 				}
+			
+				email.setText(userEmail.getValue());
+				FirstName.setText(currentUser.getFirstName());
+				LastName.setText(currentUser.getLastName());
+
+				// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				// LocalDate date = LocalDate.parse(currentUser.getBirthDate(), formatter);
+				// birthdate.setValue(date);
+
+				address.setText(currentUser.getAddress());
+				postal.setText(currentUser.getPostalCode());
+				country.setText(currentUser.getCountry());
+				residence.setText(currentUser.getResidence());
 			}
 		});
 

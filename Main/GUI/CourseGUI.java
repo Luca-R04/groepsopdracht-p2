@@ -202,35 +202,12 @@ public class CourseGUI {
 		TableColumn<Course, String> column6 = new TableColumn<>("Modules");
     column6.setCellValueFactory(new PropertyValueFactory<>("modules"));
 
-		// TableColumn<Course, String> column7 = new TableColumn<>("Residence");
-    // column7.setCellValueFactory(new PropertyValueFactory<>("residence"));
-
-		// TableColumn<Course, String> column8 = new TableColumn<>("Postal Code");
-    // column8.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-
-		// TableColumn<Course, String> column9 = new TableColumn<>("Country");
-    // column9.setCellValueFactory(new PropertyValueFactory<>("country"));
-
-		// TableColumn<Course, String> column10 = new TableColumn<>("Course Taker");
-    // column10.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
-
-		// TableColumn<Course, String> column11 = new TableColumn<>("Staff");
-    // column11.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
-
-		// TableColumn<Button, String> column12 = new TableColumn<>("Delete");
-    // column12.setCellValueFactory(new PropertyValueFactory<>("Delete"));
-
     tableView.getColumns().add(column1);
     tableView.getColumns().add(column2);
     tableView.getColumns().add(column3);
     tableView.getColumns().add(column4);
     tableView.getColumns().add(column5);
     tableView.getColumns().add(column6);
-    // tableView.getColumns().add(column7);
-    // tableView.getColumns().add(column8);
-    // tableView.getColumns().add(column9);
-    // tableView.getColumns().add(column10);
-    // tableView.getColumns().add(column11);
 
 		ArrayList<Course> courses = db.getAllCourses();
 
@@ -238,18 +215,14 @@ public class CourseGUI {
 			tableView.getItems().add(course);
 		}
 
-
 		Button delete = new Button("Delete");
 
 		delete.setOnAction((event) -> {
 			Course course = tableView.getSelectionModel().getSelectedItem();
-			System.out.println(course.getName());
 			course.delete();
 			sceneCourseRead();
 			GUI.updateScene(this.scene);
 		});
-
-		// tableView.getItems().add(delete);
 
     VBox vBox = new VBox(tableView);
 		vBox.getChildren().add(delete);
