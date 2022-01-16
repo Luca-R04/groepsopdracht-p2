@@ -3,7 +3,6 @@ package Main.User;
 import Main.Database.Database;
 
 public class Certificate {
-
     private int certificateID;
     private int rating;
     private int staffID;

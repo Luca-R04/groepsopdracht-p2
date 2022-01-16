@@ -519,7 +519,7 @@ public class Database {
             con = DriverManager.getConnection(connectionUrl);
 
             String SQL = "INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'"
-                    + registration.getDate() + "')";
+                    + registration.getRegistrationDate() + "')";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {

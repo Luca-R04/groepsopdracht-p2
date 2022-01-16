@@ -9,13 +9,13 @@ public class Registration {
 	private int id; 
   private User courseTaker; 
   private Course course; 
-  private Date date; 
+  private Date registrationDate; 
 	private Database db = new Database();
 
-	public Registration(User courseTaker, Course course, Date date) {
+	public Registration(User courseTaker, Course course, Date registrationDate) {
 		this.courseTaker = courseTaker;
 		this.course = course;
-		this.date = date;
+		this.registrationDate = registrationDate;
 	}
 
 	public void insert() {
@@ -41,8 +41,8 @@ public class Registration {
 		return this.course;
 	}
 
-	public Date getDate() {
-		return this.date;
+	public Date getRegistrationDate() {
+		return this.registrationDate;
 	}
 
 	public int getId() {
