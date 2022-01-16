@@ -7,7 +7,12 @@ import Main.ContentItem.Course.Module;
 import Main.Database.Database;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
+import javax.xml.namespace.QName;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -167,7 +172,7 @@ public class CourseGUI {
 						module = m;
 					}
 				}
-				
+
 				course.addModule(module);
 				
 				sceneCourseCreate();
@@ -270,7 +275,34 @@ public class CourseGUI {
 		ObservableList<Module> modules = FXCollections.observableArrayList(db.getAllModules());
 		ComboBox<Module> module = new ComboBox<>(modules);
 
-		// gridPane.add(lName, 0, 1);
+		courseName.valueProperty().addListener((obs, oldItem, newItem) -> {
+			lName.textProperty().unbind();
+			if (newItem == null) {
+				lName.setText("");
+			} else {
+				Course currentCourse = null;
+				for (Course course : courses) {
+					if (course.getName().equals(courseName.getValue())) {
+						currentCourse = course;
+					}
+				}
+			
+				name.setText(courseName.getValue());
+				topic.setText(currentCourse.getTopic());
+				text.setText(currentCourse.getText());
+
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDate date = LocalDate.parse(currentCourse.getPublicationDate().toString(), formatter);
+				publicationDate.setValue(date);
+
+				status.setValue(currentCourse.getStatus());
+				level.setValue(currentCourse.getLevel());
+				for(Module m : modules) {
+					module.setValue(m);
+				}
+			}
+		});
+
 		gridPane.add(courseName, 0, 1);
 
 		gridPane.add(lName, 0, 2);
@@ -321,8 +353,14 @@ public class CourseGUI {
 
 			// Checks if there occured an error, if not update the specified course 
 			if (!error) {
+				Course course = null;
+				for(Course c : courses) {
+					if (c.getName().equals(courseName.getValue())) {
+						course = c;
+					}
+				}
+
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
-				Course course = new Course(sqlDate, status.getValue(), courseName.getValue(), topic.getText(), text.getText(), level.getValue());
 				course.update(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
 
 				sceneCourseUpdate();
