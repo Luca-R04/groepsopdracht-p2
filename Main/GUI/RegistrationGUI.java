@@ -24,8 +24,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /*
-This class provides the GUI for the CRUD operations for the object Registration. 
-It is possible to create, read, update and delete Registration objects from the database. 
+	This class provides the GUI for the CRUD operations for the object Registration. 
+	It is possible to create, read, update and delete Registration objects from the database. 
 */
 
 public class RegistrationGUI {

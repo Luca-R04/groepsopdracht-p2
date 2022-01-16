@@ -474,23 +474,6 @@ public class Database {
                 Level courseLevel = Level.valueOf(rs.getString("Lvl"));
                 Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText, courseLevel);
 
-                // ArrayList<User> users = this.getUsers();
-                // User user = null;
-                // for(User u : users) {
-                //     if (u.getEmail().equals(userEmail)) {
-                //         user = u;
-                //     }
-                // }
-
-                // String courseName = rs.getString("Name");
-                // ArrayList<Course> courses = this.getAllCourses();
-                // Course course = null;
-                // for(Course c : courses) {
-                //     if (c.getName().equals(courseName)) {
-                //         course = c;
-                //     }
-                // }
-
                 int id = rs.getInt("RegistrationID"); 
                 Date date = rs.getDate("RegistrationDate");
 
@@ -511,7 +494,7 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "DELETE FROM Registration WHERE RegistrationID = " + registration.getId() + "'";
+            String SQL = "DELETE FROM Registration WHERE RegistrationID = " + registration.getId() + "";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
