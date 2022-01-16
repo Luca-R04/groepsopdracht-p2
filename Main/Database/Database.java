@@ -886,4 +886,22 @@ public class Database {
             }
         }
     }
+
+    public ArrayList<String> getTopWebcasts() {
+        ArrayList<String> webcasts = new ArrayList<>();
+
+        try {
+            String SQL = "SELECT TOP 3 ContentId, count(*) FROM ContentItem_Voortgang WHERE ContentID IN ( SELECT ContentID FROM ContentItem WHERE WebcastID IS NOT NULL ) GROUP BY ContentID ORDER BY count(*) DESC";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                webcasts.add(rs.getString(0) + " " + rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return webcasts;
+    }
 }
