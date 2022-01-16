@@ -1,12 +1,5 @@
 package Main.Database;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import Main.ContentItem.Speaker;
-import Main.ContentItem.Webcast;
 import Main.ContentItem.Course.ContactPerson;
 import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
@@ -15,6 +8,10 @@ import Main.ContentItem.Course.Status;
 import Main.User.Gender;
 import Main.User.Registration;
 import Main.User.User;
+
+import java.sql.*;
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

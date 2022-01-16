@@ -1,23 +1,16 @@
 package Main.GUI;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
 
 import Main.Database.Database;
 import Main.User.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 
 public class CertificateGUI {
     private Database db = new Database();
