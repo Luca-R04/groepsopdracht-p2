@@ -337,10 +337,11 @@ public class UserGUI {
 				FirstName.setText(currentUser.getFirstName());
 				LastName.setText(currentUser.getLastName());
 
-				// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				// LocalDate date = LocalDate.parse(currentUser.getBirthDate(), formatter);
-				// birthdate.setValue(date);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDate date = LocalDate.parse(currentUser.getBirthDate().toString(), formatter);
+				birthdate.setValue(date);
 
+				gender.setValue(currentUser.getGender());
 				address.setText(currentUser.getAddress());
 				postal.setText(currentUser.getPostalCode());
 				country.setText(currentUser.getCountry());
@@ -430,7 +431,7 @@ public class UserGUI {
 			}
 		});
 
-		this.scene = new Scene(gridPane, 700, 700);
+		this.scene = new Scene(gridPane, 700, 800);
 	}
 
 	// Method that gives options for the user to navigate through the CRUD system
