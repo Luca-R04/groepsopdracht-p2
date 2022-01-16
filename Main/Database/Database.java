@@ -5,7 +5,6 @@ import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
 import Main.ContentItem.Course.Module;
 import Main.ContentItem.Course.Status;
-import Main.User.Certificate;
 import Main.User.Gender;
 import Main.User.Registration;
 import Main.User.User;
@@ -439,6 +438,66 @@ public class Database {
             stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Registration> getRegistrations() {
+        ArrayList<Registration> registrations = new ArrayList<>();
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Registration JOIN [User] ON [User].CourseTakerID = Registration.CourseTakerID JOIN Course ON Course.CourseID = Registration.CourseID";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                String userEmail = rs.getString("Email");
+                ArrayList<User> users = this.getUsers();
+                User user = null;
+                for(User u : users) {
+                    if (u.getEmail().equals(userEmail)) {
+                        user = u;
+                    }
+                }
+
+                String courseName = rs.getString("Name");
+                ArrayList<Course> courses = this.getAllCourses();
+                Course course = null;
+                for(Course c : courses) {
+                    if (c.getName().equals(courseName)) {
+                        course = c;
+                    }
+                }
+
+                int id = rs.getInt("RegistrationID"); 
+                Date date = rs.getDate("RegistrationDate");
+
+                Registration registration = new Registration(user, course, date);
+                registration.setId(id);
+                registrations.add(registration);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return registrations;
+    }
+
+    public void deleteRegistration(Registration registration) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "DELETE FROM Registration WHERE RegistrationID = " + registration.getId() + "'";
+            stmt = con.createStatement();
+            stmt.execute(SQL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
         }
     }
 
