@@ -12,12 +12,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 public class CertificateGUI {
     private Database db = new Database();
+    private GUI gui = new GUI();
     public Scene scene;
 
     public CertificateGUI() {
@@ -52,6 +57,19 @@ public class CertificateGUI {
     }
 
     private void sceneCertificateUpdate() {
+        Menu navbar = new Menu("NavBar");
+        MenuItem home = new MenuItem("Home");
+        home.setOnAction(e -> {
+            gui.startScene();
+        });
+
+        navbar.getItems().add(home);
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(navbar);
+
+        VBox menu = new VBox(menuBar);
+
         GridPane gridPane = new GridPane();
 
         // Labels;
@@ -105,6 +123,8 @@ public class CertificateGUI {
         });
 
         // Coordinates for the elements
+        gridPane.add(menu, 0, 0);
+
         gridPane.add(lUser, 0, 1);
         gridPane.add(userEmail, 1, 1);
 
@@ -159,6 +179,19 @@ public class CertificateGUI {
     }
 
     private void sceneCertificateRead() {
+        Menu navbar = new Menu("NavBar");
+        MenuItem home = new MenuItem("Home");
+        home.setOnAction(e -> {
+            gui.startScene();
+        });
+
+        navbar.getItems().add(home);
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(navbar);
+
+        VBox menu = new VBox(menuBar);
+
         GridPane gridPane = new GridPane();
 
         // Labels;
@@ -210,6 +243,8 @@ public class CertificateGUI {
         });
 
         // Coordinates for the elements
+        gridPane.add(menu, 0, 0);
+        
         gridPane.add(lUser, 0, 1);
         gridPane.add(userEmail, 1, 1);
 

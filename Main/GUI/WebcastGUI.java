@@ -13,6 +13,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,8 +26,22 @@ public class WebcastGUI {
     private Database db = new Database();
     public Scene scene;
     private String selectedUser;
+    private GUI gui = new GUI();
 
     public WebcastGUI() {
+        Menu navbar = new Menu("NavBar");
+        MenuItem home = new MenuItem("Home");
+        home.setOnAction(e -> {
+            gui.startScene();
+        });
+
+        navbar.getItems().add(home);
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(navbar);
+
+        VBox menu = new VBox(menuBar);
+
         GridPane gridPane = new GridPane();
 
         ArrayList<User> users = db.getUsers();
@@ -40,8 +57,8 @@ public class WebcastGUI {
         ComboBox<String> userEmail = new ComboBox<>();
         userEmail.setItems(userEmailOptions);
 
+        gridPane.add(menu, 0, 0);
         gridPane.add(userEmail, 0, 1);
-
         gridPane.add(bUpdate, 0, 2);
 
         gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -60,6 +77,20 @@ public class WebcastGUI {
     }
 
     public void webcastRead() {
+        Menu navbar = new Menu("NavBar");
+        MenuItem home = new MenuItem("Home");
+
+        home.setOnAction(e -> {
+            gui.startScene();
+        });
+
+        navbar.getItems().add(home);
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(navbar);
+
+        VBox menu = new VBox(menuBar);
+
         TableView<Webcast> tableView = new TableView<>();
 
         TableColumn<Webcast, String> column1 = new TableColumn<>("Title");
@@ -119,13 +150,16 @@ public class WebcastGUI {
                 e.printStackTrace();
             }
 
-            int contentItemID = db.getWebcastContentID(column1.getCellData(tableView.getSelectionModel().getSelectedItem()));
+            int contentItemID = db
+                    .getWebcastContentID(column1.getCellData(tableView.getSelectionModel().getSelectedItem()));
             int userID = db.getCourseTakerID(selectedUser);
 
             db.viewsWebcast(userID, contentItemID);
         });
 
-        VBox vbox = new VBox(tableView);
+        VBox vbox = new VBox();
+        vbox.getChildren().add(menu);
+        vbox.getChildren().add(tableView);
         vbox.getChildren().add(view);
 
         vbox.setStyle("-fx-font-size: 1.5em; -fx-padding: 1.5em;");

@@ -19,6 +19,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -29,6 +32,7 @@ import javafx.scene.layout.VBox;
 
 public class UserGUI {
 	private Database db = new Database();
+	private GUI gui = new GUI();
 	public Scene scene;
 
 	public UserGUI() {
@@ -76,6 +80,19 @@ public class UserGUI {
 
 	// Method for the user to fill in data.
 	public void sceneUserCreate() {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		GridPane gridPane = new GridPane();
 
 		// Buttons
@@ -113,6 +130,8 @@ public class UserGUI {
 		ComboBox<Gender> gender = new ComboBox<>(genders);
 
 		// Coordinates for the elements
+		gridPane.add(menu, 0, 0);
+
 		gridPane.add(lEmail, 0, 1);
 		gridPane.add(email, 1, 1);
 
@@ -211,11 +230,25 @@ public class UserGUI {
 			}
 		});
 
-		this.scene = new Scene(gridPane, 600, 750);
+		this.scene = new Scene(gridPane, 600, 800);
 	}
 
 	// Method to see a overview of the users
 	public void sceneUserRead() {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		TableView<User> tableView = new TableView<>();
 
 		TableColumn<User, String> column1 = new TableColumn<>("Email");
@@ -281,7 +314,9 @@ public class UserGUI {
 			GUI.updateScene(this.scene);
 		});
 
-		VBox vbox = new VBox(tableView);
+		VBox vbox = new VBox();
+		vbox.getChildren().add(menu);
+		vbox.getChildren().add(tableView);
 		vbox.getChildren().add(delete);
 
 		delete.setStyle("-fx-font-size: 1.5em;");
@@ -291,6 +326,20 @@ public class UserGUI {
 
 	// Method for altering a user
 	public void sceneUserUpdate() {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		GridPane gridPane = new GridPane();
 
 		Button bUpdate = new Button("Update");
@@ -361,6 +410,8 @@ public class UserGUI {
 		});
 
 		// Coordinates for the elements
+		gridPane.add(menu, 0, 0);
+
 		gridPane.add(lUser, 0, 1);
 		gridPane.add(userEmail, 1, 1);
 
