@@ -151,7 +151,8 @@ public class UserGUI {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (email.getText().isEmpty() || FirstName.getText().isEmpty() || address.getText().isEmpty() || residence.getText().isEmpty()) {
+			if (email.getText().isEmpty() || FirstName.getText().isEmpty() || address.getText().isEmpty()
+					|| residence.getText().isEmpty()) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Fill in all the fields");
@@ -190,7 +191,9 @@ public class UserGUI {
 				}
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(email.getText(), FirstName.getText(), LastName.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
+				User u = new User(email.getText(), FirstName.getText(), LastName.getText(), sqlDate, gender.getValue(),
+						address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker,
+						isStaff);
 				u.insert();
 			}
 		});
@@ -205,9 +208,11 @@ public class UserGUI {
 		int count = 1;
 
 		HBox dataType = new HBox();
-		dataType.getChildren().addAll(new Label("Email"), new Label("Name"), new Label("Birthdate"), new Label("Gender"), new Label("Address"), new Label("Postal Code"), new Label("Residence"), new Label("Country"));
+		dataType.getChildren().addAll(new Label("Email"), new Label("Name"), new Label("Birthdate"),
+				new Label("Gender"), new Label("Address"), new Label("Postal Code"), new Label("Residence"),
+				new Label("Country"));
 		dataType.setSpacing(15);
-		gridPane.add(dataType, 0, 0); 
+		gridPane.add(dataType, 0, 0);
 
 		for (String key : users.keySet()) {
 			HBox userData = new HBox();
@@ -258,9 +263,9 @@ public class UserGUI {
 		Map<String, ArrayList<String>> users = db.getAllUsers();
 		ArrayList<String> userEmails = new ArrayList<>();
 
-    for (String key : users.keySet()) {
-      userEmails.add(key);
-    }
+		for (String key : users.keySet()) {
+			userEmails.add(key);
+		}
 
 		ObservableList<String> userEmailOptions = FXCollections.observableArrayList(userEmails);
 
@@ -279,7 +284,7 @@ public class UserGUI {
 		ObservableList<Gender> genders = FXCollections.observableArrayList(Gender.class.getEnumConstants());
 		ComboBox<Gender> gender = new ComboBox<>(genders);
 
-		//When a user is selected from the comboBox the method will display it's data
+		// When a user is selected from the comboBox the method will display it's data
 		userEmail.valueProperty().addListener((obs, oldItem, newItem) -> {
 			FirstName.textProperty().unbind();
 			if (newItem == null) {
@@ -288,7 +293,7 @@ public class UserGUI {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				ArrayList<String> data = users.get(userEmail.getValue());
 
-				//Puts the data into the correct textField
+				// Puts the data into the correct textField
 				for (int i = 0; i < data.size(); i++) {
 					String labelValue = data.get(i);
 
@@ -297,17 +302,19 @@ public class UserGUI {
 					if (i == 0) {
 						FirstName.setText(labelValue);
 					} else if (i == 1) {
+						LastName.setText(labelValue);
+					} else if (i == 2) {
 						LocalDate date = LocalDate.parse(labelValue, formatter);
 						birthdate.setValue(date);
-					} else if (i == 2) {
-						gender.setValue(Gender.valueOf(labelValue));
 					} else if (i == 3) {
-						address.setText(labelValue);
+						gender.setValue(Gender.valueOf(labelValue));
 					} else if (i == 4) {
-						postal.setText(labelValue);
+						address.setText(labelValue);
 					} else if (i == 5) {
-						residence.setText(labelValue);
+						postal.setText(labelValue);
 					} else if (i == 6) {
+						residence.setText(labelValue);
+					} else if (i == 7) {
 						country.setText(labelValue);
 					}
 				}
@@ -323,7 +330,7 @@ public class UserGUI {
 
 		gridPane.add(lName, 0, 3);
 		gridPane.add(FirstName, 1, 3);
-		
+
 		gridPane.add(lLastName, 0, 4);
 		gridPane.add(LastName, 1, 4);
 
@@ -357,7 +364,8 @@ public class UserGUI {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (email.getText().isEmpty() || FirstName.getText().isEmpty() || LastName.getText().isEmpty()  || address.getText().isEmpty() || residence.getText().isEmpty()) {
+			if (email.getText().isEmpty() || FirstName.getText().isEmpty() || LastName.getText().isEmpty()
+					|| address.getText().isEmpty() || residence.getText().isEmpty()) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Fill in all the fields");
@@ -380,8 +388,11 @@ public class UserGUI {
 				String isStaff = null;
 
 				Date sqlDate = Date.valueOf(birthdate.getValue());
-				User u = new User(userEmail.getValue(), FirstName.getText(), LastName.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker, isStaff);
-				u.update(email.getText(), FirstName.getText(), LastName.getText(), sqlDate, gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText());
+				User u = new User(userEmail.getValue(), FirstName.getText(), LastName.getText(), sqlDate,
+						gender.getValue(), address.getText(), postal.getText(), residence.getText(), country.getText(),
+						isCourseTaker, isStaff);
+				u.update(email.getText(), FirstName.getText(), LastName.getText(), sqlDate, gender.getValue(),
+						address.getText(), postal.getText(), residence.getText(), country.getText());
 
 				sceneUserRead();
 				GUI.updateScene(this.scene);
