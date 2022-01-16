@@ -91,6 +91,9 @@ public class Database {
         ArrayList<User> users = new ArrayList<>();
 
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
             String SQL = "SELECT * FROM [User]";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
