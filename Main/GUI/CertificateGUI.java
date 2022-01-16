@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import Main.Database.Database;
-
+import Main.User.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -69,11 +69,11 @@ public class CertificateGUI {
 		Label lStaff = new Label("Staff ID: ");
 		Label lCourse = new Label("Course: ");
 
-        Map<String, ArrayList<String>> users = db.getAllUsers();
+        ArrayList<User> users = db.getUsers();
 		ArrayList<String> userEmails = new ArrayList<>();
 
-        for (String key : users.keySet()) {
-            userEmails.add(key);
+        for (User user : users) {
+            userEmails.add(user.getEmail());
         }
 
 		ObservableList<String> userEmailOptions = FXCollections.observableArrayList(userEmails);

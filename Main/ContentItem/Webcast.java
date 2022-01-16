@@ -27,22 +27,12 @@ public class Webcast extends ContentItem {
         this.status = status;
     }
 
-    public void insert() {
-        // db.createWebcast(publicationDate, status, this);
-    }
-
     public void update(Date publicationDate, Status status, String title, String URL, int duration, String description, Speaker speaker) {
-        // db.updateWebcast(this, publicationDate, status, title, URL, duration, description, speaker);
-
         this.title = title;
         this.URL = URL;
         this.duration = duration;
         this.description = description;
         this.speaker = speaker;
-    }
-
-    public void delete() {
-        // db.deleteWebcast(this);
     }
 
     public String getTitle() {

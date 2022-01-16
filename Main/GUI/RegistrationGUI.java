@@ -95,21 +95,21 @@ public class RegistrationGUI {
 		Label lDate = new Label("Date: ");
 	
   	// ComboBoxes
-    Map<String, ArrayList<String>> users = db.getAllUsers();
+    ArrayList<User> users = db.getUsers();
     ArrayList<String> courseTakerNames = new ArrayList<String>();
 
-    for (String key : users.keySet()) {
-      courseTakerNames.add(key);
+    for (User user : users) {
+      courseTakerNames.add(user.getEmail());
     }
 
 		ObservableList<String> courseTakers = FXCollections.observableArrayList(courseTakerNames);
 		ComboBox<String> courseTaker = new ComboBox<>(courseTakers);
 
-		Map<String, ArrayList<String>> courses = db.getAllUsers();
+		ArrayList<Course> courses = db.getAllCourses();
     ArrayList<String> courseTitles = new ArrayList<>();
 
-    for (String key : courses.keySet()) {
-      courseTitles.add(key);
+    for (Course course : courses) {
+      courseTitles.add(course.getName());
     }
 
 		ObservableList<String> courseTitleOptions = FXCollections.observableArrayList(courseTitles);
@@ -167,38 +167,38 @@ public class RegistrationGUI {
 	}
 
 	// Method to see an overview of all the Registrations
-	// public void sceneRegistrationRead() {
-	// 	GridPane gridPane = new GridPane();
-	// 	Map<String, ArrayList<String>> Registrations = db.getAllRegistrations();
-	// 	int count = 0;
+	public void sceneRegistrationRead() {
+		// GridPane gridPane = new GridPane();
+		// Map<String, ArrayList<String>> Registrations = db.getAllRegistrations();
+		// int count = 0;
 
-	// 	for (String key : Registrations.keySet()) {
-	// 		HBox RegistrationLayer = new HBox();
+		// for (String key : Registrations.keySet()) {
+		// 	HBox RegistrationLayer = new HBox();
 
-	// 		Label lEmail = new Label(key);
-	// 		RegistrationLayer.getChildren().add(lEmail);
+		// 	Label lEmail = new Label(key);
+		// 	RegistrationLayer.getChildren().add(lEmail);
 
-	// 		for (int i = 0; i < Registrations.get(key).size(); i++) {
-	// 			Label data = new Label(Registrations.get(key).get(i));
-	// 			RegistrationLayer.getChildren().add(data);
-	// 			RegistrationLayer.setSpacing(10);
-	// 		}
+		// 	for (int i = 0; i < Registrations.get(key).size(); i++) {
+		// 		Label data = new Label(Registrations.get(key).get(i));
+		// 		RegistrationLayer.getChildren().add(data);
+		// 		RegistrationLayer.setSpacing(10);
+		// 	}
 
-	// 		Button delete = new Button("Delete");
-	// 		RegistrationLayer.getChildren().add(delete);
+		// 	Button delete = new Button("Delete");
+		// 	RegistrationLayer.getChildren().add(delete);
 
-	// 		delete.setOnAction((event) -> {
-	// 			db.deleteRegistration(key);
-	// 			sceneRegistrationRead();
-	// 			GUI.updateScene(this.scene);
-	// 		});
+		// 	delete.setOnAction((event) -> {
+		// 		db.deleteRegistration(key);
+		// 		sceneRegistrationRead();
+		// 		GUI.updateScene(this.scene);
+		// 	});
 
-	// 		gridPane.add(RegistrationLayer, 0, count);
-	// 		count++;
-	// 	}
+		// 	gridPane.add(RegistrationLayer, 0, count);
+		// 	count++;
+		// }
 
-	// 	this.scene = new Scene(gridPane, 500, 500);
-	// }
+		// this.scene = new Scene(gridPane, 500, 500);
+	}
 
 	// Method for altering a Registration
 	public void sceneRegistrationUpdate() {
@@ -213,21 +213,21 @@ public class RegistrationGUI {
 		Label lDate = new Label("Date: ");
 	
   	// ComboBoxes
-    Map<String, ArrayList<String>> users = db.getAllUsers();
-    ArrayList<String> courseTakerNames = new ArrayList<String>();
+    ArrayList<User> users = db.getUsers();
+    ArrayList<String> courseTakerNames = new ArrayList<>();
 
-    for (String key : users.keySet()) {
-      courseTakerNames.add(key);
+    for (User user : users) {
+      courseTakerNames.add(user.getEmail());
     }
 
 		ObservableList<String> courseTakers = FXCollections.observableArrayList(courseTakerNames);
 		ComboBox<String> courseTaker = new ComboBox<>(courseTakers);
 
-		Map<String, ArrayList<String>> courses = db.getAllCourses();
-		ArrayList<String> courseNames = new ArrayList<String>();
+		ArrayList<Course> courses = db.getAllCourses();
+		ArrayList<String> courseNames = new ArrayList<>();
 
-    for (String key : courses.keySet()) {
-      courseNames.add(key);
+    for (Course course : courses) {
+      courseNames.add(course.getName());
     }
 
 		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);

@@ -65,4 +65,16 @@ public class Course extends ContentItem {
     public Level getLevel() {
         return this.level;
     }
+
+    public Date getPublicationDate() {
+        return this.publicationDate;
+    }
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public ArrayList<Module> getModules() {
+        return this.modules;
+    }
 }

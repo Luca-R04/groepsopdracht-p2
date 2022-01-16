@@ -19,10 +19,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class CourseGUI {
 	private Database db = new Database();
@@ -178,36 +182,79 @@ public class CourseGUI {
 
 	// Method to see an overview of all the courses
 	public void sceneCourseRead() {
-		GridPane gridPane = new GridPane();
-		Map<String, ArrayList<String>> courses = db.getAllCourses();
-		int count = 0;
+		TableView<Course> tableView = new TableView<>();
 
-		for (String key : courses.keySet()) {
-			HBox courseLayer = new HBox();
+		TableColumn<Course, String> column1 = new TableColumn<>("Name");
+    column1.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-			Label lEmail = new Label(key);
-			courseLayer.getChildren().add(lEmail);
+    TableColumn<Course, String> column2 = new TableColumn<>("Topic");
+    column2.setCellValueFactory(new PropertyValueFactory<>("topic"));
 
-			for (int i = 0; i < courses.get(key).size(); i++) {
-				Label data = new Label(courses.get(key).get(i));
-				courseLayer.getChildren().add(data);
-				courseLayer.setSpacing(10);
-			}
+    TableColumn<Course, String> column3 = new TableColumn<>("Text");
+    column3.setCellValueFactory(new PropertyValueFactory<>("text"));
 
-			Button delete = new Button("Delete");
-			courseLayer.getChildren().add(delete);
+		TableColumn<Course, Date> column4 = new TableColumn<>("Publication Date");
+    column4.setCellValueFactory(new PropertyValueFactory<>("publicationDate"));
 
-			delete.setOnAction((event) -> {
-				db.deleteCourse(key);
-				sceneCourseRead();
-				GUI.updateScene(this.scene);
-			});
+		TableColumn<Course, Status> column5 = new TableColumn<>("Status");
+    column5.setCellValueFactory(new PropertyValueFactory<>("status"));
+	
+		TableColumn<Course, String> column6 = new TableColumn<>("Modules");
+    column6.setCellValueFactory(new PropertyValueFactory<>("modules"));
 
-			gridPane.add(courseLayer, 0, count);
-			count++;
+		// TableColumn<Course, String> column7 = new TableColumn<>("Residence");
+    // column7.setCellValueFactory(new PropertyValueFactory<>("residence"));
+
+		// TableColumn<Course, String> column8 = new TableColumn<>("Postal Code");
+    // column8.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+
+		// TableColumn<Course, String> column9 = new TableColumn<>("Country");
+    // column9.setCellValueFactory(new PropertyValueFactory<>("country"));
+
+		// TableColumn<Course, String> column10 = new TableColumn<>("Course Taker");
+    // column10.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
+
+		// TableColumn<Course, String> column11 = new TableColumn<>("Staff");
+    // column11.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
+
+		// TableColumn<Button, String> column12 = new TableColumn<>("Delete");
+    // column12.setCellValueFactory(new PropertyValueFactory<>("Delete"));
+
+    tableView.getColumns().add(column1);
+    tableView.getColumns().add(column2);
+    tableView.getColumns().add(column3);
+    tableView.getColumns().add(column4);
+    tableView.getColumns().add(column5);
+    tableView.getColumns().add(column6);
+    // tableView.getColumns().add(column7);
+    // tableView.getColumns().add(column8);
+    // tableView.getColumns().add(column9);
+    // tableView.getColumns().add(column10);
+    // tableView.getColumns().add(column11);
+
+		ArrayList<Course> courses = db.getAllCourses();
+
+		for(Course course : courses) {
+			tableView.getItems().add(course);
 		}
 
-		this.scene = new Scene(gridPane, 500, 500);
+
+		Button delete = new Button("Delete");
+
+		delete.setOnAction((event) -> {
+			Course course = tableView.getSelectionModel().getSelectedItem();
+			System.out.println(course.getName());
+			course.delete();
+			sceneCourseRead();
+			GUI.updateScene(this.scene);
+		});
+
+		// tableView.getItems().add(delete);
+
+    VBox vBox = new VBox(tableView);
+		vBox.getChildren().add(delete);
+
+		this.scene = new Scene(vBox, 500, 500);
 	}
 
 	// Method for altering a course
@@ -216,11 +263,11 @@ public class CourseGUI {
 
 		Button bSubmit = new Button("Update");
 
-		Map<String, ArrayList<String>> courses = db.getAllCourses();
+		ArrayList<Course> courses = db.getAllCourses();
 		ArrayList<String> courseNames = new ArrayList<>();
 
-    for (String key : courses.keySet()) {
-      courseNames.add(key);
+    for (Course course : courses) {
+      courseNames.add(course.getName());
     }
 
 		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);

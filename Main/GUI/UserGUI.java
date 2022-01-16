@@ -296,11 +296,11 @@ public class UserGUI {
 		Label lCountry = new Label("Country:");
 		Label lResidence = new Label("Residence: ");
 
-		Map<String, ArrayList<String>> users = db.getAllUsers();
+		ArrayList<User> users = db.getUsers();
 		ArrayList<String> userEmails = new ArrayList<>();
 
-		for (String key : users.keySet()) {
-			userEmails.add(key);
+		for (User user : users) {
+			userEmails.add(user.getEmail());
 		}
 
 		ObservableList<String> userEmailOptions = FXCollections.observableArrayList(userEmails);

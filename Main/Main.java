@@ -14,6 +14,7 @@ import Main.ContentItem.Course.Status;
 import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
 import Main.Database.Database;
+import Main.User.Gender;
 import Main.User.User;
 import Main.GUI.GUI;
 
@@ -21,8 +22,10 @@ public class Main {
     public static void main(String[] args) {
         Database db = new Database();
 
-        Date date = new Date(12-12-2021);
-        // User user = new User("johndoe@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands", "1", null);
+        Date date = new Date(2020-12-12);
+        // String email, String FirstName, String LastName, Date birthDate, Gender gender, String address, String postalCode, String residence, String country, String isCourseTaker, String isStaff
+        // User user = new User("johndoe@gmail.com", "John", "Doe", date, Gender.MALE, "Lovensdijkstraat 10", "4264 CK", "Breda", "Netherlands", null, "1");
+        // user.insert();
         // User user2 = new User("johndoe2@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
         // User user3 = new User("johndoe3@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
 
@@ -53,6 +56,6 @@ public class Main {
         // m3.insert();
         // m4.insert();
 
-        Application.launch(GUI.class);        
+        // Application.launch(GUI.class);
     }
 }
