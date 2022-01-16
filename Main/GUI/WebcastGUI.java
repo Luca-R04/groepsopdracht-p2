@@ -128,6 +128,8 @@ public class WebcastGUI {
         VBox vbox = new VBox(tableView);
         vbox.getChildren().add(view);
 
+        vbox.setStyle("-fx-font-size: 1.5em; -fx-padding: 1.5em;");
+
         this.scene = new Scene(vbox, 800, 400);
     }
 }

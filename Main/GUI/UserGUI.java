@@ -285,6 +285,8 @@ public class UserGUI {
 		VBox vbox = new VBox(tableView);
 		vbox.getChildren().add(delete);
 
+		delete.setStyle("-fx-font-size: 1.5em;");
+
 		this.scene = new Scene(vbox, 1050, 400);
 	}
 
