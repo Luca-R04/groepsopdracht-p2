@@ -30,7 +30,7 @@ public class RegistrationGUI {
 
 	public RegistrationGUI() {
 		// Creating all the buttons
-		Button bCreate = new Button("Create a Registration");
+		Button bCreate = new Button("Create Registration");
 		Button bRead = new Button("View Registrations");
 		Button bUpdate = new Button("Update Registration");
 
@@ -63,7 +63,7 @@ public class RegistrationGUI {
 			GUI.updateScene(this.scene);
 		});
 
-		this.scene = new Scene(gridPane, 500, 700);
+		this.scene = new Scene(gridPane, 600, 500);
 	}
 
 	// Method to return current scene
@@ -85,7 +85,7 @@ public class RegistrationGUI {
 	
   	// ComboBoxes
     ArrayList<User> users = db.getUsers();
-    ArrayList<String> courseTakerNames = new ArrayList<String>();
+    ArrayList<String> courseTakerNames = new ArrayList<>();
 
     for (User user : users) {
       courseTakerNames.add(user.getEmail());
@@ -140,7 +140,21 @@ public class RegistrationGUI {
 			if (!error) {
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
 
-				Registration registration = new Registration(db.getSpecificUser(courseTaker.getValue()), db.getSpecificCourse(course.getValue()), sqlDate);
+				User currentUser = null;
+				for (User user : users) {
+					if (user.getEmail().equals(courseTaker.getValue())) {
+						currentUser = user;
+					}
+				}
+
+				Course currentCourse = null;
+				for(Course c : courses) {
+					if (c.getName().equals(course.getValue())) {
+						currentCourse = c;
+					}
+				}
+
+				Registration registration = new Registration(currentUser, currentCourse, sqlDate);
 				registration.insert();
 
 				sceneRegistrationCreate();
@@ -258,7 +272,21 @@ public class RegistrationGUI {
 			if (!error) {
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
 
-				Registration registration = new Registration(db.getSpecificUser(courseTaker.getValue()), db.getSpecificCourse(course.getValue()), sqlDate);
+				User currentUser = null;
+				for (User user : users) {
+					if (user.getEmail().equals(courseTaker.getValue())) {
+						currentUser = user;
+					}
+				}
+
+				Course currentCourse = null;
+				for(Course c : courses) {
+					if (c.getName().equals(course.getValue())) {
+						currentCourse = c;
+					}
+				}
+
+				Registration registration = new Registration(currentUser, currentCourse, sqlDate);
 				registration.insert();
 
 				sceneRegistrationCreate();

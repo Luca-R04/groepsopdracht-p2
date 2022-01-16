@@ -15,7 +15,7 @@ public class GUI extends Application {
 	public static UserGUI user = new UserGUI();
 	public static CourseGUI course = new CourseGUI();
 	public static CertificateGUI certificate = new CertificateGUI();
-	// public static RegistrationGUI registration = new RegistrationGUI();
+	public static RegistrationGUI registration = new RegistrationGUI();
 
 	@Override
 	public void start(Stage stage) {
@@ -90,7 +90,7 @@ public class GUI extends Application {
 		});
 
 		bRegistrations.setOnAction((event) -> {
-			// GUI.stage.setScene(registration.getScene());
+			GUI.stage.setScene(registration.getScene());
 		});
 
 		bCertificates.setOnAction((event) -> {
