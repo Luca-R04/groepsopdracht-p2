@@ -1,6 +1,5 @@
 package Main.GUI;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Main.Database.Database;
@@ -132,7 +131,8 @@ public class CertificateGUI {
             boolean error = false;
 
             // Checks if all the fields are filled in
-            if (userEmail.getValue().isEmpty() || userCertificates.getValue().isEmpty() || rating.getText().isEmpty() || staff.getText().isEmpty()
+            if (userEmail.getValue().isEmpty() || userCertificates.getValue().isEmpty() || rating.getText().isEmpty()
+                    || staff.getText().isEmpty()
                     || course.getText().isEmpty()) {
                 Alert errorAlert = new Alert(AlertType.ERROR);
                 errorAlert.setHeaderText("Input not valid");
@@ -143,10 +143,9 @@ public class CertificateGUI {
 
             // Checks if there occured an error, if not update the specified user
             if (!error) {
-                String isCourseTaker = null;
-                String isStaff = null;
-
-                Certificate c = new Certificate(Integer.valueOf(userCertificates.getValue()), Integer.valueOf(rating.getText()), db.getStaffID(staff.getText()), db.getCourseID(course.getText()), db.getCourseTakerID(userEmail.getValue()));
+                Certificate c = new Certificate(Integer.valueOf(userCertificates.getValue()),
+                        Integer.valueOf(rating.getText()), db.getStaffID(staff.getText()),
+                        db.getCourseID(course.getText()), db.getCourseTakerID(userEmail.getValue()));
 
                 c.update();
 
