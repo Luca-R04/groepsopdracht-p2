@@ -74,10 +74,8 @@ public class Database {
                 courseTakerId = this.createCourseTaker();
             }
 
-            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getFirstName() + "','"
-                    + u.getBirthDate() + "','" + u.getGender() + "','"
-                    + u.getAddress() + "','" + u.getPostal() + "','" + u.getResidence() + "','" + u.getCountry() + "',"
-                    + courseTakerId + "," + staffId + ")";
+            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getFirstName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','"
+                    + u.getAddress() + "','" + u.getPostalCode() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + "," + staffId + ")";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {

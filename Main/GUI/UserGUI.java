@@ -18,10 +18,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class UserGUI {
 	private Database db = new Database();
@@ -203,43 +207,75 @@ public class UserGUI {
 
 	// Method to see a overview of the users
 	public void sceneUserRead() {
-		GridPane gridPane = new GridPane();
-		Map<String, ArrayList<String>> users = db.getAllUsers();
-		int count = 1;
+		TableView<User> tableView = new TableView<>();
 
-		HBox dataType = new HBox();
-		dataType.getChildren().addAll(new Label("Email"), new Label("Name"), new Label("Birthdate"),
-				new Label("Gender"), new Label("Address"), new Label("Postal Code"), new Label("Residence"),
-				new Label("Country"));
-		dataType.setSpacing(15);
-		gridPane.add(dataType, 0, 0);
+		TableColumn<User, String> column1 = new TableColumn<>("Email");
+    column1.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-		for (String key : users.keySet()) {
-			HBox userData = new HBox();
+    TableColumn<User, String> column2 = new TableColumn<>("First Name");
+    column2.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
 
-			Label lEmail = new Label(key);
-			userData.getChildren().add(lEmail);
+    TableColumn<User, String> column3 = new TableColumn<>("Last Name");
+    column3.setCellValueFactory(new PropertyValueFactory<>("LastName"));
 
-			for (int i = 0; i < users.get(key).size(); i++) {
-				Label data = new Label(users.get(key).get(i));
-				userData.getChildren().add(data);
-				userData.setSpacing(10);
-			}
+		TableColumn<User, Date> column4 = new TableColumn<>("Birthdate");
+    column4.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
 
-			Button delete = new Button("Delete");
-			userData.getChildren().add(delete);
+		TableColumn<User, Gender> column5 = new TableColumn<>("Gender");
+    column5.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
-			delete.setOnAction((event) -> {
-				db.deleteUser(key);
-				sceneUserRead();
-				GUI.updateScene(this.scene);
-			});
+		TableColumn<User, String> column6 = new TableColumn<>("Address");
+    column6.setCellValueFactory(new PropertyValueFactory<>("address"));
 
-			gridPane.add(userData, 0, count);
-			count++;
+		TableColumn<User, String> column7 = new TableColumn<>("Residence");
+    column7.setCellValueFactory(new PropertyValueFactory<>("residence"));
+
+		TableColumn<User, String> column8 = new TableColumn<>("Postal Code");
+    column8.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+
+		TableColumn<User, String> column9 = new TableColumn<>("Country");
+    column9.setCellValueFactory(new PropertyValueFactory<>("country"));
+
+		TableColumn<User, String> column10 = new TableColumn<>("Course Taker");
+    column10.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
+
+		TableColumn<User, String> column11 = new TableColumn<>("Staff");
+    column11.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
+
+		TableColumn<Button, String> column12 = new TableColumn<>("Delete");
+    column12.setCellValueFactory(new PropertyValueFactory<>("Delete"));
+
+    tableView.getColumns().add(column1);
+    tableView.getColumns().add(column2);
+    tableView.getColumns().add(column3);
+    tableView.getColumns().add(column4);
+    tableView.getColumns().add(column5);
+    tableView.getColumns().add(column6);
+    tableView.getColumns().add(column7);
+    tableView.getColumns().add(column8);
+    tableView.getColumns().add(column9);
+    tableView.getColumns().add(column10);
+    tableView.getColumns().add(column11);
+
+		ArrayList<User> users = db.getUsers();
+
+		for(User user : users) {
+			tableView.getItems().add(user);
 		}
 
-		this.scene = new Scene(gridPane, 800, 500);
+		Button delete = new Button("Delete");
+
+		delete.setOnAction((event) -> {
+			// db.deleteUser(key);
+			sceneUserRead();
+			GUI.updateScene(this.scene);
+		});
+
+		// tableView.getItems().add(delete);
+
+    VBox vbox = new VBox(tableView);
+
+		this.scene = new Scene(vbox, 800, 800);
 	}
 
 	// Method for altering a user

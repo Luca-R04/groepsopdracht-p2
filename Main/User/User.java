@@ -75,7 +75,7 @@ public class User {
         return this.address;
     }
 
-    public String getPostal(){
+    public String getPostalCode(){
         return this.postalCode;
     }
 
