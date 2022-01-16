@@ -13,6 +13,7 @@ import Main.User.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -112,7 +113,8 @@ public class Database {
                 String isStaff = rs.getString("StaffID");
                 int courseTakerId = rs.getInt("CourseTakerID");
 
-                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence,
+                        country, isCourseTaker, isStaff);
                 user.setId(courseTakerId);
                 users.add(user);
             }
@@ -138,14 +140,17 @@ public class Database {
         }
     }
 
-    public void updateUser(User user, String email, String FirstName, String LastName, Date birthDate, Gender gender, String address, String postalCode, String residence, String country) {
+    public void updateUser(User user, String email, String FirstName, String LastName, Date birthDate, Gender gender,
+            String address, String postalCode, String residence, String country) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE [User] SET FirstName = '" + FirstName + "', LastName = '" + LastName + "', DateOfBirth = '" + birthDate
+            String SQL = "UPDATE [User] SET FirstName = '" + FirstName + "', LastName = '" + LastName
+                    + "', DateOfBirth = '" + birthDate
                     + "', Gender = '" + gender + "', Address = '" + address + "', PostalCode = '" + postalCode
-                    + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '" + user.getEmail() + "'";
+                    + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '"
+                    + user.getEmail() + "'";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
@@ -219,7 +224,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID + "," + courseID + ")";
+            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID + ","
+                    + courseID + ")";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
@@ -285,7 +291,7 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                int id = rs.getInt("CourseID"); 
+                int id = rs.getInt("CourseID");
                 Date publicationDate = rs.getDate("PublicationDate");
                 Status status = Status.valueOf(rs.getString("Status"));
                 String name = rs.getString("Name");
@@ -293,9 +299,8 @@ public class Database {
                 String text = rs.getString("Text");
                 Level level = Level.valueOf(rs.getString("Lvl"));
 
-
                 Course course = new Course(publicationDate, status, name, topic, text, level);
-                course.setId(id); 
+                course.setId(id);
                 courses.add(course);
             }
         } catch (Exception e) {
@@ -335,7 +340,7 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                int id = rs.getInt("ModuleID"); 
+                int id = rs.getInt("ModuleID");
                 String moduleTitle = rs.getString("Title");
                 int moduleVersion = rs.getInt("Version");
                 int moduleSerialNumber = rs.getInt("SerialNumber");
@@ -344,7 +349,8 @@ public class Database {
                 String contactPersonEmail = rs.getString("Email");
                 String contactPersonFirstName = rs.getString("FirstName");
                 String contactPersonLastName = rs.getString("LastName");
-                ContactPerson contactPerson = new ContactPerson(contactPersonEmail, contactPersonFirstName, contactPersonLastName);
+                ContactPerson contactPerson = new ContactPerson(contactPersonEmail, contactPersonFirstName,
+                        contactPersonLastName);
 
                 Date coursePublicationDate = rs.getDate("PublicationDate");
                 Status courseStatus = Status.valueOf(rs.getString("Status"));
@@ -352,9 +358,11 @@ public class Database {
                 String courseTopic = rs.getString("Topic");
                 String courseText = rs.getString("Text");
                 Level courseLevel = Level.valueOf(rs.getString("Lvl"));
-                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText, courseLevel);
+                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText,
+                        courseLevel);
 
-                Module module = new Module(moduleTitle, moduleVersion, moduleSerialNumber, moduleDescription, contactPerson, course);
+                Module module = new Module(moduleTitle, moduleVersion, moduleSerialNumber, moduleDescription,
+                        contactPerson, course);
                 module.setId(id);
                 modules.add(module);
             }
@@ -441,13 +449,15 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } 
+        }
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "SELECT CourseTakerID FROM [User] WHERE FirstName = '" + registration.getCourseTaker().getFirstName() + "' AND LastName = '" + registration.getCourseTaker().getLastName() +"'";
+            String SQL = "SELECT CourseTakerID FROM [User] WHERE FirstName = '"
+                    + registration.getCourseTaker().getFirstName() + "' AND LastName = '"
+                    + registration.getCourseTaker().getLastName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             while (rs.next()) {
@@ -461,7 +471,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'" + registration.getDate() + "')";
+            String SQL = "INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'"
+                    + registration.getDate() + "')";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
@@ -492,7 +503,8 @@ public class Database {
                 String country = rs.getString("Country");
                 String isCourseTaker = rs.getString("CourseTakerID");
                 String isStaff = rs.getString("StaffID");
-                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence,
+                        country, isCourseTaker, isStaff);
 
                 Date coursePublicationDate = rs.getDate("PublicationDate");
                 Status courseStatus = Status.valueOf(rs.getString("Status"));
@@ -500,9 +512,10 @@ public class Database {
                 String courseTopic = rs.getString("Topic");
                 String courseText = rs.getString("Text");
                 Level courseLevel = Level.valueOf(rs.getString("Lvl"));
-                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText, courseLevel);
+                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText,
+                        courseLevel);
 
-                int id = rs.getInt("RegistrationID"); 
+                int id = rs.getInt("RegistrationID");
                 Date date = rs.getDate("RegistrationDate");
 
                 Registration registration = new Registration(user, course, date);
@@ -521,7 +534,9 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE Registration SET CourseTakerID = '" + courseTaker.getId() + "', CourseID = '" + course.getId() + "', RegistrationDate = '" + new Date(System.currentTimeMillis()) + "'WHERE RegistrationID = '" + registration.getId() + "'";
+            String SQL = "UPDATE Registration SET CourseTakerID = '" + courseTaker.getId() + "', CourseID = '"
+                    + course.getId() + "', RegistrationDate = '" + new Date(System.currentTimeMillis())
+                    + "'WHERE RegistrationID = '" + registration.getId() + "'";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
@@ -624,7 +639,7 @@ public class Database {
 
     public String getStaffMail(Integer staffID) {
         String email = "";
-        
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -636,7 +651,7 @@ public class Database {
             while (rs.next()) {
                 email = rs.getString("Email");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -648,7 +663,7 @@ public class Database {
 
     public String getCourse(Integer courseID) {
         String courseName = "";
-        
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -660,7 +675,7 @@ public class Database {
             while (rs.next()) {
                 courseName = rs.getString("Name");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -672,7 +687,7 @@ public class Database {
 
     public Integer getCourseID(String courseName) {
         int courseID = 0;
-        
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -684,7 +699,7 @@ public class Database {
             while (rs.next()) {
                 courseID = rs.getInt("CourseID");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -696,7 +711,7 @@ public class Database {
 
     public Integer getStaffID(String staffMail) {
         int staffID = 0;
-        
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -706,9 +721,9 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                staffID= rs.getInt("StaffID");
+                staffID = rs.getInt("StaffID");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -720,7 +735,7 @@ public class Database {
 
     public Integer getCourseTakerID(String takerMail) {
         int TakerID = 0;
-        
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -730,9 +745,9 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                TakerID= rs.getInt("CourseTakerID");
+                TakerID = rs.getInt("CourseTakerID");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -751,11 +766,11 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                Date publicationDate = rs.getDate("PublicationDate"); 
-                Status status = Status.valueOf(rs.getString("Status")); 
-                String title = rs.getString("Title"); 
-                String URL = rs.getString("URL"); 
-                int duration = rs.getInt("Duration"); 
+                Date publicationDate = rs.getDate("PublicationDate");
+                Status status = Status.valueOf(rs.getString("Status"));
+                String title = rs.getString("Title");
+                String URL = rs.getString("URL");
+                int duration = rs.getInt("Duration");
                 String description = rs.getString("Description");
 
                 String speakerFirstName = rs.getString("FirstName");
@@ -763,7 +778,6 @@ public class Database {
                 String speakerOrganisation = rs.getString("Organisation");
 
                 Speaker speaker = new Speaker(speakerFirstName, speakerLastName, speakerOrganisation);
-                
 
                 Webcast webcast = new Webcast(publicationDate, status, title, URL, duration, description, speaker);
                 webcasts.add(webcast);
@@ -775,7 +789,46 @@ public class Database {
         return webcasts;
     }
 
-    public void viewedWebcast() {
+    public int getWebcastContentID(String contentTitle) {
+        int contentID = 0;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT ContentId FROM ContentItem WHERE WebcastID IN (SELECT WebcastID FROM Webcast WHERE Title = '"
+                    + contentTitle + "')";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                contentID = rs.getInt("ContentId");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return contentID;
+    }
+
+    public void viewsWebcast(int coursetakerID, int webcastID) {   
+        double random = ThreadLocalRandom.current().nextDouble(1, 100 + 1);
         
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "INSERT INTO ContentItem_Voortgang VALUES(" + coursetakerID + "," + webcastID + "," + random + ")";
+            stmt = con.createStatement();
+            stmt.execute(SQL);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
     }
 }

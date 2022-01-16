@@ -119,7 +119,10 @@ public class WebcastGUI {
                 e.printStackTrace();
             }
 
-            System.out.println(selectedUser);
+            int contentItemID = db.getWebcastContentID(column1.getCellData(tableView.getSelectionModel().getSelectedItem()));
+            int userID = db.getCourseTakerID(selectedUser);
+
+            db.viewsWebcast(userID, contentItemID);
         });
 
         VBox vbox = new VBox(tableView);
