@@ -971,4 +971,53 @@ public class Database {
 
         return name;
     }
+
+    public double getCertifcountGender(String gender) {
+        double amount = 0;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT COUNT(*) FROM COURSE WHERE CourseID IN (SELECT CourseID FROM [Certificate] WHERE CourseTakerID IN (SELECT CourseTakerID FROM [User] WHERE Gender = '"
+                    + gender + "'))";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                amount = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return amount;
+    }
+
+    public double getTotalGender(String gender) {
+        double amount = 0;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT COUNT(*) FROM [User] WHERE Gender = + '" + gender + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                amount = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return amount;
+    }
 }

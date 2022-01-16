@@ -4,13 +4,31 @@ import java.util.ArrayList;
 import Main.Database.Database;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 
 public class TopCoursesGUI {
     Database db = new Database();
+    GUI gui = new GUI(); 
     public Scene scene;
 
     public TopCoursesGUI() {
+	    Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
         GridPane gridPane = new GridPane();
 
         // Labels;
@@ -45,6 +63,8 @@ public class TopCoursesGUI {
         }
 
         // Coordinates for the elements
+        gridPane.add(menu, 0, 0);
+
         gridPane.add(l1, 0, 1);
         gridPane.add(num1, 1, 1);
 

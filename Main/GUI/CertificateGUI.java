@@ -29,6 +29,7 @@ public class CertificateGUI {
         // Creating all the buttons
         Button bRead = new Button("View certifcates");
         Button bUpdate = new Button("Update certificates");
+        Button bGenderCertificates = new Button("Certificate stats by gender");
 
         // New Gridpane
         GridPane gridPane = new GridPane();
@@ -36,6 +37,7 @@ public class CertificateGUI {
         // Specifies coordinates for the buttons
         gridPane.add(bRead, 1, 1);
         gridPane.add(bUpdate, 2, 1);
+        gridPane.add(bGenderCertificates, 3, 1);
 
         // Styling
         gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -50,6 +52,11 @@ public class CertificateGUI {
 
         bUpdate.setOnAction((action) -> {
             sceneCertificateUpdate();
+            GUI.updateScene(this.scene);
+        });
+
+        bGenderCertificates.setOnAction((action) -> {
+            sceneCertificateGender();
             GUI.updateScene(this.scene);
         });
 
@@ -244,7 +251,7 @@ public class CertificateGUI {
 
         // Coordinates for the elements
         gridPane.add(menu, 0, 0);
-        
+
         gridPane.add(lUser, 0, 1);
         gridPane.add(userEmail, 1, 1);
 
@@ -272,4 +279,67 @@ public class CertificateGUI {
         return this.scene;
     }
 
+    private void sceneCertificateGender() {
+        Menu navbar = new Menu("NavBar");
+        MenuItem home = new MenuItem("Home");
+        home.setOnAction(e -> {
+            gui.startScene();
+        });
+
+        navbar.getItems().add(home);
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(navbar);
+
+        VBox menu = new VBox(menuBar);
+
+        GridPane gridPane = new GridPane();
+
+        // Labels;
+        Label lGender = new Label("Gender: ");
+        Label lPercentage = new Label("Percentage: ");
+
+        ObservableList<String> genderOptions = FXCollections.observableArrayList(
+                "MALE",
+                "FEMALE");
+
+        // Text fields
+        ComboBox<String> genderOption = new ComboBox<>();
+        genderOption.setItems(genderOptions);
+        Label percentage = new Label();
+
+        // When a user is selected from the comboBox the method will display it's
+        // certificates
+        genderOption.valueProperty().addListener((obs, oldItem, newItem) -> {
+            if (newItem == null) {
+                percentage.setText("");
+            } else {
+
+                if (db.getTotalGender(genderOption.getValue()) == 0
+                        || db.getCertifcountGender(genderOption.getValue()) == 0) {
+                    percentage.setText(String.valueOf("None found"));
+                } else {
+                    double percentagenum = (db.getCertifcountGender(genderOption.getValue())
+                            / db.getTotalGender(genderOption.getValue())) * 100;
+                    percentage.setText(String.valueOf(percentagenum));
+                }
+            }
+        });
+
+        // Coordinates for the elements
+        gridPane.add(menu, 0, 0);
+
+        gridPane.add(lGender, 0, 1);
+        gridPane.add(genderOption, 1, 1);
+
+        gridPane.add(lPercentage, 0, 2);
+        gridPane.add(percentage, 1, 2);
+
+        // Styling
+        gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+        gridPane.setVgap(10);
+        gridPane.setHgap(10);
+
+        this.scene = new Scene(gridPane, 700, 700);
+    }
 }
