@@ -15,6 +15,7 @@ public class GUI extends Application {
 	public static UserGUI user = new UserGUI();
 	public static CourseGUI course = new CourseGUI();
 	public static WebcastGUI webcast = new WebcastGUI();
+	public static TopCoursesGUI topCourse = new TopCoursesGUI();
 	public static TopWebcastsGUI topWebcast = new TopWebcastsGUI();
 	public static CertificateGUI certificate = new CertificateGUI();
 	public static RegistrationGUI registration = new RegistrationGUI();
@@ -106,6 +107,10 @@ public class GUI extends Application {
 
 		bTop3webcast.setOnAction((event) -> {
 			GUI.stage.setScene(topWebcast.getScene());
+		});
+
+		bTop3course.setOnAction((event) -> {
+			GUI.stage.setScene(topCourse.getScene());
 		});
 	}
 

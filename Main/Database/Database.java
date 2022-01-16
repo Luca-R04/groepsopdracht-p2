@@ -891,7 +891,7 @@ public class Database {
         ArrayList<String> webcasts = new ArrayList<>();
 
         try {
-            String SQL = "SELECT TOP 3 ContentId, count(*) FROM ContentItem_Voortgang WHERE ContentID IN ( SELECT ContentID FROM ContentItem WHERE WebcastID IS NOT NULL ) GROUP BY ContentID ORDER BY count(*) DESC";
+            String SQL = "SELECT TOP 3 ContentId, COUNT(*) FROM ContentItem_Voortgang WHERE ContentID IN ( SELECT ContentID FROM ContentItem WHERE WebcastID IS NOT NULL ) GROUP BY ContentID ORDER BY count(*) DESC";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
 
@@ -919,6 +919,48 @@ public class Database {
 
             while (rs.next()) {
                 name = rs.getString("Title");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return name;
+    }
+
+    public ArrayList<String> getTopCourses() {
+        ArrayList<String> courses = new ArrayList<>();
+
+        try {
+            String SQL = "SELECT TOP 3 CourseID, COUNT(*) FROM [Certificate] GROUP BY CourseID ORDER BY COUNT(*) DESC";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                courses.add(rs.getString(1) + " " + rs.getString(2));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return courses;
+    }
+
+    public String getCourseName(int ContentID) {
+        String name = "";
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Name FROM Course WHERE CourseID = " + ContentID + "";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                name = rs.getString("Name");
             }
 
         } catch (Exception e) {

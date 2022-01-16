@@ -1,7 +1,6 @@
 package Main.GUI;
 
 import java.util.ArrayList;
-
 import Main.Database.Database;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -39,7 +38,7 @@ public class TopWebcastsGUI {
                 num2.setText(db.getWebcastName(Integer.valueOf(parts[0])) + ", Count: " + parts[1]);
             } else if (i == 2) {
                 String[] parts = string.split(" ");
-                
+
                 num3.setText(db.getWebcastName(Integer.valueOf(parts[0])) + ", Count: " + parts[1]);
             }
             i++;
