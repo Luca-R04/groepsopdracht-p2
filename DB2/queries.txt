@@ -1,0 +1,101 @@
+//Deze query insert data in de User tabel
+"INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getFirstName() + "','" + u.getLastName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','" + u.getAddress() + "','" + u.getPostalCode() + "','" + u.getResidence() + "','" + u.getCountry()+ "'," + courseTakerId + "," + staffId + ")";
+
+// Haalt alle data uit de user tabel
+SELECT * FROM [User]
+
+//Verwijderd een User op basis van een primary key
+DELETE FROM [User] WHERE (Email = '" + email + "')
+
+//Update de waardes van user op basis van een geselecteerde primary key
+UPDATE [User] SET FirstName = '" + FirstName + "', LastName = '" + LastName + "', DateOfBirth = '" + birthDate+ "', Gender = '" + gender + "', Address = '" + address + "', PostalCode = '" + postalCode + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '" + user.getEmail() + "' 
+
+//Voert standaard waarde in de Staff tabel
+INSERT INTO Staff DEFAULT VALUES
+
+//Haalt het ID op van laats toegevoegde staff
+SELECT TOP 1 * FROM Staff ORDER BY StaffID DESC
+
+//Voert standaard waarde in de coursetaker tabel
+INSERT INTO CourseTaker DEFAULT VALUES
+
+//Haalt het ID op van de laats toegevoegde courseTaker
+SELECT TOP 1 * FROM CourseTaker ORDER BY CourseTakerID DESC
+
+//Voegt waardes in de Content item tabel
+INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID + "," + courseID + ")
+
+//Voegt waardes toe aan de Course tabel
+INSERT INTO Course VALUES ('" + c.getName() + "','" + c.getTopic() + "','" + c.getText() + "','" + c.getLevel() + "'," + null + ")"
+
+//Selecteert de laatst toegevoegde course
+SELECT TOP 1 * FROM Course ORDER BY CourseID DESC
+
+//Delete course op basis van naam
+DELETE FROM Course WHERE Name = '" + name + "'
+
+//Haalt alle contentitems op waar de courseID gelijk is aan de CourseID
+SELECT * FROM Course JOIN ContentItem ON ContentItem.CourseID = Course.CourseID
+
+//Update de waardes van de course
+UPDATE Course SET Name = '" + name + "', Topic = '" + topic + "', Text = '" + text+ "', Lvl = '" + level + "'WHERE Name = '" + c.getName() + "'"
+
+//Query om te laten zien welke contactpersoon en welke course bij de module;
+SELECT * FROM Module JOIN ContactPerson ON Module.ContactPersonID = ContactPerson.ContactPersonID JOIN Course ON Module.CourseID = Course.CourseID JOIN ContentItem ON Course.CourseID = ContentItem.CourseID
+
+//Laat alle modules zien die geen course hebben
+SELECT * FROM Module WHERE CourseID IS NULL
+
+//Vraagt de courseID op van op basis van de naam
+SELECT CourseID FROM Course WHERE Name = '" + c.getName() + "'"
+
+//Update de module 
+UPDATE Module SET CourseID = " + courseId + "WHERE Title = '" + m.getTitle() + "' AND Version = '" + m.getVersion() + "' AND SerialNumber = '" + m.getSerialNumber() + "'
+
+//Haalt alle data op uit course op basis van naam van de course
+SELECT * FROM Course WHERE Name = '" + registration.getCourse().getName() + "'
+
+//Haalt de coursetakerID op op basis van firstname and lastname
+SELECT CourseTakerID FROM [User] WHERE FirstName = '" + registration.getCourseTaker().getFirstName() + "' AND LastName = '" + registration.getCourseTaker().getLastName() +"'
+
+//Voegt waardes to in registration
+INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'" + registration.getDate() + "')
+
+//Laat alle registraties zien en joint alle PK's
+SELECT * FROM Registration JOIN [User] ON [User].CourseTakerID = Registration.CourseTakerID JOIN Course ON Course.CourseID = Registration.CourseID JOIN ContentItem ON ContentItem.CourseID = Course.CourseID
+
+//Update de registration
+UPDATE Registration SET CourseTakerID = '" + courseTaker.getId() + "', CourseID = '" + course.getId() + "', RegistrationDate = '" + new Date(System.currentTimeMillis()) + "'WHERE RegistrationID = '" + registration.getId() + "'
+
+//Delete uit registration op basis van PK
+DELETE FROM Registration WHERE RegistrationID = " + registration.getId() + "
+
+//Laat alle CertificateID's zien bij een user
+SELECT CertificateID FROM Certificate WHERE CoursetakerID IN( SELECT CourseTakerID FROM [User] WHERE Email = '"+ userEmail + "')
+
+//Haalt alles uit certificate op basis van de PK
+SELECT * FROM Certificate WHERE CertificateID = " + Integer.valueOf(certificateID) + "
+
+//Update de data van Certificate
+UPDATE Certificate SET Rating = " + rating + ", StaffID = " + staffID + ", CourseID = " + courseID + ", CourseTakerID = " + CourseTakerID + " WHERE CertificateID = " + certificateID + "
+
+//Haalt de email van user op op basis van de staffID die gekoppelt is.
+SELECT Email FROM [User] WHERE StaffID = " + staffID + "
+
+//Haalt de naam van een course op gebaseerd op de PK
+SELECT Name FROM Course WHERE CourseID = " + courseID + "
+
+//Haalt alle courseID's op op basis van de naam van de course
+SELECT CourseID FROM Course WHERE Name = '" + courseName + "'
+
+//Haalt alle StaffID's op waar de mail gelijk is aan de mail van de staff
+SELECT StaffID FROM [User] WHERE Email = '" + staffMail + "'
+
+//Haalt de courseTakerID op van de User op basis van de email
+SELECT CourseTakerID FROM [User] WHERE Email = '" + takerMail + "'
+
+//Haalt alle data van webcast en joint de ForeignKeys
+SELECT * FROM Webcast JOIN ContentItem ON ContentItem.WebcastID = Webcast.WebcastID JOIN Speaker ON Speaker.SpeakerID = Webcast.SpeakerID
+
+
+
