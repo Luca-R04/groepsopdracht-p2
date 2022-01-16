@@ -5,6 +5,7 @@ import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
 import Main.ContentItem.Course.Module;
 import Main.ContentItem.Course.Status;
+import Main.User.Certificate;
 import Main.User.Gender;
 import Main.User.Registration;
 import Main.User.User;
@@ -71,8 +72,10 @@ public class Database {
                 courseTakerId = this.createCourseTaker();
             }
 
-            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getFirstName() + "','" + u.getLastName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','"
-                    + u.getAddress() + "','" + u.getPostalCode() + "','" + u.getResidence() + "','" + u.getCountry() + "'," + courseTakerId + "," + staffId + ")";
+            String SQL = "INSERT INTO [User] VALUES ('" + u.getEmail() + "','" + u.getFirstName() + "','"
+                    + u.getLastName() + "','" + u.getBirthDate() + "','" + u.getGender() + "','"
+                    + u.getAddress() + "','" + u.getPostalCode() + "','" + u.getResidence() + "','" + u.getCountry()
+                    + "'," + courseTakerId + "," + staffId + ")";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
@@ -104,7 +107,8 @@ public class Database {
                 String isCourseTaker = rs.getString("CourseTakerID");
                 String isStaff = rs.getString("StaffID");
 
-                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence,
+                        country, isCourseTaker, isStaff);
                 users.add(user);
             }
         } catch (Exception e) {
@@ -320,7 +324,7 @@ public class Database {
             while (rs.next()) {
                 Date publicationDate = rs.getDate("PublicationDate");
                 Status status = Status.valueOf(rs.getString("Status"));
-                String name = rs.getString("Name"); 
+                String name = rs.getString("Name");
                 String topic = rs.getString("Topic");
                 String text = rs.getString("Text");
                 Level level = Level.valueOf(rs.getString("Lvl"));
@@ -403,7 +407,6 @@ public class Database {
         }
     }
 
-
     public ArrayList<Module> getAllModules() {
         ArrayList<Module> modules = new ArrayList<>();
 
@@ -431,9 +434,11 @@ public class Database {
                 String courseTopic = rs.getString("Topic");
                 String courseText = rs.getString("Text");
                 Level courseLevel = Level.valueOf(rs.getString("Lvl"));
-                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText, courseLevel);
+                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText,
+                        courseLevel);
 
-                Module module = new Module(moduleTitle, moduleVersion, moduleSerialNumber, moduleDescription, contactPerson, course);
+                Module module = new Module(moduleTitle, moduleVersion, moduleSerialNumber, moduleDescription,
+                        contactPerson, course);
                 modules.add(module);
             }
 
@@ -539,7 +544,8 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "SELECT CertificateID FROM Certificate WHERE CoursetakerID IN( SELECT CourseTakerID FROM [User] WHERE Email = '" + userEmail + "')";
+            String SQL = "SELECT CertificateID FROM Certificate WHERE CoursetakerID IN( SELECT CourseTakerID FROM [User] WHERE Email = '"
+                    + userEmail + "')";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
 
@@ -547,7 +553,7 @@ public class Database {
             int columnCount = rsmd.getColumnCount();
 
             while (rs.next()) {
-                
+
                 for (int i = 1; i < columnCount + 1; i++) {
                     certificateData.add(rs.getString(i));
                 }
@@ -588,5 +594,22 @@ public class Database {
         }
 
         return certificateData;
+    }
+
+    public void updateCertificate(Integer certificateID, Integer rating, Integer staffID, Integer courseID,
+            Integer CourseTakerID) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "UPDATE Certificate SET Rating = " + rating + ", StaffID = " + staffID + ", CourseID = "
+                    + courseID + ", CourseTakerID = " + CourseTakerID + " WHERE CertificateID = " + certificateID + "";
+            stmt = con.createStatement();
+            stmt.execute(SQL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
     }
 }
