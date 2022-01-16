@@ -30,6 +30,10 @@ public class Webcast {
         this.speaker = speaker;
     }
 
+    public void view() {
+        
+    }
+
     public String getTitle() {
         return this.title; 
     }

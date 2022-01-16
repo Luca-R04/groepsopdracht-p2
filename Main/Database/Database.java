@@ -1,5 +1,7 @@
 package Main.Database;
 
+import Main.ContentItem.Speaker;
+import Main.ContentItem.Webcast;
 import Main.ContentItem.Course.ContactPerson;
 import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
@@ -710,5 +712,38 @@ public class Database {
         }
 
         return TakerID;
+    }
+
+    public ArrayList<Webcast> getWebcasts() {
+        ArrayList<Webcast> webcasts = new ArrayList<>();
+
+        try {
+            String SQL = "SELECT * FROM Webcast JOIN ContentItem ON ContentItem.WebcastID = Webcast.WebcastID JOIN Speaker ON Speaker.SpeakerID = Webcast.SpeakerID";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                Date publicationDate = rs.getDate("PublicationDate"); 
+                Status status = Status.valueOf(rs.getString("Status")); 
+                String title = rs.getString("Title"); 
+                String URL = rs.getString("URL"); 
+                int duration = rs.getInt("Duration"); 
+                String description = rs.getString("Description");
+
+                String speakerFirstName = rs.getString("FirstName");
+                String speakerLastName = rs.getString("LastName");
+                String speakerOrganisation = rs.getString("Organistation");
+
+                Speaker speaker = new Speaker(speakerFirstName, speakerLastName, speakerOrganisation);
+                
+
+                Webcast webcast = new Webcast(publicationDate, status, title, URL, duration, description, speaker);
+                webcasts.add(webcast);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return webcasts;
     }
 }

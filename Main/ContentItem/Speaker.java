@@ -2,10 +2,12 @@ package Main.ContentItem;
 
 public class Speaker {
     private String organisation;
-    private String name;
+    private String firstName;
+    private String lastName;
 
-    public Speaker(String name, String organisation) {
-        this.name = name;
+    public Speaker(String firstName, String lastName, String organisation) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.organisation = organisation;
     }
 
@@ -14,6 +16,6 @@ public class Speaker {
     }
 
     public String getName() {
-        return this.name; 
+        return this.firstName + this.lastName;
     }
 }

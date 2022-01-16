@@ -14,6 +14,7 @@ public class GUI extends Application {
 	public Database db = new Database();
 	public static UserGUI user = new UserGUI();
 	public static CourseGUI course = new CourseGUI();
+	public static WebcastGUI webcast = new WebcastGUI();
 	public static CertificateGUI certificate = new CertificateGUI();
 	public static RegistrationGUI registration = new RegistrationGUI();
 
@@ -95,6 +96,10 @@ public class GUI extends Application {
 
 		bCertificates.setOnAction((event) -> {
 			GUI.stage.setScene(certificate.getScene());
+		});
+
+		bWebcast.setOnAction((event) -> {
+			GUI.stage.setScene(webcast.getScene());
 		});
 	}
 
