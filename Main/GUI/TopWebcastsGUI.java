@@ -7,11 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 
-public class TopWebcasts {
+public class TopWebcastsGUI {
     Database db = new Database();
     public Scene scene;
 
-    public TopWebcasts() {
+    public TopWebcastsGUI() {
         GridPane gridPane = new GridPane();
 
         // Labels;

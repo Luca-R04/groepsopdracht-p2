@@ -15,7 +15,7 @@ public class GUI extends Application {
 	public static UserGUI user = new UserGUI();
 	public static CourseGUI course = new CourseGUI();
 	public static WebcastGUI webcast = new WebcastGUI();
-	public static TopWebcasts topWebcast = new TopWebcasts();
+	public static TopWebcastsGUI topWebcast = new TopWebcastsGUI();
 	public static CertificateGUI certificate = new CertificateGUI();
 	public static RegistrationGUI registration = new RegistrationGUI();
 
