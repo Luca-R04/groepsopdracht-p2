@@ -6,6 +6,8 @@ import Main.ContentItem.Webcast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -81,7 +83,7 @@ public class WebcastGUI {
         VBox vbox = new VBox(tableView);
         vbox.getChildren().add(view);
 
-        this.scene = new Scene(vbox, 1050, 400);
+        this.scene = new Scene(vbox, 800, 400);
     }
 
     public Scene getScene() {

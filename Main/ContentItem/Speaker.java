@@ -15,7 +15,8 @@ public class Speaker {
         return this.organisation;
     }
 
-    public String getName() {
-        return this.firstName + this.lastName;
+    @Override
+    public String toString() {
+        return this.firstName + " " + this.lastName;
     }
 }
