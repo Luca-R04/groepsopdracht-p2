@@ -29,8 +29,6 @@ public class Main {
         // User user2 = new User("johndoe2@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
         // User user3 = new User("johndoe3@gmail.com", "John", date, "male", "Lovensdijkstraat 10", "Breda", "Netherlands", null, "1");
 
-        // Application.launch(GUI.class);
-
         // Speaker s = new Speaker("Kees", "AH");
         // s.insert();
         // Webcast w = new Webcast(date, Status.ACTIVE, "Webcast 3", "https://www.google.com", 100, "Test webcast", s);
