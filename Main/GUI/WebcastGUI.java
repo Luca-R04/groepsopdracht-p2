@@ -2,28 +2,15 @@ package Main.GUI;
 
 import Main.Database.Database;
 import Main.User.Gender;
-import Main.User.User;
 import Main.ContentItem.Webcast;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class WebcastGUI {
@@ -34,7 +21,7 @@ public class WebcastGUI {
         TableView<Webcast> tableView = new TableView<>();
 
         TableColumn<Webcast, String> column1 = new TableColumn<>("Title");
-        column1.setCellValueFactory(new PropertyValueFactory<>("title"));
+        column1.setCellValueFactory(new PropertyValueFactory<>("Title"));
 
         TableColumn<Webcast, String> column2 = new TableColumn<>("URL");
         column2.setCellValueFactory(new PropertyValueFactory<>("URL"));
@@ -43,16 +30,16 @@ public class WebcastGUI {
         column3.setCellValueFactory(new PropertyValueFactory<>("Duration"));
 
         TableColumn<Webcast, Integer> column4 = new TableColumn<>("Publication date");
-        column3.setCellValueFactory(new PropertyValueFactory<>("publicationDate"));
+        column4.setCellValueFactory(new PropertyValueFactory<>("PublicationDate"));
 
         TableColumn<Webcast, Integer> column5 = new TableColumn<>("Status");
-        column3.setCellValueFactory(new PropertyValueFactory<>("Status"));
+        column5.setCellValueFactory(new PropertyValueFactory<>("Status"));
 
         TableColumn<Webcast, Integer> column6 = new TableColumn<>("Speaker");
-        column4.setCellValueFactory(new PropertyValueFactory<>("SpeakerID"));
+        column6.setCellValueFactory(new PropertyValueFactory<>("Speaker"));
 
         TableColumn<Webcast, Gender> column7 = new TableColumn<>("Description");
-        column5.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        column7.setCellValueFactory(new PropertyValueFactory<>("Description"));
 
         tableView.getColumns().add(column1);
         tableView.getColumns().add(column2);
@@ -61,8 +48,8 @@ public class WebcastGUI {
         tableView.getColumns().add(column5);
         tableView.getColumns().add(column6);
         tableView.getColumns().add(column7);
-        
-        ArrayList<Webcast> webcasts = db.getWebcasts(); 
+
+        ArrayList<Webcast> webcasts = db.getWebcasts();
 
         for (Webcast webcast : webcasts) {
             tableView.getItems().add(webcast);
@@ -74,6 +61,21 @@ public class WebcastGUI {
             Webcast webcast = tableView.getSelectionModel().getSelectedItem();
             webcast.view();
             GUI.updateScene(this.scene);
+
+            Runtime rt = Runtime.getRuntime();
+            String url = column2.getCellData(tableView.getSelectionModel().getSelectedItem());
+
+            if (url.contains("http") || url.contains("www.")) {
+
+            } else {
+                url = "http://" + column2.getCellData(tableView.getSelectionModel().getSelectedItem());
+            }
+
+            try {
+                rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         VBox vbox = new VBox(tableView);
@@ -83,6 +85,6 @@ public class WebcastGUI {
     }
 
     public Scene getScene() {
-        return null;
+        return this.scene;
     }
 }
