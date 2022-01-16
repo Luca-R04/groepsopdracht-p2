@@ -1,5 +1,6 @@
 package Main.GUI;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Main.Database.Database;
@@ -55,7 +56,7 @@ public class CertificateGUI {
         Label lUser = new Label("User: ");
         Label lCertificates = new Label("Certificate: ");
         Label lRating = new Label("Rating: ");
-        Label lStaff = new Label("Staff ID: ");
+        Label lStaff = new Label("Staff: ");
         Label lCourse = new Label("Course: ");
 
         ArrayList<User> users = db.getUsers();
@@ -96,8 +97,8 @@ public class CertificateGUI {
                 ArrayList<String> certificateDataList = db.getCertificateData(userCertificates.getValue());
 
                 rating.setText(certificateDataList.get(1));
-                staff.setText(certificateDataList.get(2));
-                course.setText(certificateDataList.get(3));
+                staff.setText(db.getStaffMail(Integer.valueOf(certificateDataList.get(2))));
+                course.setText(db.getCourse(Integer.valueOf(certificateDataList.get(3))));
             }
         });
 
@@ -132,7 +133,7 @@ public class CertificateGUI {
         Label lUser = new Label("User: ");
         Label lCertificates = new Label("Certificate: ");
         Label lRating = new Label("Rating: ");
-        Label lStaff = new Label("Staff ID: ");
+        Label lStaff = new Label("Staff: ");
         Label lCourse = new Label("Course: ");
 
         ArrayList<User> users = db.getUsers();
@@ -171,8 +172,8 @@ public class CertificateGUI {
                 ArrayList<String> certificateDataList = db.getCertificateData(userCertificates.getValue());
 
                 rating.setText(certificateDataList.get(1));
-                staff.setText(certificateDataList.get(2));
-                course.setText(certificateDataList.get(3));
+                staff.setText(db.getStaffMail(Integer.valueOf(certificateDataList.get(2))));
+                course.setText(db.getCourse(Integer.valueOf(certificateDataList.get(3))));
             }
         });
 

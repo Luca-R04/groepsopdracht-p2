@@ -579,4 +579,52 @@ public class Database {
             excecuteFinally();
         }
     }
+
+    public String getStaffMail(Integer staffID) {
+        String email = "";
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Email FROM [User] WHERE StaffID = " + staffID + "";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                email = rs.getString("Email");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return email;
+    }
+
+    public String getCourse(Integer courseID) {
+        String courseName = "";
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Name FROM Course WHERE CourseID = " + courseID + "";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                courseName = rs.getString("Name");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return courseName;
+    }
 }
