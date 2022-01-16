@@ -330,14 +330,16 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
+                int id = rs.getInt("ModuleID"); 
                 String moduleTitle = rs.getString("Title");
                 int moduleVersion = rs.getInt("Version");
                 int moduleSerialNumber = rs.getInt("SerialNumber");
                 String moduleDescription = rs.getString("Description");
 
-                String contactPersonName = rs.getString("Name");
                 String contactPersonEmail = rs.getString("Email");
-                ContactPerson contactPerson = new ContactPerson(contactPersonName, contactPersonEmail);
+                String contactPersonFirstName = rs.getString("FirstName");
+                String contactPersonLastName = rs.getString("LastName");
+                ContactPerson contactPerson = new ContactPerson(contactPersonEmail, contactPersonFirstName, contactPersonLastName);
 
                 Date coursePublicationDate = rs.getDate("PublicationDate");
                 Status courseStatus = Status.valueOf(rs.getString("Status"));
@@ -345,11 +347,34 @@ public class Database {
                 String courseTopic = rs.getString("Topic");
                 String courseText = rs.getString("Text");
                 Level courseLevel = Level.valueOf(rs.getString("Lvl"));
-                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText,
-                        courseLevel);
+                Course course = new Course(coursePublicationDate, courseStatus, courseName, courseTopic, courseText, courseLevel);
 
-                Module module = new Module(moduleTitle, moduleVersion, moduleSerialNumber, moduleDescription,
-                        contactPerson, course);
+                Module module = new Module(moduleTitle, moduleVersion, moduleSerialNumber, moduleDescription, contactPerson, course);
+                module.setId(id);
+                modules.add(module);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Module WHERE CourseID IS NULL";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                int id = rs.getInt("ModuleID");
+                String title = rs.getString("Title");
+                int version = rs.getInt("Version");
+                int serialNumber = rs.getInt("SerialNumber");
+                String description = rs.getString("Description");
+
+                Module module = new Module(title, version, serialNumber, description, null, null);
+                module.setId(id);
                 modules.add(module);
             }
 
