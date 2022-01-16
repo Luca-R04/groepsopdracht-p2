@@ -37,8 +37,8 @@ public class Main {
         // w.insert();
 
         // Course s1 = new Course(date, Status.ARCHIVED, "Course 5", "https://www.google.com", "Test course 1", Level.BEGINNER);
-        // Course s2 = new Course(date, Status.ACTIVE, "Course 2", "https://www.google.com", "Test course 2", Level.ADVANCED);
-        // Course s3 = new Course(date, Status.CONCEPT, "Course 3", "https://www.google.com", "Test course 3", Level.EXPERT);
+        // Course s2 = new Course(date, Status.ACTIVE, "Course 6", "https://www.google.com", "Test course 2", Level.ADVANCED);
+        // Course s3 = new Course(date, Status.CONCEPT, "Course 7", "https://www.google.com", "Test course 3", Level.EXPERT);
 
         // s1.insert();
         // s2.insert();

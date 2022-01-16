@@ -113,46 +113,9 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
 
         return users;
-    }
-
-    public User getSpecificUser(String email) {
-        User user = null;
-
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            String SQL = "SELECT * FROM [User] WHERE email = '" + email + "'";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-
-            while (rs.next()) {
-                String FirstName = rs.getString("FirstName");
-                String LastName = rs.getString("LastName");
-                Date birthDate = rs.getDate("DateOfBirth");
-                Gender gender = Gender.valueOf(rs.getString("Gender"));
-                String address = rs.getString("Address");
-                String postalCode = rs.getString("PostalCode");
-                String residence = rs.getString("Residence");
-                String country = rs.getString("Country");
-                String isCourseTaker = rs.getString("CourseTakerID");
-                String isStaff = rs.getString("StaffID");
-
-                user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence, country,
-                        isCourseTaker, isStaff);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        return user;
     }
 
     public void deleteUser(String email) {
@@ -255,8 +218,7 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID + ","
-                    + courseID + ")";
+            String SQL = "INSERT INTO ContentItem VALUES ('" + publicationDate + "','" + status + "'," + webcastID + "," + courseID + ")";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
@@ -339,54 +301,6 @@ public class Database {
         }
 
         return courses;
-    }
-
-    public Course getSpecificCourse(String name) {
-        Course course = null;
-        Integer courseId = null;
-
-        String topic = null;
-        String text = null;
-        Level level = null;
-
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-
-            String SQL = "SELECT * FROM Course WHERE Name = '" + name + "'";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-
-            while (rs.next()) {
-                courseId = rs.getInt("CourseID");
-                topic = rs.getString("Topic");
-                text = rs.getString("Text");
-                level = Level.valueOf(rs.getString("Lvl"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        try {
-            String SQL = "SELECT * FROM ContentItem WHERE CourseID = '" + courseId + "'";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(SQL);
-
-            while (rs.next()) {
-                Date publicationDate = rs.getDate("PublicationDate");
-                Status status = Status.valueOf(rs.getString("Status"));
-
-                course = new Course(publicationDate, status, name, topic, text, level);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
-
-        return course;
     }
 
     public void updateCourse(Course c, Date publicationDate, Status status, String name, String topic, String text,
@@ -492,7 +406,7 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "SELECT CourseID FROM Course WHERE Name = '" + registration.getCourse().getName() + "'";
+            String SQL = "SELECT * FROM Course WHERE Name = '" + registration.getCourse().getName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             while (rs.next()) {
@@ -500,17 +414,13 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
-        }
+        } 
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "SELECT CourseTakerID FROM [User] WHERE Name = '"
-                    + registration.getCourseTaker().getFirstName()
-                    + "'";
+            String SQL = "SELECT CourseTakerID FROM [User] WHERE FirstName = '" + registration.getCourseTaker().getFirstName() + "' AND LastName = '" + registration.getCourseTaker().getLastName() +"'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
             while (rs.next()) {
@@ -518,22 +428,17 @@ public class Database {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'"
-                    + registration.getDate() + "')";
+            String SQL = "INSERT INTO Registration VALUES (" + courseTakerId + "," + courseId + ",'" + registration.getDate() + "')";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
     }
 
