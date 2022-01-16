@@ -6,6 +6,7 @@ import Main.ContentItem.Course.Course;
 import Main.Database.Database;
 
 public class Registration {
+	private int id; 
   private User courseTaker; 
   private Course course; 
   private Date date; 
@@ -21,6 +22,10 @@ public class Registration {
 		db.createRegistration(this);
 	}
 
+	public void delete() {
+		db.deleteRegistration(this);
+	}
+
 	public User getCourseTaker() {
 		return this.courseTaker;
 	}
@@ -31,5 +36,13 @@ public class Registration {
 
 	public Date getDate() {
 		return this.date;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

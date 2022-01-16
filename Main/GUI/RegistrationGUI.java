@@ -13,11 +13,15 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /*
 This class provides the GUI for the CRUD operations for the object Registration. 
@@ -54,7 +58,7 @@ public class RegistrationGUI {
 		});
 
 		bRead.setOnAction((action) -> {
-			// sceneRegistrationRead();
+			sceneRegistrationRead();
 			GUI.updateScene(this.scene);
 		});
 
@@ -171,36 +175,40 @@ public class RegistrationGUI {
 
 	// Method to see an overview of all the Registrations
 	public void sceneRegistrationRead() {
-		// GridPane gridPane = new GridPane();
-		// Map<String, ArrayList<String>> Registrations = db.getAllRegistrations();
-		// int count = 0;
+		TableView<Registration> tableView = new TableView<>();
 
-		// for (String key : Registrations.keySet()) {
-		// 	HBox RegistrationLayer = new HBox();
+		TableColumn<Registration, String> column1 = new TableColumn<>("Course Taker Name");
+    column1.setCellValueFactory(new PropertyValueFactory<>("courseTakear"));
 
-		// 	Label lEmail = new Label(key);
-		// 	RegistrationLayer.getChildren().add(lEmail);
+    TableColumn<Registration, String> column2 = new TableColumn<>("Course");
+    column2.setCellValueFactory(new PropertyValueFactory<>("course"));
 
-		// 	for (int i = 0; i < Registrations.get(key).size(); i++) {
-		// 		Label data = new Label(Registrations.get(key).get(i));
-		// 		RegistrationLayer.getChildren().add(data);
-		// 		RegistrationLayer.setSpacing(10);
-		// 	}
+    TableColumn<Registration, String> column3 = new TableColumn<>("Date");
+    column3.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-		// 	Button delete = new Button("Delete");
-		// 	RegistrationLayer.getChildren().add(delete);
+    tableView.getColumns().add(column1);
+    tableView.getColumns().add(column2);
+    tableView.getColumns().add(column3);
 
-		// 	delete.setOnAction((event) -> {
-		// 		db.deleteRegistration(key);
-		// 		sceneRegistrationRead();
-		// 		GUI.updateScene(this.scene);
-		// 	});
+		ArrayList<Registration> registrations = db.getRegistrations();
 
-		// 	gridPane.add(RegistrationLayer, 0, count);
-		// 	count++;
-		// }
+		for(Registration registration : registrations) {
+			tableView.getItems().add(registration);
+		}
 
-		// this.scene = new Scene(gridPane, 500, 500);
+		Button delete = new Button("Delete");
+
+		delete.setOnAction((event) -> {
+			Registration registration = tableView.getSelectionModel().getSelectedItem();
+			registration.delete();
+			sceneRegistrationRead();
+			GUI.updateScene(this.scene);
+		});
+
+    VBox vBox = new VBox(tableView);
+		vBox.getChildren().add(delete);
+
+		this.scene = new Scene(vBox, 500, 500);
 	}
 
 	// Method for altering a Registration
