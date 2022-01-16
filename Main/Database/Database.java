@@ -627,4 +627,76 @@ public class Database {
 
         return courseName;
     }
+
+    public Integer getCourseID(String courseName) {
+        int courseID = 0;
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT CourseID FROM Course WHERE Name = '" + courseName + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                courseID = rs.getInt("CourseID");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return courseID;
+    }
+
+    public Integer getStaffID(String staffMail) {
+        int staffID = 0;
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT StaffID FROM [User] WHERE Email = '" + staffMail + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                staffID= rs.getInt("StaffID");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return staffID;
+    }
+
+    public Integer getCourseTakerID(String takerMail) {
+        int TakerID = 0;
+        
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT CourseTakerID FROM [User] WHERE Email = '" + takerMail + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                TakerID= rs.getInt("CourseTakerID");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return TakerID;
+    }
 }

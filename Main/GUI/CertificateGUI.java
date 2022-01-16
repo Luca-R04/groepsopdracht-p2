@@ -4,14 +4,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Main.Database.Database;
+import Main.User.Certificate;
 import Main.User.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 
 public class CertificateGUI {
@@ -68,11 +71,12 @@ public class CertificateGUI {
 
         ObservableList<String> userEmailOptions = FXCollections.observableArrayList(userEmails);
 
+        Button bUpdate = new Button("Update");
+
         // Text fields
         ComboBox<String> userEmail = new ComboBox<>();
         userEmail.setItems(userEmailOptions);
         ComboBox<String> userCertificates = new ComboBox<>();
-        TextField certificateID = new TextField();
         TextField rating = new TextField();
         TextField staff = new TextField();
         TextField course = new TextField();
@@ -81,7 +85,6 @@ public class CertificateGUI {
         // certificates
         userEmail.valueProperty().addListener((obs, oldItem, newItem) -> {
             if (newItem == null) {
-                certificateID.setText("");
             } else {
                 userCertificates.setItems(db.getCertificates(userEmail.getValue()));
             }
@@ -118,10 +121,40 @@ public class CertificateGUI {
         gridPane.add(lCourse, 0, 5);
         gridPane.add(course, 1, 5);
 
+        gridPane.add(bUpdate, 1, 7);
+
         // Styling
         gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
         gridPane.setVgap(10);
         gridPane.setHgap(10);
+
+        bUpdate.setOnAction((action) -> {
+            boolean error = false;
+
+            // Checks if all the fields are filled in
+            if (userEmail.getValue().isEmpty() || userCertificates.getValue().isEmpty() || rating.getText().isEmpty() || staff.getText().isEmpty()
+                    || course.getText().isEmpty()) {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setHeaderText("Input not valid");
+                errorAlert.setContentText("Fill in all the fields");
+                errorAlert.showAndWait();
+                error = true;
+            }
+
+            // Checks if there occured an error, if not update the specified user
+            if (!error) {
+                String isCourseTaker = null;
+                String isStaff = null;
+
+                Certificate c = new Certificate(Integer.valueOf(userCertificates.getValue()), Integer.valueOf(rating.getText()), db.getStaffID(staff.getText()), db.getCourseID(course.getText()), db.getCourseTakerID(userEmail.getValue()));
+
+                c.update();
+
+                Alert errorAlert = new Alert(AlertType.CONFIRMATION);
+                errorAlert.setHeaderText("Certificate successfully updated!");
+                errorAlert.showAndWait();
+            }
+        });
 
         this.scene = new Scene(gridPane, 700, 700);
     }

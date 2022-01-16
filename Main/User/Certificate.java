@@ -20,14 +20,8 @@ public class Certificate {
         this.CourseTakerID = CourseTakerID;
     }
 
-    public void update(Integer certificateID, Integer rating, Integer staffID, Integer courseID,
-            Integer CourseTakerID) {
+    public void update() {
         db.updateCertificate(certificateID, rating, staffID, courseID, CourseTakerID);
-
-        this.rating = rating;
-        this.staffID = staffID;
-        this.courseID = courseID;
-        this.CourseTakerID = CourseTakerID;
     }
 
     public int getCertificateID() {
