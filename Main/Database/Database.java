@@ -896,12 +896,37 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                webcasts.add(rs.getString(0) + " " + rs.getString(1));
+                webcasts.add(rs.getString(1) + " " + rs.getString(2));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return webcasts;
+    }
+
+    public String getWebcastName(int ContentID) {
+        String name = "";
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT Title FROM Webcast WHERE WebcastID IN (SELECT WebcastID FROM ContentItem WHERE ContentID = "
+                    + ContentID + ")";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                name = rs.getString("Title");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
+
+        return name;
     }
 }

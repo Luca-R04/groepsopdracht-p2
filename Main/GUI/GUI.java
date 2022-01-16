@@ -15,6 +15,7 @@ public class GUI extends Application {
 	public static UserGUI user = new UserGUI();
 	public static CourseGUI course = new CourseGUI();
 	public static WebcastGUI webcast = new WebcastGUI();
+	public static TopWebcasts topWebcast = new TopWebcasts();
 	public static CertificateGUI certificate = new CertificateGUI();
 	public static RegistrationGUI registration = new RegistrationGUI();
 
@@ -23,7 +24,8 @@ public class GUI extends Application {
 		GUI.stage = stage;
 
 		// Changes the title of the window.
-		GUI.stage.setTitle("Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
+		GUI.stage.setTitle(
+				"Codecademy: Luca Rinck - 2186751, Martijn Schemers - 2184875, Max Stokla - 2186459, Laurens Weterings - 2189413");
 
 		GUI.stage.setScene(scene);
 
@@ -100,6 +102,10 @@ public class GUI extends Application {
 
 		bWebcast.setOnAction((event) -> {
 			GUI.stage.setScene(webcast.getScene());
+		});
+
+		bTop3webcast.setOnAction((event) -> {
+			GUI.stage.setScene(topWebcast.getScene());
 		});
 	}
 
