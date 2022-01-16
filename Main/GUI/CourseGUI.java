@@ -232,7 +232,7 @@ public class CourseGUI {
     VBox vBox = new VBox(tableView);
 		vBox.getChildren().add(delete);
 
-		this.scene = new Scene(vBox, 500, 500);
+		this.scene = new Scene(vBox, 700, 400);
 	}
 
 	// Method for altering a course
