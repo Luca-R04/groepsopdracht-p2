@@ -102,7 +102,7 @@ public class CourseGUI {
 
 		ArrayList<Module> modules = db.getAllModules();
 		ObservableList<Module> moduleOptions = FXCollections.observableArrayList(modules);
-		ComboBox<Module> module = new ComboBox<>(moduleOptions);
+		ComboBox<Module> moduleChoice = new ComboBox<>(moduleOptions);
 
 		// Coordinates for the elements
 		gridPane.add(lName, 0, 1);
@@ -121,7 +121,7 @@ public class CourseGUI {
 		gridPane.add(level, 1, 5);
 
 		gridPane.add(lModule, 0, 6);
-		gridPane.add(module, 1, 6);
+		gridPane.add(moduleChoice, 1, 6);
 
 		gridPane.add(lStatus, 0, 7);
 		gridPane.add(status, 1, 7);
@@ -146,7 +146,7 @@ public class CourseGUI {
 				error = true;
 			}
 
-			if (publicationDate.getValue() == null || module.getValue() == null || status.getValue() == null) {
+			if (publicationDate.getValue() == null || moduleChoice.getValue() == null || status.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Make a choice in every combobox!");
@@ -161,8 +161,14 @@ public class CourseGUI {
 				Course course = new Course(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
 				course.insert();
 
-				Module m = new Module(module.getValue().getTitle(), module.getValue().getVersion(), module.getValue().getSerialNumber(), module.getValue().getDescription(), module.getValue().getContactPerson(), module.getValue().getCourse());
-				course.addModule(m);
+				Module module = null;
+				for(Module m : modules) {
+					if (moduleChoice.getValue().getId() == m.getId()) {
+						module = m;
+					}
+				}
+				
+				course.addModule(module);
 				
 				sceneCourseCreate();
 				GUI.updateScene(this.scene);
