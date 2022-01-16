@@ -2,24 +2,64 @@ package Main.GUI;
 
 import Main.Database.Database;
 import Main.User.Gender;
+import Main.User.User;
 import Main.ContentItem.Webcast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.geometry.Insets;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class WebcastGUI {
     private Database db = new Database();
     public Scene scene;
+    private String selectedUser;
 
     public WebcastGUI() {
+        GridPane gridPane = new GridPane();
+
+        ArrayList<User> users = db.getUsers();
+        ArrayList<String> userEmails = new ArrayList<>();
+        Button bUpdate = new Button("Proceed to overview");
+
+        for (User user : users) {
+            userEmails.add(user.getEmail());
+        }
+
+        ObservableList<String> userEmailOptions = FXCollections.observableArrayList(userEmails);
+
+        ComboBox<String> userEmail = new ComboBox<>();
+        userEmail.setItems(userEmailOptions);
+
+        gridPane.add(userEmail, 0, 1);
+
+        gridPane.add(bUpdate, 0, 2);
+
+        gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+
+        bUpdate.setOnAction((event) -> {
+            selectedUser = userEmail.getValue();
+            webcastRead();
+            GUI.updateScene(this.scene);
+        });
+
+        this.scene = new Scene(gridPane, 700, 700);
+    }
+
+    public Scene getScene() {
+        return this.scene;
+    }
+
+    public void webcastRead() {
         TableView<Webcast> tableView = new TableView<>();
 
         TableColumn<Webcast, String> column1 = new TableColumn<>("Title");
@@ -78,15 +118,13 @@ public class WebcastGUI {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            System.out.println(selectedUser);
         });
 
         VBox vbox = new VBox(tableView);
         vbox.getChildren().add(view);
 
         this.scene = new Scene(vbox, 800, 400);
-    }
-
-    public Scene getScene() {
-        return this.scene;
     }
 }

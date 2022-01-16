@@ -774,4 +774,8 @@ public class Database {
 
         return webcasts;
     }
+
+    public void viewedWebcast() {
+        
+    }
 }
