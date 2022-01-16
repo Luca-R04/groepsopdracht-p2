@@ -19,6 +19,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -30,6 +33,7 @@ import javafx.scene.layout.VBox;
 
 public class CourseGUI {
 	private Database db = new Database();
+	private GUI gui = new GUI();
 	public Scene scene;
 
 	public CourseGUI() {
@@ -77,6 +81,19 @@ public class CourseGUI {
 
 	// Method to show a scene where it is possible to create a course.
 	public void sceneCourseCreate() {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		GridPane gridPane = new GridPane();
 
 		// Buttons
@@ -88,8 +105,8 @@ public class CourseGUI {
 		Label lText = new Label("Text: ");
 		Label lPublicationDate = new Label("Publication Date: ");
 		Label lLevel = new Label("Level: ");
-		Label lModule = new Label("Modules: "); 
-		Label lStatus = new Label("Status: "); 
+		Label lModule = new Label("Modules: ");
+		Label lStatus = new Label("Status: ");
 
 		// Text fields
 		TextField name = new TextField();
@@ -109,6 +126,8 @@ public class CourseGUI {
 		ComboBox<Module> moduleChoice = new ComboBox<>(moduleOptions);
 
 		// Coordinates for the elements
+		gridPane.add(menu, 0, 0);
+
 		gridPane.add(lName, 0, 1);
 		gridPane.add(name, 1, 1);
 
@@ -142,7 +161,8 @@ public class CourseGUI {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (name.getText().isEmpty() || topic.getText().isEmpty() || topic.getText().isEmpty() || level.getValue() == null) {
+			if (name.getText().isEmpty() || topic.getText().isEmpty() || topic.getText().isEmpty()
+					|| level.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Fill in all the fields");
@@ -162,18 +182,19 @@ public class CourseGUI {
 			if (!error) {
 				Date sqlDate = Date.valueOf(publicationDate.getValue());
 
-				Course course = new Course(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(), level.getValue());
+				Course course = new Course(sqlDate, status.getValue(), name.getText(), topic.getText(), text.getText(),
+						level.getValue());
 				course.insert();
 
 				Module module = null;
-				for(Module m : modules) {
+				for (Module m : modules) {
 					if (moduleChoice.getValue().getId() == m.getId()) {
 						module = m;
 					}
 				}
 
 				course.addModule(module);
-				
+
 				sceneCourseCreate();
 				GUI.updateScene(this.scene);
 
@@ -188,36 +209,49 @@ public class CourseGUI {
 
 	// Method to see an overview of all the courses
 	public void sceneCourseRead() {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		TableView<Course> tableView = new TableView<>();
 
 		TableColumn<Course, String> column1 = new TableColumn<>("Name");
-    column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-    TableColumn<Course, String> column2 = new TableColumn<>("Topic");
-    column2.setCellValueFactory(new PropertyValueFactory<>("topic"));
+		TableColumn<Course, String> column2 = new TableColumn<>("Topic");
+		column2.setCellValueFactory(new PropertyValueFactory<>("topic"));
 
-    TableColumn<Course, String> column3 = new TableColumn<>("Text");
-    column3.setCellValueFactory(new PropertyValueFactory<>("text"));
+		TableColumn<Course, String> column3 = new TableColumn<>("Text");
+		column3.setCellValueFactory(new PropertyValueFactory<>("text"));
 
 		TableColumn<Course, Date> column4 = new TableColumn<>("Publication Date");
-    column4.setCellValueFactory(new PropertyValueFactory<>("publicationDate"));
+		column4.setCellValueFactory(new PropertyValueFactory<>("publicationDate"));
 
 		TableColumn<Course, Status> column5 = new TableColumn<>("Status");
-    column5.setCellValueFactory(new PropertyValueFactory<>("status"));
-	
-		TableColumn<Course, String> column6 = new TableColumn<>("Modules");
-    column6.setCellValueFactory(new PropertyValueFactory<>("modules"));
+		column5.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-    tableView.getColumns().add(column1);
-    tableView.getColumns().add(column2);
-    tableView.getColumns().add(column3);
-    tableView.getColumns().add(column4);
-    tableView.getColumns().add(column5);
-    tableView.getColumns().add(column6);
+		TableColumn<Course, String> column6 = new TableColumn<>("Modules");
+		column6.setCellValueFactory(new PropertyValueFactory<>("modules"));
+
+		tableView.getColumns().add(column1);
+		tableView.getColumns().add(column2);
+		tableView.getColumns().add(column3);
+		tableView.getColumns().add(column4);
+		tableView.getColumns().add(column5);
+		tableView.getColumns().add(column6);
 
 		ArrayList<Course> courses = db.getAllCourses();
 
-		for(Course course : courses) {
+		for (Course course : courses) {
 			tableView.getItems().add(course);
 		}
 
@@ -237,12 +271,14 @@ public class CourseGUI {
 			GUI.updateScene(this.scene);
 		});
 
-    VBox vBox = new VBox(tableView);
+		VBox vBox = new VBox();
 		HBox buttons = new HBox();
 
 		buttons.setStyle("-fx-font-size: 1.5em; -fx-padding: 1.5em;");
 
-		buttons.getChildren().addAll(delete, view); 
+		buttons.getChildren().addAll(delete, view);
+		vBox.getChildren().add(menu);
+		vBox.getChildren().add(tableView);
 		vBox.getChildren().add(buttons);
 
 		this.scene = new Scene(vBox, 700, 400);
@@ -250,6 +286,19 @@ public class CourseGUI {
 
 	// Method for altering a course
 	public void sceneCourseUpdate() {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		GridPane gridPane = new GridPane();
 
 		Button bSubmit = new Button("Update");
@@ -257,20 +306,20 @@ public class CourseGUI {
 		ArrayList<Course> courses = db.getAllCourses();
 		ArrayList<String> courseNames = new ArrayList<>();
 
-    for (Course course : courses) {
-      courseNames.add(course.getName());
-    }
+		for (Course course : courses) {
+			courseNames.add(course.getName());
+		}
 
 		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);
 		ComboBox<String> courseName = new ComboBox<>(courseNameOptions);
-		
+
 		Label lName = new Label("Name: ");
 		Label lTopic = new Label("Topic: ");
 		Label lText = new Label("Text: ");
 		Label lPublicationDate = new Label("Publication Date: ");
 		Label lLevel = new Label("Level: ");
-		Label lModule = new Label("Modules: "); 
-		Label lStatus = new Label("Status: "); 
+		Label lModule = new Label("Modules: ");
+		Label lStatus = new Label("Status: ");
 
 		TextField name = new TextField();
 		TextField topic = new TextField();
@@ -297,7 +346,7 @@ public class CourseGUI {
 						currentCourse = course;
 					}
 				}
-			
+
 				name.setText(courseName.getValue());
 				topic.setText(currentCourse.getTopic());
 				text.setText(currentCourse.getText());
@@ -308,11 +357,13 @@ public class CourseGUI {
 
 				status.setValue(currentCourse.getStatus());
 				level.setValue(currentCourse.getLevel());
-				for(Module m : modules) {
+				for (Module m : modules) {
 					module.setValue(m);
 				}
 			}
 		});
+
+		gridPane.add(menu, 0, 0);
 
 		gridPane.add(courseName, 0, 1);
 
@@ -346,7 +397,8 @@ public class CourseGUI {
 		bSubmit.setOnAction((action) -> {
 			boolean error = false;
 
-			if (name.getText().isEmpty() || topic.getText().isEmpty() || topic.getText().isEmpty() || level.getValue() == null) {
+			if (name.getText().isEmpty() || topic.getText().isEmpty() || topic.getText().isEmpty()
+					|| level.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Fill in all the fields");
@@ -362,10 +414,10 @@ public class CourseGUI {
 				error = true;
 			}
 
-			// Checks if there occured an error, if not update the specified course 
+			// Checks if there occured an error, if not update the specified course
 			if (!error) {
 				Course course = null;
-				for(Course c : courses) {
+				for (Course c : courses) {
 					if (c.getName().equals(courseName.getValue())) {
 						course = c;
 					}
@@ -387,6 +439,20 @@ public class CourseGUI {
 	}
 
 	public void sceneCourseView(Course course) {
+
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		GridPane gridPane = new GridPane();
 
 		Label lName = new Label("Name: ");
@@ -394,9 +460,9 @@ public class CourseGUI {
 		Label lText = new Label("Text: ");
 		Label lPublicationDate = new Label("Publication Date: ");
 		Label lLevel = new Label("Level: ");
-		Label lModule = new Label("Modules: "); 
-		Label lStatus = new Label("Status: "); 
-		Label lTimesFinished = new Label("Total Certifcates: "); 
+		Label lModule = new Label("Modules: ");
+		Label lStatus = new Label("Status: ");
+		Label lTimesFinished = new Label("Total Certifcates: ");
 		Label lRecommendedCourses = new Label("Recommended Courses: ");
 
 		Label name = new Label();
@@ -416,6 +482,8 @@ public class CourseGUI {
 		module.setText(course.getModules().toString());
 		status.setText(course.getStatus().toString());
 		timesFinished.setText(db.getCourseCertificates(course).toString());
+
+		gridPane.add(menu, 0, 0);
 
 		gridPane.add(lName, 0, 1);
 		gridPane.add(name, 1, 1);
@@ -442,7 +510,7 @@ public class CourseGUI {
 		gridPane.add(timesFinished, 1, 8);
 
 		gridPane.add(lRecommendedCourses, 0, 9);
-		int count = 9; 
+		int count = 9;
 		ArrayList<String> recommendedCourses = db.getRecommendedCourses();
 		for (String rc : recommendedCourses) {
 			Label label = new Label(rc);

@@ -18,6 +18,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
@@ -29,7 +32,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 */
 
 public class RegistrationGUI {
-  private Database db = new Database();
+	private Database db = new Database();
+	private GUI gui = new GUI();
 	public Scene scene;
 
 	public RegistrationGUI() {
@@ -70,6 +74,19 @@ public class RegistrationGUI {
 
 	// Method to show a scene where it is possible to create a Registration.
 	public void sceneRegistrationCreate() {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		GridPane gridPane = new GridPane();
 
 		// Buttons
@@ -78,31 +95,32 @@ public class RegistrationGUI {
 		// Labels;
 		Label lCourseTaker = new Label("Course Taker: ");
 		Label lCourse = new Label("Course: ");
-	
-  	// ComboBoxes
-    ArrayList<User> users = db.getUsers();
-    ArrayList<String> courseTakerNames = new ArrayList<>();
 
-    for (User user : users) {
+		// ComboBoxes
+		ArrayList<User> users = db.getUsers();
+		ArrayList<String> courseTakerNames = new ArrayList<>();
+
+		for (User user : users) {
 			if (user.getIsCourseTaker() != null) {
 				courseTakerNames.add(user.getEmail());
 			}
-    }
+		}
 
 		ObservableList<String> courseTakers = FXCollections.observableArrayList(courseTakerNames);
 		ComboBox<String> courseTaker = new ComboBox<>(courseTakers);
 
 		ArrayList<Course> courses = db.getAllCourses();
-    ArrayList<String> courseTitles = new ArrayList<>();
+		ArrayList<String> courseTitles = new ArrayList<>();
 
-    for (Course course : courses) {
-      courseTitles.add(course.getName());
-    }
+		for (Course course : courses) {
+			courseTitles.add(course.getName());
+		}
 
 		ObservableList<String> courseTitleOptions = FXCollections.observableArrayList(courseTitles);
 		ComboBox<String> course = new ComboBox<>(courseTitleOptions);
 
 		// Coordinates for the elements
+		gridPane.add(menu, 0, 0);
 		gridPane.add(lCourseTaker, 0, 1);
 		gridPane.add(courseTaker, 1, 1);
 
@@ -139,7 +157,7 @@ public class RegistrationGUI {
 				}
 
 				Course currentCourse = null;
-				for(Course c : courses) {
+				for (Course c : courses) {
 					if (c.getName().equals(course.getValue())) {
 						currentCourse = c;
 					}
@@ -162,24 +180,37 @@ public class RegistrationGUI {
 
 	// Method to see an overview of all the Registrations
 	public void sceneRegistrationRead() {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		TableView<Registration> tableView = new TableView<>();
 
 		TableColumn<Registration, String> column1 = new TableColumn<>("Course Taker Email");
-    column1.setCellValueFactory(new PropertyValueFactory<>("courseTaker"));
+		column1.setCellValueFactory(new PropertyValueFactory<>("courseTaker"));
 
-    TableColumn<Registration, String> column2 = new TableColumn<>("Course");
-    column2.setCellValueFactory(new PropertyValueFactory<>("course"));
+		TableColumn<Registration, String> column2 = new TableColumn<>("Course");
+		column2.setCellValueFactory(new PropertyValueFactory<>("course"));
 
-    TableColumn<Registration, String> column3 = new TableColumn<>("Date");
-    column3.setCellValueFactory(new PropertyValueFactory<>("date"));
+		TableColumn<Registration, String> column3 = new TableColumn<>("Date");
+		column3.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-    tableView.getColumns().add(column1);
-    tableView.getColumns().add(column2);
-    tableView.getColumns().add(column3);
+		tableView.getColumns().add(column1);
+		tableView.getColumns().add(column2);
+		tableView.getColumns().add(column3);
 
 		ArrayList<Registration> registrations = db.getRegistrations();
 
-		for(Registration registration : registrations) {
+		for (Registration registration : registrations) {
 			tableView.getItems().add(registration);
 		}
 
@@ -200,12 +231,14 @@ public class RegistrationGUI {
 			GUI.updateScene(this.scene);
 		});
 
-    VBox vBox = new VBox(tableView);
+		VBox vBox = new VBox();
 		HBox buttons = new HBox();
 
 		buttons.setStyle("-fx-font-size: 1.5em; -fx-padding: 1.5em;");
 
-		buttons.getChildren().addAll(delete, update); 
+		buttons.getChildren().addAll(delete, update);
+		vBox.getChildren().add(menu);
+		vBox.getChildren().add(tableView);
 		vBox.getChildren().add(buttons);
 
 		this.scene = new Scene(vBox, 500, 500);
@@ -213,6 +246,19 @@ public class RegistrationGUI {
 
 	// Method for altering a Registration
 	public void sceneRegistrationUpdate(Registration registration) {
+		Menu navbar = new Menu("NavBar");
+		MenuItem home = new MenuItem("Home");
+		home.setOnAction(e -> {
+			gui.startScene();
+		});
+
+		navbar.getItems().add(home);
+
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().add(navbar);
+
+		VBox menu = new VBox(menuBar);
+
 		GridPane gridPane = new GridPane();
 
 		// Buttons
@@ -221,18 +267,18 @@ public class RegistrationGUI {
 		// Labels;
 		Label lCourseTaker = new Label("Course Taker: ");
 		Label lCourse = new Label("Course: ");
-	
-  	// ComboBoxes
+
+		// ComboBoxes
 		ArrayList<User> users = db.getUsers();
-  
+
 		Label courseTaker = new Label("");
 
 		ArrayList<Course> courses = db.getAllCourses();
 		ArrayList<String> courseNames = new ArrayList<>();
 
-    for (Course course : courses) {
-      courseNames.add(course.getName());
-    }
+		for (Course course : courses) {
+			courseNames.add(course.getName());
+		}
 
 		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);
 		ComboBox<String> course = new ComboBox<>(courseNameOptions);
@@ -241,6 +287,7 @@ public class RegistrationGUI {
 		course.setValue(registration.getCourse().getName());
 
 		// Coordinates for the elements
+		gridPane.add(menu, 0, 0);
 		gridPane.add(lCourseTaker, 0, 1);
 		gridPane.add(courseTaker, 1, 1);
 
@@ -277,7 +324,7 @@ public class RegistrationGUI {
 				}
 
 				Course currentCourse = null;
-				for(Course c : courses) {
+				for (Course c : courses) {
 					if (c.getName().equals(course.getValue())) {
 						currentCourse = c;
 					}
