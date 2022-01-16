@@ -1,4 +1,4 @@
-package Main.TestClasses.NumericRangeTools;
+package Main.TestClasses;
 
 public class NumericRange {
     public static boolean isValidPercentage(int percentage) {

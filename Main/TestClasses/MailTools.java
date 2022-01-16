@@ -1,4 +1,4 @@
-package Main.TestClasses.MailTools;
+package Main.TestClasses;
 
 public class MailTools {
     
