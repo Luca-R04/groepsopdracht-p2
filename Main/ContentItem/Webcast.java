@@ -1,11 +1,9 @@
 package Main.ContentItem;
 
 import java.sql.Date;
-
 import Main.ContentItem.Course.Status;
-import Main.Database.Database;
 
-public class Webcast extends ContentItem {
+public class Webcast {
     private String title; 
     private String URL; 
     private int duration; 
@@ -13,11 +11,8 @@ public class Webcast extends ContentItem {
     private Speaker speaker;
     private Date publicationDate;
     private Status status;
-    private Database db = new Database(); 
 
     public Webcast(Date publicationDate, Status status, String title, String URL, int duration, String description, Speaker speaker) {
-        super(publicationDate, status);
-
         this.title = title;
         this.URL = URL;
         this.duration = duration;
@@ -53,5 +48,13 @@ public class Webcast extends ContentItem {
 
     public Speaker getSpeaker() {
         return this.speaker;
+    }
+
+    public Date getPublicationDate() {
+        return this.publicationDate;
+    }
+
+    public Status getStatus() {
+        return this.status;
     }
 }

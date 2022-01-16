@@ -2,10 +2,9 @@ package Main.ContentItem.Course;
 import java.sql.Date;
 import java.util.ArrayList;
 
-import Main.ContentItem.ContentItem;
 import Main.Database.Database;
 
-public class Course extends ContentItem {
+public class Course {
     private String name; 
     private String topic; 
     private String text; 
@@ -16,8 +15,6 @@ public class Course extends ContentItem {
     private Database db = new Database();
 
     public Course(Date publicationDate, Status status, String name, String topic, String text, Level level) {        
-        super(publicationDate, status); 
-
         this.name = name; 
         this.topic = topic; 
         this.text = text; 

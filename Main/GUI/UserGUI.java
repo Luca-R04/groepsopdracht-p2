@@ -8,7 +8,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +23,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class UserGUI {
@@ -291,9 +289,9 @@ public class UserGUI {
 		Label lLastName = new Label("Last name: ");
 		Label lBirthdate = new Label("Birthdate: ");
 		Label lGender = new Label("Gender: ");
-		Label lAddress = new Label("Address:");
-		Label lPostal = new Label("Postal code");
-		Label lCountry = new Label("Country:");
+		Label lAddress = new Label("Address: ");
+		Label lPostal = new Label("Postal code: ");
+		Label lCountry = new Label("Country: ");
 		Label lResidence = new Label("Residence: ");
 
 		ArrayList<User> users = db.getUsers();

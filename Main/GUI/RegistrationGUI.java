@@ -1,34 +1,23 @@
 package Main.GUI;
 
 import Main.Database.Database;
+import Main.ContentItem.Course.Course;
 import Main.User.Registration;
 import Main.User.User;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-
-import Main.ContentItem.Course.Course;
-import Main.ContentItem.Course.Level;
-import Main.ContentItem.Course.Status;
-import Main.Database.Database;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 
 /*
 This class provides the GUI for the CRUD operations for the object Registration. 
