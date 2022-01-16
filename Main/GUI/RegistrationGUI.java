@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -200,7 +201,12 @@ public class RegistrationGUI {
 		});
 
     VBox vBox = new VBox(tableView);
-		vBox.getChildren().addAll(delete, update);
+		HBox buttons = new HBox();
+
+		buttons.setStyle("-fx-font-size: 1.5em; -fx-padding: 1.5em;");
+
+		buttons.getChildren().addAll(delete, update); 
+		vBox.getChildren().add(buttons);
 
 		this.scene = new Scene(vBox, 500, 500);
 	}
