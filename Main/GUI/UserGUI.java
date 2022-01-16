@@ -273,7 +273,7 @@ public class UserGUI {
     VBox vbox = new VBox(tableView);
 		vbox.getChildren().add(delete);
 
-		this.scene = new Scene(vbox, 800, 800);
+		this.scene = new Scene(vbox, 1050, 400);
 	}
 
 	// Method for altering a user
