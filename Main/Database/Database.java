@@ -328,6 +328,49 @@ public class Database {
         }
     }
 
+    public Integer getCourseCertificates(Course course) {
+        Integer count = 0;
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT COUNT(CertificateID) AS Count FROM Course JOIN Certificate ON Certificate.CourseID = Course.CourseID WHERE Course.Name = '" + course.getName() + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                count = rs.getInt("Count"); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
+
+    public ArrayList<String> getRecommendedCourses() {
+        ArrayList<String> recommendedCourses = new ArrayList<>();
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "SELECT * FROM Course WHERE IsRecommended IS NOT NULL";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                String name  = rs.getString("Name"); 
+                recommendedCourses.add(name);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return recommendedCourses;
+    }
+
     public ArrayList<Module> getAllModules() {
         ArrayList<Module> modules = new ArrayList<>();
 

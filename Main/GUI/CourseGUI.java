@@ -25,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class CourseGUI {
@@ -221,6 +222,7 @@ public class CourseGUI {
 		}
 
 		Button delete = new Button("Delete");
+		Button view = new Button("View");
 
 		delete.setOnAction((event) -> {
 			Course course = tableView.getSelectionModel().getSelectedItem();
@@ -229,8 +231,19 @@ public class CourseGUI {
 			GUI.updateScene(this.scene);
 		});
 
+		view.setOnAction((event) -> {
+			Course course = tableView.getSelectionModel().getSelectedItem();
+			sceneCourseView(course);
+			GUI.updateScene(this.scene);
+		});
+
     VBox vBox = new VBox(tableView);
-		vBox.getChildren().add(delete);
+		HBox buttons = new HBox();
+
+		buttons.setStyle("-fx-font-size: 1.5em; -fx-padding: 1.5em;");
+
+		buttons.getChildren().addAll(delete, view); 
+		vBox.getChildren().add(buttons);
 
 		this.scene = new Scene(vBox, 700, 400);
 	}
@@ -369,6 +382,77 @@ public class CourseGUI {
 				errorAlert.showAndWait();
 			}
 		});
+
+		this.scene = new Scene(gridPane, 700, 700);
+	}
+
+	public void sceneCourseView(Course course) {
+		GridPane gridPane = new GridPane();
+
+		Label lName = new Label("Name: ");
+		Label lTopic = new Label("Topic: ");
+		Label lText = new Label("Text: ");
+		Label lPublicationDate = new Label("Publication Date: ");
+		Label lLevel = new Label("Level: ");
+		Label lModule = new Label("Modules: "); 
+		Label lStatus = new Label("Status: "); 
+		Label lTimesFinished = new Label("Total Certifcates: "); 
+		Label lRecommendedCourses = new Label("Recommended Courses: ");
+
+		Label name = new Label();
+		Label topic = new Label();
+		Label text = new Label();
+		Label publicationDate = new Label();
+		Label level = new Label();
+		Label module = new Label();
+		Label status = new Label();
+		Label timesFinished = new Label();
+
+		name.setText(course.getName());
+		topic.setText(course.getTopic());
+		text.setText(course.getText());
+		publicationDate.setText(course.getPublicationDate().toString());
+		level.setText(course.getLevel().toString());
+		module.setText(course.getModules().toString());
+		status.setText(course.getStatus().toString());
+		timesFinished.setText(db.getCourseCertificates(course).toString());
+
+		gridPane.add(lName, 0, 1);
+		gridPane.add(name, 1, 1);
+
+		gridPane.add(lTopic, 0, 2);
+		gridPane.add(topic, 1, 2);
+
+		gridPane.add(lText, 0, 3);
+		gridPane.add(text, 1, 3);
+
+		gridPane.add(lPublicationDate, 0, 4);
+		gridPane.add(publicationDate, 1, 4);
+
+		gridPane.add(lLevel, 0, 5);
+		gridPane.add(level, 1, 5);
+
+		gridPane.add(lModule, 0, 6);
+		gridPane.add(module, 1, 6);
+
+		gridPane.add(lStatus, 0, 7);
+		gridPane.add(status, 1, 7);
+
+		gridPane.add(lTimesFinished, 0, 8);
+		gridPane.add(timesFinished, 1, 8);
+
+		gridPane.add(lRecommendedCourses, 0, 9);
+		int count = 9; 
+		ArrayList<String> recommendedCourses = db.getRecommendedCourses();
+		for (String rc : recommendedCourses) {
+			Label label = new Label(rc);
+			gridPane.add(label, 1, count);
+			count++;
+		}
+
+		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
+		gridPane.setVgap(10);
+		gridPane.setHgap(10);
 
 		this.scene = new Scene(gridPane, 700, 700);
 	}
