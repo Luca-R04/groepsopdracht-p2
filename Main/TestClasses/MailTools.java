@@ -1,5 +1,7 @@
 package Main.TestClasses;
 
+// Checks if the given email is valid.
+
 public class MailTools {
     
     public static boolean validateMailAddress(String mailAddress) {

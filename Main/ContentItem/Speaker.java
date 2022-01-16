@@ -1,5 +1,7 @@
 package Main.ContentItem;
 
+// This class represents a Speaker. It is possible to create one and retrieve it's attributes. 
+
 public class Speaker {
     private String organisation;
     private String firstName;

@@ -1,5 +1,8 @@
 package Main.User;
 
+// This class represents a User. It is possible to create one and retrieve it's attributes. 
+// There is also a possibilty to insert a User object into the database. Updating and deleting it is also possible. 
+
 import java.sql.Date;
 
 import Main.Database.Database;

@@ -1,5 +1,8 @@
 package Main.ContentItem;
 
+// This class represents a Webcast. It is possible to create one and retrieve it's attributes. 
+// There is also a possibilty to insert a Webcast object into the database. Updating and deleting it is also possible. 
+
 import java.sql.Date;
 import Main.ContentItem.Course.Status;
 
@@ -28,10 +31,6 @@ public class Webcast {
         this.duration = duration;
         this.description = description;
         this.speaker = speaker;
-    }
-
-    public void view() {
-        
     }
 
     public String getTitle() {

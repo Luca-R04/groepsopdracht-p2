@@ -1,5 +1,7 @@
 package Main.GUI;
 
+// This class brings all the other GUI classes together and shows some navigation buttons on the start screen. 
+
 import Main.Database.Database;
 
 import javafx.application.Application;

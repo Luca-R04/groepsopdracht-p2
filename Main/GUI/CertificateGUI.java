@@ -1,5 +1,8 @@
 package Main.GUI;
 
+// GUI class for the Certificate object. It is possible to update a certificate and view the certificates. 
+// Creating happens automatically when a course is completed. 
+
 import java.util.ArrayList;
 
 import Main.Database.Database;

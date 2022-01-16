@@ -1,5 +1,7 @@
 package Main.GUI;
 
+// This GUI shows the top 3 courses with the most certificates. 
+
 import java.util.ArrayList;
 import Main.Database.Database;
 import javafx.scene.Scene;

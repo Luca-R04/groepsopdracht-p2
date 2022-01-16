@@ -1,5 +1,7 @@
 package Main.GUI;
 
+// This GUI adds the possibilty to view the available webcasts. 
+
 import Main.Database.Database;
 import Main.User.Gender;
 import Main.User.User;
@@ -131,8 +133,6 @@ public class WebcastGUI {
         Button view = new Button("View");
 
         view.setOnAction((event) -> {
-            Webcast webcast = tableView.getSelectionModel().getSelectedItem();
-            webcast.view();
             GUI.updateScene(this.scene);
 
             Runtime rt = Runtime.getRuntime();
