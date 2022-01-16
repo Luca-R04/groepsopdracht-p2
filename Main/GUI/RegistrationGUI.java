@@ -16,7 +16,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,7 +35,6 @@ public class RegistrationGUI {
 		// Creating all the buttons
 		Button bCreate = new Button("Create Registration");
 		Button bRead = new Button("View Registrations");
-		Button bUpdate = new Button("Update Registration");
 
 		// New Gridpane
 		GridPane gridPane = new GridPane();
@@ -44,7 +42,6 @@ public class RegistrationGUI {
 		// Specifies coordinates for the buttons
 		gridPane.add(bCreate, 0, 1);
 		gridPane.add(bRead, 1, 1);
-		gridPane.add(bUpdate, 0, 2);
 
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -59,11 +56,6 @@ public class RegistrationGUI {
 
 		bRead.setOnAction((action) -> {
 			sceneRegistrationRead();
-			GUI.updateScene(this.scene);
-		});
-
-		bUpdate.setOnAction((action) -> {
-			// sceneRegistrationUpdate();
 			GUI.updateScene(this.scene);
 		});
 
@@ -85,14 +77,15 @@ public class RegistrationGUI {
 		// Labels;
 		Label lCourseTaker = new Label("Course Taker: ");
 		Label lCourse = new Label("Course: ");
-		Label lDate = new Label("Date: ");
 	
   	// ComboBoxes
     ArrayList<User> users = db.getUsers();
     ArrayList<String> courseTakerNames = new ArrayList<>();
 
     for (User user : users) {
-      courseTakerNames.add(user.getEmail());
+			if (user.getIsCourseTaker() != null) {
+				courseTakerNames.add(user.getEmail());
+			}
     }
 
 		ObservableList<String> courseTakers = FXCollections.observableArrayList(courseTakerNames);
@@ -108,8 +101,6 @@ public class RegistrationGUI {
 		ObservableList<String> courseTitleOptions = FXCollections.observableArrayList(courseTitles);
 		ComboBox<String> course = new ComboBox<>(courseTitleOptions);
 
-    DatePicker publicationDate = new DatePicker();
-
 		// Coordinates for the elements
 		gridPane.add(lCourseTaker, 0, 1);
 		gridPane.add(courseTaker, 1, 1);
@@ -117,10 +108,7 @@ public class RegistrationGUI {
 		gridPane.add(lCourse, 0, 2);
 		gridPane.add(course, 1, 2);
 
-		gridPane.add(lDate, 0, 3);
-		gridPane.add(publicationDate, 1, 3);
-
-		gridPane.add(bCreate, 1, 10);
+		gridPane.add(bCreate, 1, 6);
 
 		// Styling
 		gridPane.setStyle("-fx-font-size: 2em; -fx-padding: 2em;");
@@ -132,7 +120,7 @@ public class RegistrationGUI {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (courseTaker.getValue() == null || course.getValue() == null || publicationDate.getValue() == null) {
+			if (courseTaker.getValue() == null || course.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Make a choice in every combobox!");
@@ -142,8 +130,6 @@ public class RegistrationGUI {
 
 			// Checks if there occured an error, if not create new Registration in database
 			if (!error) {
-				Date sqlDate = Date.valueOf(publicationDate.getValue());
-
 				User currentUser = null;
 				for (User user : users) {
 					if (user.getEmail().equals(courseTaker.getValue())) {
@@ -158,7 +144,7 @@ public class RegistrationGUI {
 					}
 				}
 
-				Registration registration = new Registration(currentUser, currentCourse, sqlDate);
+				Registration registration = new Registration(currentUser, currentCourse, new Date(System.currentTimeMillis()));
 				registration.insert();
 
 				sceneRegistrationCreate();
@@ -177,7 +163,7 @@ public class RegistrationGUI {
 	public void sceneRegistrationRead() {
 		TableView<Registration> tableView = new TableView<>();
 
-		TableColumn<Registration, String> column1 = new TableColumn<>("Course Taker Name");
+		TableColumn<Registration, String> column1 = new TableColumn<>("Course Taker Email");
     column1.setCellValueFactory(new PropertyValueFactory<>("courseTaker"));
 
     TableColumn<Registration, String> column2 = new TableColumn<>("Course");
@@ -205,14 +191,22 @@ public class RegistrationGUI {
 			GUI.updateScene(this.scene);
 		});
 
+		Button update = new Button("Update");
+
+		update.setOnAction((event) -> {
+			Registration registration = tableView.getSelectionModel().getSelectedItem();
+			sceneRegistrationUpdate(registration);
+			GUI.updateScene(this.scene);
+		});
+
     VBox vBox = new VBox(tableView);
-		vBox.getChildren().add(delete);
+		vBox.getChildren().addAll(delete, update);
 
 		this.scene = new Scene(vBox, 500, 500);
 	}
 
 	// Method for altering a Registration
-	public void sceneRegistrationUpdate() {
+	public void sceneRegistrationUpdate(Registration registration) {
 		GridPane gridPane = new GridPane();
 
 		// Buttons
@@ -221,18 +215,11 @@ public class RegistrationGUI {
 		// Labels;
 		Label lCourseTaker = new Label("Course Taker: ");
 		Label lCourse = new Label("Course: ");
-		Label lDate = new Label("Date: ");
 	
   	// ComboBoxes
-    ArrayList<User> users = db.getUsers();
-    ArrayList<String> courseTakerNames = new ArrayList<>();
-
-    for (User user : users) {
-      courseTakerNames.add(user.getEmail());
-    }
-
-		ObservableList<String> courseTakers = FXCollections.observableArrayList(courseTakerNames);
-		ComboBox<String> courseTaker = new ComboBox<>(courseTakers);
+		ArrayList<User> users = db.getUsers();
+  
+		Label courseTaker = new Label("");
 
 		ArrayList<Course> courses = db.getAllCourses();
 		ArrayList<String> courseNames = new ArrayList<>();
@@ -244,7 +231,8 @@ public class RegistrationGUI {
 		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);
 		ComboBox<String> course = new ComboBox<>(courseNameOptions);
 
-    DatePicker publicationDate = new DatePicker();
+		courseTaker.setText(registration.getCourseTaker().getEmail());
+		course.setValue(registration.getCourse().getName());
 
 		// Coordinates for the elements
 		gridPane.add(lCourseTaker, 0, 1);
@@ -252,9 +240,6 @@ public class RegistrationGUI {
 
 		gridPane.add(lCourse, 0, 2);
 		gridPane.add(course, 1, 2);
-
-		gridPane.add(lDate, 0, 3);
-		gridPane.add(publicationDate, 1, 3);
 
 		gridPane.add(bUpdate, 1, 10);
 
@@ -268,7 +253,7 @@ public class RegistrationGUI {
 			boolean error = false;
 
 			// Checks if all the fields are filled in
-			if (courseTaker.getValue() == null || course.getValue() == null || publicationDate.getValue() == null) {
+			if (courseTaker.getText() == null || course.getValue() == null) {
 				Alert errorAlert = new Alert(AlertType.ERROR);
 				errorAlert.setHeaderText("Input not valid");
 				errorAlert.setContentText("Make a choice in every combobox!");
@@ -278,11 +263,9 @@ public class RegistrationGUI {
 
 			// Checks if there occured an error, if not create new Registration in database
 			if (!error) {
-				Date sqlDate = Date.valueOf(publicationDate.getValue());
-
 				User currentUser = null;
 				for (User user : users) {
-					if (user.getEmail().equals(courseTaker.getValue())) {
+					if (user.getEmail().equals(courseTaker.getText())) {
 						currentUser = user;
 					}
 				}
@@ -294,10 +277,9 @@ public class RegistrationGUI {
 					}
 				}
 
-				Registration registration = new Registration(currentUser, currentCourse, sqlDate);
-				registration.insert();
+				registration.update(currentUser, currentCourse);
 
-				sceneRegistrationCreate();
+				sceneRegistrationRead();
 				GUI.updateScene(this.scene);
 
 				Alert errorAlert = new Alert(AlertType.CONFIRMATION);

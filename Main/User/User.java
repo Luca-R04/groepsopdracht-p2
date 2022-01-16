@@ -5,6 +5,7 @@ import java.sql.Date;
 import Main.Database.Database;
 
 public class User {
+    private int id; 
     private String email;
     private String FirstName;
     private String LastName;
@@ -93,6 +94,14 @@ public class User {
 
     public String getIsStaff() {
         return this.isStaff;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String toString() {

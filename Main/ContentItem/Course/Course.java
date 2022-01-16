@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Main.Database.Database;
 
 public class Course {
+    private int id; 
     private String name; 
     private String topic; 
     private String text; 
@@ -73,6 +74,14 @@ public class Course {
 
     public ArrayList<Module> getModules() {
         return this.modules;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String toString() {

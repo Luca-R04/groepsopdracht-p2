@@ -26,6 +26,13 @@ public class Registration {
 		db.deleteRegistration(this);
 	}
 
+	public void update(User courseTaker, Course course) {
+		db.updateRegistration(this, courseTaker, course); 
+
+		this.courseTaker = courseTaker;
+		this.course = course;
+}
+
 	public User getCourseTaker() {
 		return this.courseTaker;
 	}

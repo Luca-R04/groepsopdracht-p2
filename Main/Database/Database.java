@@ -105,9 +105,10 @@ public class Database {
                 String country = rs.getString("Country");
                 String isCourseTaker = rs.getString("CourseTakerID");
                 String isStaff = rs.getString("StaffID");
+                int courseTakerId = rs.getInt("CourseTakerID");
 
-                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence,
-                        country, isCourseTaker, isStaff);
+                User user = new User(email, FirstName, LastName, birthDate, gender, address, postalCode, residence, country, isCourseTaker, isStaff);
+                user.setId(courseTakerId);
                 users.add(user);
             }
         } catch (Exception e) {
@@ -132,18 +133,14 @@ public class Database {
         }
     }
 
-    public void updateUser(User user, String email, String FirstName, String LastName, Date birthDate, Gender gender,
-            String address,
-            String postalCode, String residence, String country) {
+    public void updateUser(User user, String email, String FirstName, String LastName, Date birthDate, Gender gender, String address, String postalCode, String residence, String country) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "UPDATE [User] SET FirstName = '" + FirstName + "', LastName = '" + LastName
-                    + "', DateOfBirth = '" + birthDate
+            String SQL = "UPDATE [User] SET FirstName = '" + FirstName + "', LastName = '" + LastName + "', DateOfBirth = '" + birthDate
                     + "', Gender = '" + gender + "', Address = '" + address + "', PostalCode = '" + postalCode
-                    + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '"
-                    + user.getEmail() + "'";
+                    + "', Residence = '" + residence + "', Country = '" + country + "' WHERE Email = '" + user.getEmail() + "'";
             stmt = con.createStatement();
             stmt.execute(SQL);
         } catch (Exception e) {
@@ -283,6 +280,7 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
+                int id = rs.getInt("CourseID"); 
                 Date publicationDate = rs.getDate("PublicationDate");
                 Status status = Status.valueOf(rs.getString("Status"));
                 String name = rs.getString("Name");
@@ -290,13 +288,13 @@ public class Database {
                 String text = rs.getString("Text");
                 Level level = Level.valueOf(rs.getString("Lvl"));
 
+
                 Course course = new Course(publicationDate, status, name, topic, text, level);
+                course.setId(id); 
                 courses.add(course);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            excecuteFinally();
         }
 
         return courses;
@@ -481,12 +479,26 @@ public class Database {
                 registration.setId(id);
                 registrations.add(registration);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return registrations;
+    }
+
+    public void updateRegistration(Registration registration, User courseTaker, Course course) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+
+            String SQL = "UPDATE Registration SET CourseTakerID = '" + courseTaker.getId() + "', CourseID = '" + course.getId() + "', RegistrationDate = '" + new Date(System.currentTimeMillis()) + "'WHERE RegistrationID = '" + registration.getId() + "'";
+            stmt = con.createStatement();
+            stmt.execute(SQL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excecuteFinally();
+        }
     }
 
     public void deleteRegistration(Registration registration) {
