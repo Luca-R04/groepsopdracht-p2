@@ -1,6 +1,9 @@
 package Main.GUI;
 
 import Main.Database.Database;
+import Main.TestClasses.DateTools;
+import Main.TestClasses.MailTools;
+import Main.TestClasses.PostalCode;
 import Main.User.Gender;
 import Main.User.User;
 
@@ -192,9 +195,18 @@ public class UserGUI {
 					isCourseTaker = "1";
 				}
 
+				if (MailTools.validateMailAddress(email.getText()) == false) {
+					Alert errorAlert = new Alert(AlertType.ERROR);
+					errorAlert.setHeaderText("Input not valid");
+					errorAlert.setContentText("Enter valid Email");
+					errorAlert.showAndWait();
+				}
+
+				String postalCode = PostalCode.formatPostalCode(postal.getText());
+
 				Date sqlDate = Date.valueOf(birthdate.getValue());
 				User u = new User(email.getText(), FirstName.getText(), LastName.getText(), sqlDate, gender.getValue(),
-						address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker,
+						address.getText(), postalCode, residence.getText(), country.getText(), isCourseTaker,
 						isStaff);
 				u.insert();
 			}
@@ -208,56 +220,56 @@ public class UserGUI {
 		TableView<User> tableView = new TableView<>();
 
 		TableColumn<User, String> column1 = new TableColumn<>("Email");
-    column1.setCellValueFactory(new PropertyValueFactory<>("email"));
+		column1.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-    TableColumn<User, String> column2 = new TableColumn<>("First Name");
-    column2.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
+		TableColumn<User, String> column2 = new TableColumn<>("First Name");
+		column2.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
 
-    TableColumn<User, String> column3 = new TableColumn<>("Last Name");
-    column3.setCellValueFactory(new PropertyValueFactory<>("LastName"));
+		TableColumn<User, String> column3 = new TableColumn<>("Last Name");
+		column3.setCellValueFactory(new PropertyValueFactory<>("LastName"));
 
 		TableColumn<User, Date> column4 = new TableColumn<>("Birthdate");
-    column4.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+		column4.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
 
 		TableColumn<User, Gender> column5 = new TableColumn<>("Gender");
-    column5.setCellValueFactory(new PropertyValueFactory<>("gender"));
+		column5.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
 		TableColumn<User, String> column6 = new TableColumn<>("Address");
-    column6.setCellValueFactory(new PropertyValueFactory<>("address"));
+		column6.setCellValueFactory(new PropertyValueFactory<>("address"));
 
 		TableColumn<User, String> column7 = new TableColumn<>("Residence");
-    column7.setCellValueFactory(new PropertyValueFactory<>("residence"));
+		column7.setCellValueFactory(new PropertyValueFactory<>("residence"));
 
 		TableColumn<User, String> column8 = new TableColumn<>("Postal Code");
-    column8.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+		column8.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
 
 		TableColumn<User, String> column9 = new TableColumn<>("Country");
-    column9.setCellValueFactory(new PropertyValueFactory<>("country"));
+		column9.setCellValueFactory(new PropertyValueFactory<>("country"));
 
 		TableColumn<User, String> column10 = new TableColumn<>("Course Taker");
-    column10.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
+		column10.setCellValueFactory(new PropertyValueFactory<>("isCourseTaker"));
 
 		TableColumn<User, String> column11 = new TableColumn<>("Staff");
-    column11.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
+		column11.setCellValueFactory(new PropertyValueFactory<>("isStaff"));
 
 		TableColumn<Button, String> column12 = new TableColumn<>("Delete");
-    column12.setCellValueFactory(new PropertyValueFactory<>("Delete"));
+		column12.setCellValueFactory(new PropertyValueFactory<>("Delete"));
 
-    tableView.getColumns().add(column1);
-    tableView.getColumns().add(column2);
-    tableView.getColumns().add(column3);
-    tableView.getColumns().add(column4);
-    tableView.getColumns().add(column5);
-    tableView.getColumns().add(column6);
-    tableView.getColumns().add(column7);
-    tableView.getColumns().add(column8);
-    tableView.getColumns().add(column9);
-    tableView.getColumns().add(column10);
-    tableView.getColumns().add(column11);
+		tableView.getColumns().add(column1);
+		tableView.getColumns().add(column2);
+		tableView.getColumns().add(column3);
+		tableView.getColumns().add(column4);
+		tableView.getColumns().add(column5);
+		tableView.getColumns().add(column6);
+		tableView.getColumns().add(column7);
+		tableView.getColumns().add(column8);
+		tableView.getColumns().add(column9);
+		tableView.getColumns().add(column10);
+		tableView.getColumns().add(column11);
 
 		ArrayList<User> users = db.getUsers();
 
-		for(User user : users) {
+		for (User user : users) {
 			tableView.getItems().add(user);
 		}
 
@@ -270,7 +282,7 @@ public class UserGUI {
 			GUI.updateScene(this.scene);
 		});
 
-    VBox vbox = new VBox(tableView);
+		VBox vbox = new VBox(tableView);
 		vbox.getChildren().add(delete);
 
 		this.scene = new Scene(vbox, 1050, 400);
@@ -330,7 +342,7 @@ public class UserGUI {
 						currentUser = user;
 					}
 				}
-			
+
 				email.setText(userEmail.getValue());
 				FirstName.setText(currentUser.getFirstName());
 				LastName.setText(currentUser.getLastName());
