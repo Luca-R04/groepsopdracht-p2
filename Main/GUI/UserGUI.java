@@ -1,6 +1,8 @@
 package Main.GUI;
 
 import Main.Database.Database;
+import Main.TestClasses.MailTools;
+import Main.TestClasses.PostalCode;
 import Main.User.Gender;
 import Main.User.User;
 
@@ -211,9 +213,18 @@ public class UserGUI {
 					isCourseTaker = "1";
 				}
 
+				if (MailTools.validateMailAddress(email.getText()) == false) {
+					Alert errorAlert = new Alert(AlertType.ERROR);
+					errorAlert.setHeaderText("Input not valid");
+					errorAlert.setContentText("Enter valid Email");
+					errorAlert.showAndWait();
+				}
+
+				String postalCode = PostalCode.formatPostalCode(postal.getText());
+
 				Date sqlDate = Date.valueOf(birthdate.getValue());
 				User u = new User(email.getText(), FirstName.getText(), LastName.getText(), sqlDate, gender.getValue(),
-						address.getText(), postal.getText(), residence.getText(), country.getText(), isCourseTaker,
+						address.getText(), postalCode, residence.getText(), country.getText(), isCourseTaker,
 						isStaff);
 				u.insert();
 			}

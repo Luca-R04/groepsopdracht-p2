@@ -7,6 +7,7 @@ import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
 import Main.ContentItem.Course.Module;
 import Main.ContentItem.Course.Status;
+import Main.TestClasses.NumericRange;
 import Main.User.Gender;
 import Main.User.Registration;
 import Main.User.User;
@@ -17,6 +18,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Database {
     private String connectionUrl = "jdbc:sqlserver://aei-sql2.avans.nl\\studenten:1443;databaseName=CodeCademy12;user=adidas12;password=MondKap!;";
@@ -335,12 +338,13 @@ public class Database {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "SELECT COUNT(CertificateID) AS Count FROM Course JOIN Certificate ON Certificate.CourseID = Course.CourseID WHERE Course.Name = '" + course.getName() + "'";
+            String SQL = "SELECT COUNT(CertificateID) AS Count FROM Course JOIN Certificate ON Certificate.CourseID = Course.CourseID WHERE Course.Name = '"
+                    + course.getName() + "'";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                count = rs.getInt("Count"); 
+                count = rs.getInt("Count");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -361,7 +365,7 @@ public class Database {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-                String name  = rs.getString("Name"); 
+                String name = rs.getString("Name");
                 recommendedCourses.add(name);
             }
         } catch (Exception e) {
@@ -857,21 +861,29 @@ public class Database {
         return contentID;
     }
 
-    public void viewsWebcast(int coursetakerID, int webcastID) {   
+    public void viewsWebcast(int coursetakerID, int webcastID) {
         double random = ThreadLocalRandom.current().nextDouble(1, 100 + 1);
-        
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
 
-            String SQL = "INSERT INTO ContentItem_Voortgang VALUES(" + coursetakerID + "," + webcastID + "," + random + ")";
-            stmt = con.createStatement();
-            stmt.execute(SQL);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            excecuteFinally();
+        if (NumericRange.isValidPercentage(random) == false) {
+            Alert errorAlert = new Alert(AlertType.ERROR);
+            errorAlert.setHeaderText("Input not valid");
+            errorAlert.setContentText("Enter valid Email");
+            errorAlert.showAndWait();
+        } else {
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                con = DriverManager.getConnection(connectionUrl);
+
+                String SQL = "INSERT INTO ContentItem_Voortgang VALUES(" + coursetakerID + "," + webcastID + ","
+                        + random + ")";
+                stmt = con.createStatement();
+                stmt.execute(SQL);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                excecuteFinally();
+            }
         }
     }
 }
