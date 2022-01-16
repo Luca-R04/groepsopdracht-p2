@@ -92,7 +92,7 @@ public class CertificateGUI {
 			if (newItem == null) {
 				certificateID.setText("");
 			} else {
-                userCertificates.setItems(db.getCertificates(db.getCourseTakerID(userEmail.getValue())));
+                userCertificates.setItems(db.getCertificates(userEmail.getValue()));
 			}
 		});
 
