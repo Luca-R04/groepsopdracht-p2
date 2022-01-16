@@ -10,7 +10,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -84,9 +83,9 @@ public class CourseGUI {
 		Label lTopic = new Label("Topic: ");
 		Label lText = new Label("Text: ");
 		Label lPublicationDate = new Label("Publication Date: ");
-		Label lLevel = new Label("Level:");
-		Label lModule = new Label("Modules:"); 
-		Label lStatus = new Label("Status:"); 
+		Label lLevel = new Label("Level: ");
+		Label lModule = new Label("Modules: "); 
+		Label lStatus = new Label("Status: "); 
 
 		// Text fields
 		TextField name = new TextField();
@@ -102,8 +101,8 @@ public class CourseGUI {
 		ComboBox<Level> level = new ComboBox<>(levels);
 
 		ArrayList<Module> modules = db.getAllModules();
-		ComboBox<Module> module = new ComboBox<>();
-		module.getItems().addAll(modules);
+		ObservableList<Module> moduleOptions = FXCollections.observableArrayList(modules);
+		ComboBox<Module> module = new ComboBox<>(moduleOptions);
 
 		// Coordinates for the elements
 		gridPane.add(lName, 0, 1);
@@ -241,9 +240,8 @@ public class CourseGUI {
     }
 
 		ObservableList<String> courseNameOptions = FXCollections.observableArrayList(courseNames);
-
-		ComboBox<String> courseName = new ComboBox<>();
-		courseName.setItems(courseNameOptions);
+		ComboBox<String> courseName = new ComboBox<>(courseNameOptions);
+		
 		Label lName = new Label("Name: ");
 		Label lTopic = new Label("Topic: ");
 		Label lText = new Label("Text: ");
@@ -329,8 +327,6 @@ public class CourseGUI {
 				errorAlert.showAndWait();
 			}
 		});
-
-		gridPane.setAlignment(Pos.CENTER);
 
 		this.scene = new Scene(gridPane, 700, 700);
 	}

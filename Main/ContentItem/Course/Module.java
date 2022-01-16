@@ -1,6 +1,7 @@
 package Main.ContentItem.Course;
 
 public class Module {
+    private int id; 
     private String title; 
     private int version; 
     private int serialNumber; 
@@ -39,6 +40,14 @@ public class Module {
 
     public Course getCourse() {
         return this.course;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String toString() {
