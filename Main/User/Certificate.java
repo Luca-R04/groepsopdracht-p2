@@ -1,5 +1,8 @@
 package Main.User;
 
+// This class represents a Certificate. It is possible to create one and retrieve it's attributes. 
+// It is also possible to update a certificate.
+
 import Main.Database.Database;
 
 public class Certificate {

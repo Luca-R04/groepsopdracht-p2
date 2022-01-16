@@ -1,5 +1,7 @@
 package Main.ContentItem.Course;
 
+// This class represents a Module. It is possible to create one and retrieve it's attributes. 
+
 public class Module {
     private int id; 
     private String title; 

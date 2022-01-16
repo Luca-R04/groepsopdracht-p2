@@ -1,5 +1,7 @@
 package Main.TestClasses;
 
+// Checks if the given percentage is between 0 and 100. 
+
 public class NumericRange {
     public static boolean isValidPercentage(Double percentage) {
         if  (0 <= percentage && percentage <= 100) {

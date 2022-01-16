@@ -1,5 +1,7 @@
 package Main.GUI;
 
+// GUI class for the Course object. It is possible to create, read, delete and update a course . 
+
 import Main.ContentItem.Course.Course;
 import Main.ContentItem.Course.Level;
 import Main.ContentItem.Course.Status;

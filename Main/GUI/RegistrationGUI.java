@@ -1,5 +1,8 @@
 package Main.GUI;
 
+// This class provides the GUI for the CRUD operations for the object Registration. 
+// It is possible to create, read, update and delete Registration objects from the database. 
+
 import Main.Database.Database;
 import Main.ContentItem.Course.Course;
 import Main.User.Registration;
@@ -25,11 +28,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-/*
-	This class provides the GUI for the CRUD operations for the object Registration. 
-	It is possible to create, read, update and delete Registration objects from the database. 
-*/
 
 public class RegistrationGUI {
 	private Database db = new Database();

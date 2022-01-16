@@ -1,5 +1,7 @@
 package Main.Database;
 
+// The Database class handles all the database operations. 
+
 import Main.ContentItem.Speaker;
 import Main.ContentItem.Webcast;
 import Main.ContentItem.Course.ContactPerson;

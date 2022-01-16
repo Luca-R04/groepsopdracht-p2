@@ -1,5 +1,8 @@
 package Main.GUI;
 
+// This class provides the GUI for the CRUD operations for the object User. 
+// It is possible to create, read, update and delete User objects from the database. 
+
 import Main.Database.Database;
 import Main.TestClasses.MailTools;
 import Main.TestClasses.PostalCode;

@@ -1,5 +1,7 @@
 package Main.ContentItem.Course;
 
+// This class represents a ContactPerson. It is possible to create one and retrieve it's attributes. 
+
 public class ContactPerson {
     private String email; 
     private String firstName; 

@@ -1,4 +1,8 @@
 package Main.ContentItem.Course;
+
+// This class represents a Course. It is possible to create one and retrieve it's attributes. 
+// There is also a possibilty to insert a Course object into the database. Updating and deleting it is also possible. 
+
 import java.sql.Date;
 import java.util.ArrayList;
 
